@@ -1,0 +1,11 @@
+#spring:
+#  datasource:
+#    driver-class-name: org.mariadb.jdbc.Driver
+#    url: jdbc:mariadb://svc.sel5.cloudtype.app:32449/BOOK_PHARMACY
+#    username: sa
+#    password: 12341234
+#  jpa:
+#    hibernate:
+#      ddl-auto: create-drop
+#    show-sql: true
+
