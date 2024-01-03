@@ -54,6 +54,6 @@ public class ClientBook {
      */
     public void updateFeed(Feed feed) {
         this.feed = feed;
-        feed.setClientbook(this);
+        feed.setClientBook(this);
     }
 }

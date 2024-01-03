@@ -15,7 +15,7 @@ public class Feed {
     public Long id;
 
     @OneToOne(mappedBy = "feed")
-    public ClientBook clientbook;
+    public ClientBook clientBook;
 
     public String comment;
 
@@ -26,7 +26,9 @@ public class Feed {
         this.rating = rating;
     }
 
-    public void setClientbook(ClientBook clientbook) {
-        this.clientbook = clientbook;
+    public void setClientBook(ClientBook clientbook) {
+        this.clientBook = clientbook;
     }
+
+
 }

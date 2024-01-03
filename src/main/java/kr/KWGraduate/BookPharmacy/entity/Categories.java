@@ -18,7 +18,7 @@ public class Categories {
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "parent_category_id")
-    public Categories parentCategories;
+    public Categories parentCategory;
 
     public int level;
 

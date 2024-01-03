@@ -30,19 +30,19 @@ public class Book {
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "big_category_id")
-    private Categories bigCategories;
+    private Categories bigCategory;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "middle_category_id")
-    private Categories middleCategories;
+    private Categories middleCategory;
 
     @Builder
-    public Book(String isbn, String title, String author, Categories bigCategories, Categories middleCategories) {
+    public Book(String isbn, String title, String author, Categories bigCategory, Categories middleCategory) {
         this.isbn = isbn;
         this.title = title;
         this.author = author;
-        this.bigCategories = bigCategories;
-        this.middleCategories = middleCategories;
+        this.bigCategory = bigCategory;
+        this.middleCategory = middleCategory;
     }
 
 }
