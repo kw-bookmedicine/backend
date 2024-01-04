@@ -7,11 +7,14 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface BookRepository extends JpaRepository<Book, Long> {
 
     List<Book> findByName(String name);
-    List<Book> findByNameAndAuthorAndPublishYear(String name, String author, String publishYear);
+    List<Book> findByAuthor(String author);
+
+    Optional<Book> findOptionalByIsbn(String isbn);
 
     /**
      * 내가 읽은 책 조회
