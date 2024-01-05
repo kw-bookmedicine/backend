@@ -10,6 +10,7 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@ToString(of = {"isbn", "title", "author", "bigCategory", "middleCategory"})
 public class Book {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
