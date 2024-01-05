@@ -24,6 +24,11 @@ public class ClientRepository {
     public Client findById(String id){
         return em.find(Client.class,id);
     }
+    public List<Client> findByNickname(String nickname){
+        return em.createQuery("select m from Client m where m.nickname = :name",Client.class)
+                .setParameter("name",nickname)
+                .getResultList();
+    }
     public List<Client> findAll(){
         return em.createQuery("select m from Client m",Client.class)
                 .getResultList();
