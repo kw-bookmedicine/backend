@@ -2,6 +2,7 @@ package kr.KWGraduate.BookPharmacy.entity;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -22,4 +23,10 @@ public class Categories {
 
     public int level;
 
+    @Builder
+    public Categories(String name, Categories parentCategory, int level) {
+        this.name = name;
+        this.parentCategory = parentCategory;
+        this.level = level;
+    }
 }
