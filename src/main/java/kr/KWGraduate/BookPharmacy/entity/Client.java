@@ -71,4 +71,23 @@ public class Client {
     public void setOccupation(Occupation occupation) {
         this.occupation = occupation;
     }
+
+    //비즈니스 로직 추가
+    public boolean isEqualPassword(String password){
+        if (this.password.equals(password)) {
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+    public boolean isEqualName(String name){
+        if (this.name.equals(name)) {
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
 }
