@@ -1,6 +1,8 @@
 package kr.KWGraduate.BookPharmacy.repository;
 
 import kr.KWGraduate.BookPharmacy.entity.Book;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -34,6 +36,12 @@ public interface BookRepository extends JpaRepository<Book, Long> {
     List<Book> findByMiddleCategory(@Param("categoryName") String categoryName);
 
     /**
+     * 중분류로 책 조회 ( 페이징 )
+     */
+    @Query(value = "select b from Book b inner join b.middleCategory mc join fetch b.bigCategory bc where mc.name = :categoryName")
+    Page<Book> findBookPagingByMiddleCategory(@Param("categoryName") String categoryName, Pageable pageable);
+
+    /**
      * 대분류로 책 조회 (대분류로 조회할 경우, 중분류와 함께 리스트로 출력하므로 fetch join을 걸었음)
      * 다만, Map<중분류, List<Book>> 으로 나타내는 것을 DB조회에서 한번에 처리할지 or 조회 후 따로 처리할지 고민해봐야 할 듯
      */
@@ -41,9 +49,16 @@ public interface BookRepository extends JpaRepository<Book, Long> {
     List<Book> findByBigCategory(@Param("categoryName") String categoryName);
 
     /**
-     * 검색어로 책 조회 (Service 레이어에서 BookSearchDto로 전환할 것)
-     * @param keyword
+     * 검색어로 책 조회
+     * @param searchKeyword
      * @return List<Book>
      */
-    List<Book> findByTitleContaining(String keyword);
+    List<Book> findByTitleContaining(String searchKeyword);
+
+    /**
+     * 검색어로 책 조회 (페이징) (Service 레이어에서 BookSearchDto로 전환)
+     * @param searchKeyword
+     * @return List<Book>
+     */
+    Page<Book> findPagingByTitleContaining(String searchKeyword, Pageable pageable);
 }
