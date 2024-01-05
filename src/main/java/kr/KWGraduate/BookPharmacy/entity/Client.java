@@ -17,24 +17,24 @@ public class Client {
 
     @Id
     @Column(name = "client_id")
-    public String id;
+    private String id;
 
-    public String password;
-    public String name;
-    public String nickname;
-    public String email;
-
-    @Enumerated(EnumType.STRING)
-    public Gender gender;
+    private String password;
+    private String name;
+    private String nickname;
+    private String email;
 
     @Enumerated(EnumType.STRING)
-    public Occupation occupation;
+    private Gender gender;
+
+    @Enumerated(EnumType.STRING)
+    private Occupation occupation;
 
     @OneToMany(mappedBy = "client", cascade = CascadeType.ALL)
-    public List<ClientBook> clientBooks = new ArrayList<>();
+    private List<ClientBook> clientBooks = new ArrayList<>();
 
     @OneToMany(mappedBy = "client", cascade = CascadeType.ALL)
-    public List<ClientKeyword> clientKeywords = new ArrayList<>();
+    private List<ClientKeyword> clientKeywords = new ArrayList<>();
 
     public enum Gender {
         M, F;

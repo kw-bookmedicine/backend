@@ -11,15 +11,15 @@ public class Categories {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "category_id")
-    public Long id;
+    private Long id;
 
-    public String name;
+    private String name;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "parent_category_id")
-    public Categories parentCategory;
+    private Categories parentCategory;
 
-    public int level;
+    private int level;
 
     @Builder
     public Categories(String name, Categories parentCategory, int level) {

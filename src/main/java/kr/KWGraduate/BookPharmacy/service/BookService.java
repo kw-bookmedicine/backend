@@ -17,7 +17,6 @@ import java.util.stream.Collectors;
 public class BookService {
     private final BookRepository bookRepository;
 
-
     public List<BookDto> getBookListByMiddleCategory(int pageNumber, int pageSize, String categoryName){
 
         PageRequest pageRequest = PageRequest.of(pageNumber, pageSize);
