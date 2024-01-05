@@ -48,6 +48,25 @@ class ClientRepositoryTest {
         Assertions.assertThat(clientRepository.count()).isEqualTo(1);
 
     }
+    @Test
+    public void findByEmailAndNickname(){
+        Client cli1 = new Client("123","4321","ha","bob","spqjf", Client.Gender.F, Client.Occupation.UNEMPLOYED);
+
+        Client cli2 = new Client("124","4321","sim","sdfs","sdfsdgs", Client.Gender.F, Client.Occupation.UNEMPLOYED);
+
+        clientRepository.save(cli1);
+        clientRepository.save(cli2);
+
+        Assertions.assertThat(clientRepository.count()).isEqualTo(2);
+
+
+        List<Client> nickClients = clientRepository.findByNickname(cli1.getNickname());
+        Assertions.assertThat(nickClients).containsExactly(cli1);
+
+        List<Client> emailClients = clientRepository.findByEmail(cli2.getEmail());
+        Assertions.assertThat(emailClients).containsExactly(cli2);
+
+    }
 
 
 }
