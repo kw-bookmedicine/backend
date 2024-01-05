@@ -9,6 +9,8 @@ import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
@@ -25,23 +27,27 @@ class ClientRepositoryTest {
         Assertions.assertThat(cli1.getId()).isEqualTo(saveId);
     }
     @Test
-    public void test(){
+    public void integratedTest(){
         Client cli1 = new Client("123","4321","ha","bob","spqjf", Client.Gender.F, Client.Occupation.UNEMPLOYED);
         String saveId1 = clientRepository.save(cli1);
 
         Client cli2 = new Client("124","4321","sim","bob","spqjf", Client.Gender.F, Client.Occupation.UNEMPLOYED);
-        String saveId2 = clientRepository.save(cli1);
+        String saveId2 = clientRepository.save(cli2);
 
-        System.out.println(clientRepository.count());
+        Assertions.assertThat(clientRepository.count()).isEqualTo(2);
 
-        for (Client client : clientRepository.findAll()) {
-            System.out.println(client.getName());
-        }
-        System.out.println(clientRepository.findById(saveId1).getName());
+        List<Client> allClients = clientRepository.findAll();
+        Assertions.assertThat(allClients).containsExactly(cli1,cli2);
+
+        String findCli1Name = clientRepository.findById(saveId1).getName();
+        Assertions.assertThat(findCli1Name).isEqualTo(cli1.name);
+
 
         clientRepository.delete(cli1);
 
-        System.out.println(clientRepository.count());
+        Assertions.assertThat(clientRepository.count()).isEqualTo(1);
 
     }
+
+
 }
