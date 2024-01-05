@@ -9,6 +9,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -80,11 +82,34 @@ class BookRepositoryTest {
     }
 
     @Test
+    @DisplayName("중분류로 조회하기(페이징)")
+    public void findPagingByMiddleCategory() {
+
+        //when
+        PageRequest pageRequest = PageRequest.of(0, 3);
+        Page<Book> page = bookRepository.findBookPagingByMiddleCategory("Java", pageRequest);
+        //then
+        for (Book book : page.getContent()) {
+            System.out.println("book = " + book);
+        }
+    }
+
+    @Test
     @DisplayName("책 이름으로 조회하기")
     public void findByName() {
         List<Book> bookListByTitle = bookRepository.findByTitle("자바 ORM 표준 JPA 프로그래밍");
 
         for (Book book : bookListByTitle) {
+            System.out.println("book = " + book);
+        }
+    }
+
+    @Test
+    @DisplayName("제목에 검색어를 포함하는 경우 조회하기")
+    public void findBySearchKeyword() {
+        List<Book> bookList = bookRepository.findByTitleContaining("자바");
+
+        for (Book book : bookList) {
             System.out.println("book = " + book);
         }
     }

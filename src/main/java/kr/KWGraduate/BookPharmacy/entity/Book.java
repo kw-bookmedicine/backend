@@ -38,10 +38,11 @@ public class Book {
     private Categories middleCategory;
 
     @Builder
-    public Book(String isbn, String title, String author, Categories bigCategory, Categories middleCategory) {
+    public Book(String isbn, String title, String author, String content, Categories bigCategory, Categories middleCategory) {
         this.isbn = isbn;
         this.title = title;
         this.author = author;
+        this.content = content;
         this.bigCategory = bigCategory;
         this.middleCategory = middleCategory;
     }

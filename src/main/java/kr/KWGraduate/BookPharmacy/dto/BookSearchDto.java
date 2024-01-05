@@ -1,5 +1,6 @@
 package kr.KWGraduate.BookPharmacy.dto;
 
+import kr.KWGraduate.BookPharmacy.entity.Book;
 import lombok.Builder;
 import lombok.Data;
 
@@ -16,5 +17,12 @@ public class BookSearchDto {
         this.author = author;
         this.publicYear = publicYear;
         this.isbn = isbn;
+    }
+
+    public BookSearchDto(Book book) {
+        this.title = book.getTitle();
+        this.author = book.getAuthor();
+        this.publicYear = book.getPublicYear();
+        this.isbn = book.getIsbn();
     }
 }
