@@ -29,6 +29,11 @@ public class ClientRepository {
                 .setParameter("name",nickname)
                 .getResultList();
     }
+    public List<Client> findByEmail(String email){
+        return em.createQuery("select m from Client m where m.email = :email",Client.class)
+                .setParameter("email",email)
+                .getResultList();
+    }
     public List<Client> findAll(){
         return em.createQuery("select m from Client m",Client.class)
                 .getResultList();
