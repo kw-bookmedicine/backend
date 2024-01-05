@@ -1,6 +1,5 @@
 package kr.KWGraduate.BookPharmacy.repository;
 
-import kr.KWGraduate.BookPharmacy.dto.BookSearchDto;
 import kr.KWGraduate.BookPharmacy.entity.Book;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -11,7 +10,7 @@ import java.util.Optional;
 
 public interface BookRepository extends JpaRepository<Book, Long> {
 
-    List<Book> findByName(String name);
+    List<Book> findByTitle(String title);
     List<Book> findByAuthor(String author);
 
     Optional<Book> findOptionalByIsbn(String isbn);
@@ -31,7 +30,7 @@ public interface BookRepository extends JpaRepository<Book, Long> {
     /**
      * 중분류로 책 조회
      */
-    @Query("select b from Book b left join b.middleCategory mc where mc.name = :categoryName")
+    @Query("select b from Book b join fetch b.middleCategory mc where mc.name = :categoryName")
     List<Book> findByMiddleCategory(@Param("categoryName") String categoryName);
 
     /**
