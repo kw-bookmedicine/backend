@@ -1,25 +1,30 @@
 package kr.KWGraduate.BookPharmacy.entity;
 
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@ToString(of = {"name"})
 public class Categories {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "category_id")
-    public Long id;
+    private Long id;
 
-    public String name;
+    private String name;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "parent_category_id")
-    public Categories parentCategory;
+    private Categories parentCategory;
 
-    public int level;
+    private int level;
 
+    @Builder
+    public Categories(String name, Categories parentCategory, int level) {
+        this.name = name;
+        this.parentCategory = parentCategory;
+        this.level = level;
+    }
 }
