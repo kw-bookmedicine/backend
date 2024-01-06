@@ -10,15 +10,15 @@ public class ClientKeyword {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "client_keyword_id")
-    public Long id;
+    private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "client_id")
-    public Client client;
+    private Client client;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "keyword_id")
-    public KeywordItem keywordItem;
+    private KeywordItem keywordItem;
 
     public ClientKeyword() {
     }
