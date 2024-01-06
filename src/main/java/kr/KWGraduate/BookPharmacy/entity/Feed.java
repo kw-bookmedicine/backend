@@ -4,22 +4,24 @@ import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@ToString(of = {"comment", "rating"})
 public class Feed {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "feed_id")
-    public Long id;
+    private Long id;
 
     @OneToOne(mappedBy = "feed")
-    public ClientBook clientBook;
+    private ClientBook clientBook;
 
-    public String comment;
+    private String comment;
 
-    public float rating;
+    private float rating;
 
     public Feed(String comment, float rating) {
         this.comment = comment;
