@@ -1,5 +1,6 @@
 package kr.KWGraduate.BookPharmacy.service;
 
+import kr.KWGraduate.BookPharmacy.dto.ClientDto;
 import kr.KWGraduate.BookPharmacy.entity.Client;
 import kr.KWGraduate.BookPharmacy.repository.ClientRepository;
 import lombok.RequiredArgsConstructor;
@@ -15,7 +16,9 @@ public class ClientService {
     private final ClientRepository clientRepository;
 
     @Transactional
-    public String signUp(Client client){
+    public String signUp(ClientDto clientDto){
+        Client client = clientDto.toEntity();
+
         validateDuplicateClient(client);
         //controller에서 예외처리
         return clientRepository.save(client);
@@ -45,15 +48,13 @@ public class ClientService {
     public void removeClient(Client client){
         clientRepository.delete(client);
     }
-    @Transactional
-    public void updateClient(String id, String password, String nickname, Client.Occupation occupation){
-        //변경이 아예 안되는 것을 체크 -> 프론트에서 해결 가능?
-        //setter가 늘어나면 ocp깨짐 -> 어케 헤결
-        Client findClient = clientRepository.findById(id);
+    //remove하는데 id로만 받을지 dto를 받을지
 
-        findClient.setPassword(password);
-        findClient.setNickname(nickname);
-        findClient.setOccupation(occupation);
+    @Transactional
+    public void updateClient(ClientDto clientDto){
+        Client findClient = clientRepository.findById(clientDto.getId());
+
+        findClient.update(clientDto.getPassword(),clientDto.getNickname(),clientDto.getOccupation());
     }
     public Long getClientsCount(){
         return clientRepository.count();
