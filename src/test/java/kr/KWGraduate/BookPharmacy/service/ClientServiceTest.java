@@ -1,5 +1,6 @@
 package kr.KWGraduate.BookPharmacy.service;
 
+import kr.KWGraduate.BookPharmacy.dto.ClientDto;
 import kr.KWGraduate.BookPharmacy.entity.Client;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,9 +19,9 @@ class ClientServiceTest {
 
     @Test
     public void join(){
-        Client cli1 = new Client("123","4321","ha","bob","spqjf", Client.Gender.F, Client.Occupation.UNEMPLOYED);
 
-        Client cli2 = new Client("124","4321","sim","sdfs","sdfsdgs", Client.Gender.F, Client.Occupation.UNEMPLOYED);
+        ClientDto cli1 = new ClientDto("123","4321","ha","bob","spqjf", Client.Gender.F, Client.Occupation.UNEMPLOYED);
+        ClientDto cli2 = new ClientDto("124","4321","sim","sdfs","sdfsdgs", Client.Gender.F, Client.Occupation.UNEMPLOYED);
 
         clientService.signUp(cli1);
 
@@ -33,9 +34,9 @@ class ClientServiceTest {
 
     @Test
     public void joinFail(){
-        Client cli1 = new Client("123","4321","ha","bob","spqjf", Client.Gender.F, Client.Occupation.UNEMPLOYED);
+        ClientDto cli1 = new ClientDto("123","4321","ha","bob","spqjf", Client.Gender.F, Client.Occupation.UNEMPLOYED);
 
-        Client cli2 = new Client("123","4321","sim","sdfs","sdfsdgs", Client.Gender.F, Client.Occupation.UNEMPLOYED);
+        ClientDto cli2 = new ClientDto("123","4321","sim","sdfs","sdfsdgs", Client.Gender.F, Client.Occupation.UNEMPLOYED);
 
         clientService.signUp(cli1);
 
@@ -46,12 +47,14 @@ class ClientServiceTest {
     }
     @Test
     public void basicCRUD(){
-        Client cli1 = new Client("123","4321","ha","bob","spqjf", Client.Gender.F, Client.Occupation.UNEMPLOYED);
-        Client cli2 = new Client("124","4321","sim","sdfs","sdfsdgs", Client.Gender.F, Client.Occupation.UNEMPLOYED);
+        ClientDto cli1 = new ClientDto("123","4321","ha","bob","spqjf", Client.Gender.F, Client.Occupation.UNEMPLOYED);
+        ClientDto cli2 = new ClientDto("124","4321","sim","sdfs","sdfsdgs", Client.Gender.F, Client.Occupation.UNEMPLOYED);
 
         clientService.signUp(cli1);
         clientService.signUp(cli2);
-        clientService.updateClient(cli1.getId(), "1232", "sdgsdf", Client.Occupation.FREELANCER);
+
+        cli1.setNickname("sdgsdf");
+        clientService.updateClient(cli1);
 
         Client findCli = clientService.findById(cli1.getId());
         assertThat(findCli.getNickname()).isEqualTo("sdgsdf");
@@ -65,7 +68,7 @@ class ClientServiceTest {
     }
     @Test
     public void canLogin(){
-        Client cli1 = new Client("123","4321","ha","bob","spqjf", Client.Gender.F, Client.Occupation.UNEMPLOYED);
+        ClientDto cli1 = new ClientDto("123","4321","ha","bob","spqjf", Client.Gender.F, Client.Occupation.UNEMPLOYED);
         clientService.signUp(cli1);
 
         assertThat(clientService.canLogin("123","4321")).isEqualTo(true);
