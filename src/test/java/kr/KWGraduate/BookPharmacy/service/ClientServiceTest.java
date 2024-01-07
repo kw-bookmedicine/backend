@@ -36,14 +36,11 @@ class ClientServiceTest {
     public void joinFail(){
         ClientDto cli1 = new ClientDto("123","4321","ha","bob","spqjf", Client.Gender.F, Client.Occupation.UNEMPLOYED);
 
-        ClientDto cli2 = new ClientDto("123","4321","sim","sdfs","sdfsdgs", Client.Gender.F, Client.Occupation.UNEMPLOYED);
+        //ClientDto cli2 = new ClientDto("123","4321","sim","sdfs","sdfsdgs", Client.Gender.F, Client.Occupation.UNEMPLOYED);
 
         clientService.signUp(cli1);
 
-
-        assertThrows(IllegalArgumentException.class, () -> clientService.signUp(cli2));
-
-
+        assertThat(clientService.signUp(cli1)).isEqualTo(false);
     }
     @Test
     public void basicCRUD(){
@@ -61,13 +58,13 @@ class ClientServiceTest {
 
         assertThat(clientService.getClientsCount()).isEqualTo(2);
 
-        clientService.removeClient(findCli);
+        clientService.removeClient(findCli.getId());
         assertThat(clientService.getClientsCount()).isEqualTo(1);
 
 
     }
     @Test
-    public void canLogin(){
+    public void Login(){
         ClientDto cli1 = new ClientDto("123","4321","ha","bob","spqjf", Client.Gender.F, Client.Occupation.UNEMPLOYED);
         clientService.signUp(cli1);
 
