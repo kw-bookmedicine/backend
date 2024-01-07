@@ -10,19 +10,19 @@ public class ClientBook {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "client_book_id")
-    public Long id;
+    private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "client_id")
-    public Client client;
+    private Client client;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "book_id")
-    public Book book;
+    private Book book;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "feed_id")
-    public Feed feed;
+    private Feed feed;
 
     public ClientBook() {
     }

@@ -10,6 +10,7 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@ToString(of = {"isbn", "title", "author", "bigCategory", "middleCategory"})
 public class Book {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,19 +29,20 @@ public class Book {
     @OneToMany(mappedBy = "book", cascade = CascadeType.ALL)
     private List<BookKeyword> bookKeywords = new ArrayList<>();
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "big_category_id")
     private Categories bigCategory;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "middle_category_id")
     private Categories middleCategory;
 
     @Builder
-    public Book(String isbn, String title, String author, Categories bigCategory, Categories middleCategory) {
+    public Book(String isbn, String title, String author, String content, Categories bigCategory, Categories middleCategory) {
         this.isbn = isbn;
         this.title = title;
         this.author = author;
+        this.content = content;
         this.bigCategory = bigCategory;
         this.middleCategory = middleCategory;
     }
