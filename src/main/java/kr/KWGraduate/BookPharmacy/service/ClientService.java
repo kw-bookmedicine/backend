@@ -3,14 +3,12 @@ package kr.KWGraduate.BookPharmacy.service;
 import kr.KWGraduate.BookPharmacy.dto.ClientDto;
 import kr.KWGraduate.BookPharmacy.entity.Client;
 import kr.KWGraduate.BookPharmacy.repository.ClientRepository;
-import kr.KWGraduate.BookPharmacy.repository.ClientRepository_test;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.Optional;
 
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
