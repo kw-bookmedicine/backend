@@ -1,10 +1,7 @@
 package kr.KWGraduate.BookPharmacy.entity;
 
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,6 +49,7 @@ public class Client {
     /**
      * 유저 생성(id와 닉네임에 대한 중복확인이 끝났다고 가정)
     * */
+    @Builder
     public Client(String id, String password, String name, String nickname, String email, Gender gender, Occupation occupation) {
         this.id = id;
         this.password = password;
@@ -90,6 +88,12 @@ public class Client {
         else{
             return false;
         }
+    }
+
+    public void update(String password, String nickname,Occupation occupation){
+        this.setPassword(password);
+        this.setNickname(nickname);
+        this.setOccupation(occupation);
     }
 
 }
