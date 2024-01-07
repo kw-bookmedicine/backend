@@ -15,7 +15,7 @@ public class ClientService {
     private final ClientRepository clientRepository;
 
     @Transactional
-    public String joinClient(Client client){
+    public String signUp(Client client){
         validateDuplicateClient(client);
         //controller에서 예외처리
         return clientRepository.save(client);

@@ -1,10 +1,8 @@
 package kr.KWGraduate.BookPharmacy.service;
 
 import kr.KWGraduate.BookPharmacy.entity.Client;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.AutoConfigurationPackage;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,10 +22,10 @@ class ClientServiceTest {
 
         Client cli2 = new Client("124","4321","sim","sdfs","sdfsdgs", Client.Gender.F, Client.Occupation.UNEMPLOYED);
 
-        clientService.joinClient(cli1);
+        clientService.signUp(cli1);
 
         assertThat(clientService.getClientsCount()).isEqualTo(1);
-        clientService.joinClient(cli2);
+        clientService.signUp(cli2);
 
         assertThat(clientService.getClientsCount()).isEqualTo(2);
 
@@ -39,10 +37,10 @@ class ClientServiceTest {
 
         Client cli2 = new Client("123","4321","sim","sdfs","sdfsdgs", Client.Gender.F, Client.Occupation.UNEMPLOYED);
 
-        clientService.joinClient(cli1);
+        clientService.signUp(cli1);
 
 
-        assertThrows(IllegalArgumentException.class, () -> clientService.joinClient(cli2));
+        assertThrows(IllegalArgumentException.class, () -> clientService.signUp(cli2));
 
 
     }
@@ -51,8 +49,8 @@ class ClientServiceTest {
         Client cli1 = new Client("123","4321","ha","bob","spqjf", Client.Gender.F, Client.Occupation.UNEMPLOYED);
         Client cli2 = new Client("124","4321","sim","sdfs","sdfsdgs", Client.Gender.F, Client.Occupation.UNEMPLOYED);
 
-        clientService.joinClient(cli1);
-        clientService.joinClient(cli2);
+        clientService.signUp(cli1);
+        clientService.signUp(cli2);
         clientService.updateClient(cli1.getId(), "1232", "sdgsdf", Client.Occupation.FREELANCER);
 
         Client findCli = clientService.findById(cli1.getId());
@@ -68,7 +66,7 @@ class ClientServiceTest {
     @Test
     public void canLogin(){
         Client cli1 = new Client("123","4321","ha","bob","spqjf", Client.Gender.F, Client.Occupation.UNEMPLOYED);
-        clientService.joinClient(cli1);
+        clientService.signUp(cli1);
 
         assertThat(clientService.canLogin("123","4321")).isEqualTo(true);
 
