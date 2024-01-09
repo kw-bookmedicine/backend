@@ -19,7 +19,7 @@ public class Book {
     private String isbn; // 일련번호
     private String title; // 책이름
     private String author; // 저자명
-    private String publicYear; // 발행년도
+    private String publishYear; // 발행년도
     private String content; // 책내용
     private String mediaFlagNumber; // 미디어구분명
 
@@ -38,10 +38,11 @@ public class Book {
     private Categories middleCategory;
 
     @Builder
-    public Book(String isbn, String title, String author, String content, Categories bigCategory, Categories middleCategory) {
+    public Book(String isbn, String title, String author, String publishYear, String content, Categories bigCategory, Categories middleCategory) {
         this.isbn = isbn;
         this.title = title;
         this.author = author;
+        this.publishYear = publishYear;
         this.content = content;
         this.bigCategory = bigCategory;
         this.middleCategory = middleCategory;

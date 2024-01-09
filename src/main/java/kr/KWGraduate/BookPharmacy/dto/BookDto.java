@@ -23,7 +23,7 @@ public class BookDto {
         this.isbn = book.getIsbn();
         this.title = book.getTitle();
         this.author = book.getAuthor();
-        this.publicYear = book.getPublicYear();
+        this.publicYear = book.getPublishYear();
         this.content = book.getContent();
         this.mediaFlagNumber = book.getMediaFlagNumber();
         this.bigCategoryName = book.getBigCategory().getName();
