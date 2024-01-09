@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 public class Feed {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "client_book_id")
+    @Column(name = "feed_id")
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
