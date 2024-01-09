@@ -13,7 +13,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.awt.print.Pageable;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -41,9 +40,8 @@ public class FeedService {
         Page<Feed> feedPageList = feedRepository.findPagingByBookId(book.getId(), pageRequest);
 
         List<FeedDto> feedDtoList = feedPageList.stream().map(feed -> new FeedDto()
-                        .setFeedAttr(feed)
                         .setBookAttr(book)
-                        .setClientAttr(feed.getClientBook().getClient()))
+                        .setClientAttr(feed.getClient()))
                 .collect(Collectors.toList());
 
         return feedDtoList;
@@ -57,9 +55,8 @@ public class FeedService {
         Page<Feed> feedPageList = feedRepository.findPagingAndSorting(pageRequest);
 
         List<FeedDto> feedDtoList = feedPageList.stream().map(feed -> new FeedDto()
-                        .setFeedAttr(feed)
-                        .setBookAttr(feed.getClientBook().getBook())
-                        .setClientAttr(feed.getClientBook().getClient()))
+                        .setBookAttr(feed.getBook())
+                        .setClientAttr(feed.getClient()))
                 .collect(Collectors.toList());
 
         return feedDtoList;

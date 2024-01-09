@@ -24,7 +24,7 @@ public class Book {
     private String mediaFlagNumber; // 미디어구분명
 
     @OneToMany(mappedBy = "book", cascade = CascadeType.ALL)
-    private List<ClientBook> clientBooks = new ArrayList<>();
+    private List<Feed> feeds = new ArrayList<>();
 
     @OneToMany(mappedBy = "book", cascade = CascadeType.ALL)
     private List<BookKeyword> bookKeywords = new ArrayList<>();
@@ -47,5 +47,4 @@ public class Book {
         this.bigCategory = bigCategory;
         this.middleCategory = middleCategory;
     }
-
 }

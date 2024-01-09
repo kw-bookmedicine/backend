@@ -50,22 +50,14 @@ public class FeedDto {
         return this;
     }
 
-    public FeedDto setFeedAttr(Feed feed){
-        this.comment = feed.getComment();
-        this.rating = feed.getRating();
-        this.registerDateTime = feed.getRegisterDateTime();
-        this.modifyDateTime = feed.getModifyDateTime();
-
-        return this;
-    }
-
-    public static Feed toEntity(FeedDto feedDto){
+    public static Feed toEntity(FeedDto feedDto, Client client, Book book){
         Feed feed = Feed.builder()
                 .comment(feedDto.getComment())
                 .rating(feedDto.getRating())
                 .registerDateTime(feedDto.getRegisterDateTime())
                 .modifyDateTime(feedDto.getModifyDateTime())
                 .build();
+        feed.setClientAndBook(client,book);
 
         return feed;
     }
