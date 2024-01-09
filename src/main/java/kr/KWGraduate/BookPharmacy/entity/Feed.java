@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+import java.time.LocalDateTime;
+
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -22,6 +24,10 @@ public class Feed {
     private String comment;
 
     private float rating;
+
+    private LocalDateTime registerDateTime;
+
+    private LocalDateTime modifyDateTime;
 
     public Feed(String comment, float rating) {
         this.comment = comment;
