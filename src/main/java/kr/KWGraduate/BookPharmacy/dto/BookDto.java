@@ -4,6 +4,9 @@ import kr.KWGraduate.BookPharmacy.entity.Book;
 import lombok.Builder;
 import lombok.Data;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Data
 public class BookDto {
 
@@ -37,5 +40,39 @@ public class BookDto {
         this.mediaFlagNumber = mediaFlagNumber;
         this.bigCategoryName = bigCategoryName;
         this.middleCategoryName = middleCategoryName;
+    }
+
+    /**
+     * Book 리스트를 BookDto 리스트로 변환하는 함수  ---> 사용할 일이 없지 않을까..?
+     * */
+    public static List<BookDto> toDtoList(List<Book> books){
+        List<BookDto> bookDtoList = books.stream()
+                .map(book -> toDto(book))
+                .collect(Collectors.toList());
+
+        return bookDtoList;
+    }
+
+    /**
+     * Book를 BookDto으로 변환하는 함수
+     * */
+    public static BookDto toDto(Book book){
+        BookDto bookDto = new BookDto(book);
+
+        return bookDto;
+    }
+
+    /**
+     * BookDto를 Book으로 변환하는 함수
+     * */
+    public static Book toBookEntity(BookDto bookDto){
+        Book book = Book.builder()
+                .title(bookDto.getTitle())
+                .author(bookDto.getAuthor())
+                .isbn(bookDto.getIsbn())
+                .content(bookDto.getContent())
+                .build();
+
+        return book;
     }
 }
