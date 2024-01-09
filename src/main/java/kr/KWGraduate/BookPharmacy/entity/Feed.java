@@ -1,10 +1,7 @@
 package kr.KWGraduate.BookPharmacy.entity;
 
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
@@ -29,9 +26,12 @@ public class Feed {
 
     private LocalDateTime modifyDateTime;
 
-    public Feed(String comment, float rating) {
+    @Builder
+    public Feed(String comment, float rating, LocalDateTime registerDateTime, LocalDateTime modifyDateTime) {
         this.comment = comment;
         this.rating = rating;
+        this.registerDateTime = registerDateTime;
+        this.modifyDateTime = modifyDateTime;
     }
 
     public void setClientBook(ClientBook clientbook) {
