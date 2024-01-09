@@ -4,6 +4,9 @@ import kr.KWGraduate.BookPharmacy.entity.Book;
 import lombok.Builder;
 import lombok.Data;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Data
 public class BookSearchDto {
     private String title;
@@ -24,5 +27,14 @@ public class BookSearchDto {
         this.author = book.getAuthor();
         this.publicYear = book.getPublicYear();
         this.isbn = book.getIsbn();
+    }
+
+    /**
+     * Book리스트를 BookSearchDto리스트로 변환하는 함수
+     * */
+    public static List<BookSearchDto> toSearchDtoList(List<Book> bookList) {
+        List<BookSearchDto> bookSearhDtoList = bookList.stream().map(book -> new BookSearchDto(book))
+                .collect(Collectors.toList());
+        return bookSearhDtoList;
     }
 }
