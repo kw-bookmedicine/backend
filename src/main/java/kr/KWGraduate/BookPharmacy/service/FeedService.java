@@ -49,6 +49,9 @@ public class FeedService {
         return feedDtoList;
     }
 
+    /**
+    * 피드 모아보기 페이지에서 사용하는 전체 피드 조회 서비스
+    * */
     public List<FeedDto> getFeedsPagingAndSortingRegisterTime(int pageNumber, int pageSize) {
         PageRequest pageRequest = PageRequest.of(pageNumber, pageSize, Sort.by(Sort.Direction.DESC, "registerDateTime"));
         Page<Feed> feedPageList = feedRepository.findPagingAndSorting(pageRequest);
