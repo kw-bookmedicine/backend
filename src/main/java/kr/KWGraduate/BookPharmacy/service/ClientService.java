@@ -1,7 +1,10 @@
 package kr.KWGraduate.BookPharmacy.service;
 
 import kr.KWGraduate.BookPharmacy.dto.ClientDto;
+import kr.KWGraduate.BookPharmacy.dto.client.ClientJoinDto;
+import kr.KWGraduate.BookPharmacy.dto.client.ClientLoginDto;
 import kr.KWGraduate.BookPharmacy.entity.Client;
+import kr.KWGraduate.BookPharmacy.exception.status.*;
 import kr.KWGraduate.BookPharmacy.repository.ClientRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -17,35 +20,56 @@ public class ClientService {
     private final ClientRepository clientRepository;
 
     @Transactional
-    public boolean signUp(ClientDto clientDto){
-        Client client = clientDto.toEntity();
+    public ClientJoinDto signUp(ClientJoinDto clientJoinDto) throws AllException {
+        Client client = clientJoinDto.toEntity();
+        validateDuplicateClient(client);
 
-        try{
-            validateDuplicateClient(client);
-            clientRepository.save(client);
-            return true;
-        }catch (IllegalArgumentException e){
-            e.getMessage();
-            return false;
-        }
+        return ClientJoinDto.toDto(clientRepository.save(client));
 
     }
-
-
 
     private void validateDuplicateClient(Client client) {
 
 
         if(isExistId(client.getId())){
-            throw new IllegalArgumentException("이미 id가 존재합니다.");
+            throw new ExistIdException("이미 id가 존재합니다.");
         }
         if(isExistNickname(client.getNickname())){
-            throw new IllegalArgumentException("이미 존재하는 닉네임입니다.");
+            throw new ExistNicknameException("이미 존재하는 닉네임입니다.");
         }
         if(isExistEmail(client.getEmail())){
-            throw new IllegalArgumentException("이미 존재하는 이메일입니다.");
+            throw new ExistEmailException("이미 존재하는 이메일입니다.");
         }
     }
+
+    public boolean isExistId(String id){
+        return clientRepository.findById(id).isPresent();
+    }
+    public boolean isExistNickname(String nickname){ return clientRepository.findByNickname(nickname).isPresent(); }
+    public boolean isExistEmail(String email){
+        return clientRepository.findByEmail(email).isPresent();
+    }
+
+    public ClientLoginDto Login(String id, String password){
+        //예외를 돌리는 것이 나은지
+
+        Client client = clientRepository.findById(id).orElseThrow(() -> new NoExistIdException("id가 존재하지 않습니다."));
+
+        if(client.isEqualPassword(password)){
+            return new ClientLoginDto(client.getId(), client.getPassword());
+        }
+        else{
+            throw new IsNotSamePasswordException("password가 일치하지 않습니다.");
+        }
+    }
+    @Transactional
+    public void removeClient(String id){
+        clientRepository.deleteById(id);
+    }
+
+    //여기서부터는 아직 쓰이지 않는 메소드
+    //book관련과 키워드 관련메소드도 생성해야함
+    //코드 수정해야함
 
     public Client findById(String id){
         return clientRepository.findById(id).orElseThrow(() ->new NoSuchElementException());
@@ -54,10 +78,6 @@ public class ClientService {
         return clientRepository.findAll();
     }
 
-    @Transactional
-    public void removeClient(String id){
-        clientRepository.deleteById(id);
-    }
 
     @Transactional
     public void updateClient(ClientDto clientDto){
@@ -70,28 +90,7 @@ public class ClientService {
         return clientRepository.count();
     }
 
-    public boolean isExistId(String id){
-        return clientRepository.findById(id).isPresent();
-    }
-    public boolean isExistNickname(String nickname){
-        return clientRepository.findByNickname(nickname).isPresent();
 
-    }
-    public boolean isExistEmail(String email){
-        return clientRepository.findByEmail(email).isPresent();
-    }
-
-    public boolean canLogin(String id, String password){
-        //예외를 돌리는 것이 나은지
-
-        if(isExistId(id)){
-            clientRepository.findById(id).get().isEqualPassword(password);
-            return true;
-        }
-        else{
-            return false;
-        }
-    }
 
     public boolean setVerificationCode(String name, String email, String code){
     // client에 코드 있어야함

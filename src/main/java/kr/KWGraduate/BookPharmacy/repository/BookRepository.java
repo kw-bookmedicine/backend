@@ -14,13 +14,14 @@ public interface BookRepository extends JpaRepository<Book, Long> {
 
     List<Book> findByTitle(String title);
     List<Book> findByAuthor(String author);
+    Optional<Book> findByTitleAndAuthorAndPublishYear(String title, String author, String publishYear);
 
     Optional<Book> findOptionalByIsbn(String isbn);
 
     /**
-     * 내가 읽은 책 조회
+     * 내가 읽은 책 조회 (성능개선 필요, 일대다인데 페치조인)
      */
-    @Query("select b from Book b join fetch b.clientBooks cb join fetch cb.client c where c.id = :userId")
+    @Query("select b from Book b join fetch b.feeds f join fetch f.client c where c.id = :userId")
     List<Book> findByUserId(@Param("userId") String userId);
 
     /**
