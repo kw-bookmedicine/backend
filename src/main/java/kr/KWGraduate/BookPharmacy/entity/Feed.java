@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 
 @Entity
 @Getter @Setter
-public class Feed {
+public class Feed extends BaseTimeEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "feed_id")
@@ -29,17 +29,11 @@ public class Feed {
 
     private float rating;
 
-    private LocalDateTime registerDateTime;
-
-    private LocalDateTime modifyDateTime;
-
     @Builder
-    public Feed(boolean isRated, String comment, float rating, LocalDateTime registerDateTime, LocalDateTime modifyDateTime) {
+    public Feed(boolean isRated, String comment, float rating) {
         this.isRated = isRated;
         this.comment = comment;
         this.rating = rating;
-        this.registerDateTime = registerDateTime;
-        this.modifyDateTime = modifyDateTime;
     }
 
     public Feed() {

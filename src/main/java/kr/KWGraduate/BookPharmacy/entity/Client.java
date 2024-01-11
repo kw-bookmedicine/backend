@@ -11,7 +11,7 @@ import java.util.List;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @ToString(of = {"id", "name", "nickname", "email"})
-public class Client {
+public class Client extends BaseTimeEntity {
 
     @Id
     @Column(name = "client_id")
