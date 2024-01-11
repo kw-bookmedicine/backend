@@ -18,14 +18,14 @@ public class FeedDto {
     private String comment;
     private float rating;
     private LocalDateTime registerDateTime;
-    private LocalDateTime modifyDateTime;
+    private LocalDateTime lastModifiedDate;
 
     public FeedDto(){
 
     }
 
     @Builder
-    public FeedDto(String bookTitle, String bookAuthor, String bookPublishYear, String clientNickname, String comment, float rating, LocalDateTime registerDateTime, LocalDateTime modifyDateTime) {
+    public FeedDto(String bookTitle, String bookAuthor, String bookPublishYear, String clientNickname, String comment, float rating, LocalDateTime registerDateTime, LocalDateTime lastModifiedDate) {
         this.bookTitle = bookTitle;
         this.bookAuthor = bookAuthor;
         this.bookPublishYear = bookPublishYear;
@@ -33,7 +33,7 @@ public class FeedDto {
         this.comment = comment;
         this.rating = rating;
         this.registerDateTime = registerDateTime;
-        this.modifyDateTime = modifyDateTime;
+        this.lastModifiedDate = lastModifiedDate;
     }
 
     public FeedDto setBookAttr(Book book){
@@ -50,12 +50,19 @@ public class FeedDto {
         return this;
     }
 
+    public FeedDto setFeedAttr(Feed feed) {
+        this.comment = feed.getComment();
+        this.rating = feed.getRating();
+        this.registerDateTime = feed.getCreatedDate();
+        this.lastModifiedDate = feed.getLastModifiedDate();
+
+        return this;
+    }
+
     public static Feed toEntity(FeedDto feedDto, Client client, Book book){
         Feed feed = Feed.builder()
                 .comment(feedDto.getComment())
                 .rating(feedDto.getRating())
-                .registerDateTime(feedDto.getRegisterDateTime())
-                .modifyDateTime(feedDto.getModifyDateTime())
                 .build();
         feed.setClientAndBook(client,book);
 

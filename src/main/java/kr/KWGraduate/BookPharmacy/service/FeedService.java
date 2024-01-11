@@ -10,6 +10,7 @@ import kr.KWGraduate.BookPharmacy.repository.FeedRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
@@ -25,9 +26,9 @@ public class FeedService {
     private final FeedRepository feedRepository;
 
     /**
-     * BookDto를 전달 받으면, 그 attribute들을 통해 feeds를 페이징하여 조회 (특정 책의 feed들을 조회할 때 사용)
+     * BookDto를 전달 받으면, 그 BookDto의 attribute들을 통해 feeds를 페이징하여 조회 (특정 책의 feed들을 조회할 때 사용)
      * */
-    public List<FeedDto> getFeedsPagingByBookDto(BookDto bookDto, int pageNumber, int pageSize){
+    public Page<FeedDto> getFeedsPagingByBookDto(BookDto bookDto, Pageable pageable){
 
         // distinct한 책 조회 (우선은 title, author, publishYear로 unique한 값을 찾을 수 있다고 가정하겠음)
         String title = bookDto.getTitle();
@@ -36,29 +37,29 @@ public class FeedService {
         Book book = bookRepository.findByTitleAndAuthorAndPublishYear(title, author, publishYear).get();
 
         //페이징조회
-        PageRequest pageRequest = PageRequest.of(pageNumber, pageSize, Sort.by(Sort.Direction.DESC, "registerDateTime"));
-        Page<Feed> feedPageList = feedRepository.findPagingByBookId(book.getId(), pageRequest);
+//        PageRequest pageRequest = PageRequest.of(pageNumber, pageSize, Sort.by(Sort.Direction.DESC, "registerDateTime"));
+        Page<Feed> feedPageList = feedRepository.findPagingByBookId(book.getId(), pageable);
 
-        List<FeedDto> feedDtoList = feedPageList.stream().map(feed -> new FeedDto()
-                        .setBookAttr(book)
-                        .setClientAttr(feed.getClient()))
-                .collect(Collectors.toList());
 
-        return feedDtoList;
+        Page<FeedDto> feedDtoPage = feedPageList.map(feed -> new FeedDto()
+                .setBookAttr(book)
+                .setFeedAttr(feed)
+                .setClientAttr(feed.getClient()));
+
+        return feedDtoPage;
     }
 
     /**
     * 피드 모아보기 페이지에서 사용하는 전체 피드 조회 서비스
     * */
-    public List<FeedDto> getFeedsPagingAndSortingRegisterTime(int pageNumber, int pageSize) {
-        PageRequest pageRequest = PageRequest.of(pageNumber, pageSize, Sort.by(Sort.Direction.DESC, "registerDateTime"));
-        Page<Feed> feedPageList = feedRepository.findPagingAndSorting(pageRequest);
+    public Page<FeedDto> getFeedsPagingAndSortingRegisterTime(Pageable pageable) {
+        Page<Feed> feedPage = feedRepository.findPagingAndSorting(pageable);
 
-        List<FeedDto> feedDtoList = feedPageList.stream().map(feed -> new FeedDto()
-                        .setBookAttr(feed.getBook())
-                        .setClientAttr(feed.getClient()))
-                .collect(Collectors.toList());
+        Page<FeedDto> feedDtoPage = feedPage.map(feed -> new FeedDto()
+                .setBookAttr(feed.getBook())
+                .setFeedAttr(feed)
+                .setClientAttr(feed.getClient()));
 
-        return feedDtoList;
+        return feedDtoPage;
     }
 }
