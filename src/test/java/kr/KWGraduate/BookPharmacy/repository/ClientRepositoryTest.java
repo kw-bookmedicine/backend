@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -20,10 +21,10 @@ class ClientRepositoryTest {
 
     @Test
     public void integratedTest(){
-        Client cli1 = new Client("123","4321","ha","bob","spqjf", Client.Gender.F, Client.Occupation.UNEMPLOYED);
+        Client cli1 = new Client("123","4321","ha", LocalDate.now(),"spqjf", "lsh@naver", Client.Gender.F, Client.Occupation.UNEMPLOYED);
         Client saveClient1 = clientRepository.save(cli1);
 
-        Client cli2 = new Client("124","4321","sim","bob","spqjf", Client.Gender.F, Client.Occupation.UNEMPLOYED);
+        Client cli2 = new Client("124","4321","sim",LocalDate.now(),"sdfsdgs", "lsh2@naver", Client.Gender.F, Client.Occupation.UNEMPLOYED);
         Client saveClient2 = clientRepository.save(cli2);
 
         Assertions.assertThat(clientRepository.count()).isEqualTo(2);
@@ -50,9 +51,9 @@ class ClientRepositoryTest {
 
     @Test
     public void findByEmailAndNickname(){
-        Client cli1 = new Client("123","4321","ha","bob","spqjf", Client.Gender.F, Client.Occupation.UNEMPLOYED);
+        Client cli1 = new Client("123","4321","ha", LocalDate.now(),"spqjf", "lsh@naver", Client.Gender.F, Client.Occupation.UNEMPLOYED);
 
-        Client cli2 = new Client("124","4321","sim","sdfs","sdfsdgs", Client.Gender.F, Client.Occupation.UNEMPLOYED);
+        Client cli2 = new Client("124","4321","sim",LocalDate.now(),"sdfsdgs", "lsh2@naver", Client.Gender.F, Client.Occupation.UNEMPLOYED);
 
         clientRepository.save(cli1);
         clientRepository.save(cli2);
