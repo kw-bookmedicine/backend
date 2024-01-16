@@ -12,26 +12,46 @@ import java.util.List;
 public interface FeedRepository extends JpaRepository<Feed, Long> {
 
     /**
-     * 유저의 Id로 feed 조회하기
+     * 유저의 Id로 모두 조회하기
      * */
-    @Query("select f from Feed f join fetch f.clientBook cb join fetch cb.client c where c.id = :clientId")
+    @Query("select f from Feed f join fetch f.book b join fetch f.client c where c.id = :clientId")
     List<Feed> findByClientId(@Param("clientId") String clientId);
 
     /**
-     * 책 Id로 feed 조회하기
+     * 유저의 Id에 대해 평가를 남긴 피드만 조회하기
      * */
-    @Query("select f from Feed f join fetch f.clientBook cb join fetch cb.book b where b.id = :bookId")
+    @Query("select f from Feed f join fetch f.book b join fetch f.client c where c.id = :clientId and f.isRated = true")
+    List<Feed> findRatedFeedsByClientId(@Param("clientId") String clientId);
+
+    /**
+     * 책 Id에 대해 평가를 남긴 피드만 조회하기
+     * */
+    @Query("select f from Feed f join fetch f.book b join fetch f.client c where b.id = :bookId and f.isRated = true")
     List<Feed> findByBookId(@Param("bookId") String bookId);
 
     /**
-     * 모든 피드를 등록된 순서대로 페이징해서 조회하기
+     * 모든 피드를 페이징해서 조회하기
      * */
-    @Query(value = "select f from Feed f join fetch f.clientBook cb join fetch cb.client c join fetch cb.book b")
+    @Query(value = "select f from Feed f join fetch f.client c join fetch f.book b where f.isRated = true")
     Page<Feed> findPagingAndSorting(Pageable pageable);
 
     /**
-     * 책 Id에 대하여, 등록된 날짜 순서대로 페이징해서 조회하기
+     * 유저의 Id에 대하여 페이징해서 모두 조회하기
      * */
-    @Query(value = "select f from Feed f join fetch f.clientBook cb join fetch cb.client c join fetch cb.book b where b.id = :bookId")
+    @Query(value = "select f from Feed f join fetch f.book b join fetch f.client c where c.id = :clientId")
+    Page<Feed> findPagingByClientId(@Param("clientId") String clientId, Pageable pageable);
+
+    /**
+     * 유저의 Id에 대하여 평가를 남긴 피드만 페이징해서 모두 조회하기
+     * */
+    @Query(value = "select f from Feed f join fetch f.book b join fetch f.client c where c.id = :clientId and f.isRated = true")
+    Page<Feed> findRatedFeedsPagingByClientId(@Param("clientId") String clientId, Pageable pageable);
+
+    /**
+     * 책 Id에 대하여 평가를 남긴 피드만 페이징해서 조회하기
+     * */
+    @Query(value = "select f from Feed f join fetch f.client c join fetch f.book b where b.id = :bookId and f.isRated = true")
     Page<Feed> findPagingByBookId(@Param("bookId") Long bookId, Pageable pageable);
+
+
 }

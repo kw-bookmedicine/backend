@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 @Transactional
@@ -13,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class ClientTest {
     @Test
     public void equaltest(){
-        Client cli1 = new Client("123","4321","ha","bob","spqjf", Client.Gender.F, Client.Occupation.UNEMPLOYED);
+        Client cli1 = new Client("123","4321","ha", LocalDate.now(),"spqjf", "lsh@naver", Client.Gender.F, Client.Occupation.UNEMPLOYED);
 
         Assertions.assertThat(cli1.isEqualName("ha")).isEqualTo(true);
         Assertions.assertThat(cli1.isEqualPassword("321")).isEqualTo(false);

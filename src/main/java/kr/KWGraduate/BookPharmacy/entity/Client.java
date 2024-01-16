@@ -3,6 +3,7 @@ package kr.KWGraduate.BookPharmacy.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,7 +11,7 @@ import java.util.List;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @ToString(of = {"id", "name", "nickname", "email"})
-public class Client {
+public class Client extends BaseTimeEntity {
 
     @Id
     @Column(name = "client_id")
@@ -20,6 +21,7 @@ public class Client {
     private String name;
     private String nickname;
     private String email;
+    private LocalDate birth;
 
     @Enumerated(EnumType.STRING)
     private Gender gender;
@@ -28,7 +30,7 @@ public class Client {
     private Occupation occupation;
 
     @OneToMany(mappedBy = "client", cascade = CascadeType.ALL)
-    private List<ClientBook> clientBooks = new ArrayList<>();
+    private List<Feed> feeds = new ArrayList<>();
 
     @OneToMany(mappedBy = "client", cascade = CascadeType.ALL)
     private List<ClientKeyword> clientKeywords = new ArrayList<>();
@@ -50,10 +52,11 @@ public class Client {
      * 유저 생성(id와 닉네임에 대한 중복확인이 끝났다고 가정)
     * */
     @Builder
-    public Client(String id, String password, String name, String nickname, String email, Gender gender, Occupation occupation) {
+    public Client(String id, String password, String name, LocalDate birth, String nickname, String email, Gender gender, Occupation occupation) {
         this.id = id;
         this.password = password;
         this.name = name;
+        this.birth = birth;
         this.nickname = nickname;
         this.email = email;
         this.gender = gender;
