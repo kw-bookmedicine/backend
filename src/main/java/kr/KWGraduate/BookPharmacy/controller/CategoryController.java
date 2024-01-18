@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/category")
@@ -18,15 +19,14 @@ public class CategoryController {
 
     private final CategoryService categoryService;
 
-    @Operation(summary = "대분류 출력", description = "대분류에 해당하는 카테고리 불러오기")
+    @Operation(summary = "대분류 출력", description = "대분류에 해당하는 카테고리 불러오기, Map<대분류, List<중분류>> 형식으로 반환함")
     @GetMapping(value = "/big")
-    public ResponseEntity<List<CategoryDto>> getBigCategory(){
-
-        List<CategoryDto> result = categoryService.getBigCategoryList();
+    public ResponseEntity<Map<String, List<String>>> getCategoryGroupByBig(){
+        Map<String, List<String>> result = categoryService.getAllCategoryGrouped();
         return ResponseEntity.ok(result);
     }
 
-//    미구현 (카테고리 넘버로 카테고리 바인딩 해야함)
+//    미구현 (카테고리 넘버로     카테고리 바인딩 해야함)
 //    @GetMapping(value = "/{category_number}")
 //    public ResponseEntity<List<CategoryDto>> getChildCategory(@PathVariable("category_number") String categoryNumber) {
 //
