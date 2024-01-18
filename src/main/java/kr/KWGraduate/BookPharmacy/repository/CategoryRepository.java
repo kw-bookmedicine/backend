@@ -20,4 +20,13 @@ public interface CategoryRepository extends JpaRepository<Categories, Long> {
      * */
     @Query("select c from Categories c where c.level = 1")
     List<Categories> findBigCategory();
+
+    @Query("select c from Categories c join fetch c.parentCategory pc where c.level = 2")
+    List<Categories> findChildCategories();
+
+//    /**
+//     * 대분류(level=1)들을 자식 카테고리와 함께 조회하기
+//     * */
+//    @Query("select pc.name, c.name FROM Categories c join fetch c.parentCategory pc GROUP BY pc.id")
+//    List<Object[]> findMiddleGroupByBigCategory();
 }
