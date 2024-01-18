@@ -10,6 +10,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -39,6 +40,15 @@ public class BookService {
         List<BookSearchDto> bookSearchDtoList = BookSearchDto.toSearchDtoList(bookList);
 
         return bookSearchDtoList;
+    }
+
+    public BookDto getBookDetails(String isbn){
+        Optional<Book> optional = bookRepository.findOptionalByIsbn(isbn);
+
+        BookDto bookDto = optional.map(book -> new BookDto(book))
+                .orElseGet(() -> BookDto.builder().title("해당 책이 없습니다.").build());
+
+        return bookDto;
     }
 
 }
