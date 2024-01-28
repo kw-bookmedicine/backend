@@ -39,5 +39,10 @@ public class UserExceptionController {
         ErrorResult errorResult = new ErrorResult("there is already same nickname", ex.getErrorMessage());
         return new ResponseEntity<>(errorResult,HttpStatus.BAD_REQUEST);
     }
+    @ExceptionHandler
+    public ResponseEntity<ErrorResult> handleException(AllException ex){
+        ErrorResult errorResult = new ErrorResult("error occur", ex.getErrorMessage());
+        return new ResponseEntity<>(errorResult,HttpStatus.BAD_REQUEST);
+    }
 }
 
