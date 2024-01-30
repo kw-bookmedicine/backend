@@ -12,14 +12,14 @@ public class ClientLoginDto {
 
     @NotNull(message = "id가 null이면 안됨")
     @NotBlank(message = "id가 빈칸이면 안됨")
-    private String id;
+    private String loginId;
     @NotNull(message = "password가 null이면 안됨")
     @NotBlank(message = "password가 빈칸이면 안됨")
     private String password;
 
     @Builder
     public ClientLoginDto(String id,String password){
-        this.id = id;
+        this.loginId = id;
         this.password = password;
     }
 }
