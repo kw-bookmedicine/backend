@@ -14,8 +14,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 @SpringBootTest
 @Transactional
 class KeywordServiceTest {
@@ -48,7 +46,7 @@ class KeywordServiceTest {
 
     @Test
     public void getClientKeywords(){
-        Client client = clientRepository.findById("1").get();
+        Client client = clientRepository.findById(1L).get();
 
         List<KeywordItem> keywordItems = new ArrayList<>();
 
@@ -56,8 +54,8 @@ class KeywordServiceTest {
             keywordItems.add(ck.getKeywordItem());
         }
 
-        ClientKeywordDTO clientKeywordDTO = ClientKeywordDTO.builder().id(Long.valueOf(client.getId())).keywordItems(keywordItems).build();
-        ClientKeywordDTO findClientKeywordDTO = keywordService.getClientKeywords(Long.valueOf(client.getId()));
+        ClientKeywordDTO clientKeywordDTO = ClientKeywordDTO.builder().id(client.getId()).keywordItems(keywordItems).build();
+        ClientKeywordDTO findClientKeywordDTO = keywordService.getClientKeywords(client.getId());
 
         Assertions.assertThat(clientKeywordDTO).isEqualTo(findClientKeywordDTO);
     }

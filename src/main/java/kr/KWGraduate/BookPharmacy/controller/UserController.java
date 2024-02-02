@@ -35,7 +35,7 @@ public class UserController {
             return ResponseEntity.badRequest().build();
         }
         //front에서 해결가능?
-        ClientLoginDto body = clientService.Login(request.getId(), request.getPassword());
+        ClientLoginDto body = clientService.Login(request.getLoginId(), request.getPassword());
         return ResponseEntity.ok(body);
     }
     @Operation(summary = "회원가입", description = "id, password, 이름, 닉네임, 이메일, 성별, 직업만 받도록 함", tags = {"signup"})

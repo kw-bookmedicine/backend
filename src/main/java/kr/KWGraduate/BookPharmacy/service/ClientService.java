@@ -5,6 +5,7 @@ import kr.KWGraduate.BookPharmacy.dto.client.ClientJoinDto;
 import kr.KWGraduate.BookPharmacy.dto.client.ClientLoginDto;
 import kr.KWGraduate.BookPharmacy.entity.Client;
 import kr.KWGraduate.BookPharmacy.exception.status.*;
+import kr.KWGraduate.BookPharmacy.repository.BookRepository;
 import kr.KWGraduate.BookPharmacy.repository.ClientRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -31,7 +32,7 @@ public class ClientService {
     private void validateDuplicateClient(Client client) {
 
 
-        if(isExistId(client.getId())){
+        if(isExistId(client.getLoginId())){
             throw new ExistIdException("이미 id가 존재합니다.");
         }
         if(isExistNickname(client.getNickname())){
@@ -42,28 +43,28 @@ public class ClientService {
         }
     }
 
-    public boolean isExistId(String id){
-        return clientRepository.findById(id).isPresent();
+    public boolean isExistId(String loginId){
+        return clientRepository.findByLoginId(loginId).isPresent();
     }
     public boolean isExistNickname(String nickname){ return clientRepository.findByNickname(nickname).isPresent(); }
     public boolean isExistEmail(String email){
         return clientRepository.findByEmail(email).isPresent();
     }
 
-    public ClientLoginDto Login(String id, String password){
+    public ClientLoginDto Login(String loginId, String password){
         //예외를 돌리는 것이 나은지
 
-        Client client = clientRepository.findById(id).orElseThrow(() -> new NoExistIdException("id가 존재하지 않습니다."));
+        Client client = clientRepository.findByLoginId(loginId).orElseThrow(() -> new NoExistIdException("id가 존재하지 않습니다."));
 
         if(client.isEqualPassword(password)){
-            return new ClientLoginDto(client.getId(), client.getPassword());
+            return new ClientLoginDto(client.getLoginId(), client.getPassword());
         }
         else{
             throw new IsNotSamePasswordException("password가 일치하지 않습니다.");
         }
     }
     @Transactional
-    public void removeClient(String id){
+    public void removeClient(Long id){
         clientRepository.deleteById(id);
     }
 
@@ -110,7 +111,7 @@ public class ClientService {
     public String findByCode(String id, String code){
         Client client = clientRepository.findById(id).get();
         //client code비교
-        return client.getId();
+        return client.getLoginId();
     }
 
 

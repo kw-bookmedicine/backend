@@ -1,6 +1,5 @@
 package kr.KWGraduate.BookPharmacy.dto;
 
-import jakarta.validation.constraints.NotEmpty;
 import kr.KWGraduate.BookPharmacy.entity.Client;
 import lombok.Builder;
 import lombok.Data;
@@ -8,7 +7,8 @@ import lombok.Data;
 @Data
 public class ClientDto {
 
-    private String id;
+    private Long id;
+    private String loginId;
     private String password;
     private String name;
     private String nickname;
@@ -17,8 +17,9 @@ public class ClientDto {
     private Client.Occupation occupation;
 
     @Builder
-    public ClientDto(String id, String password, String name, String nickname, String email, Client.Gender gender, Client.Occupation occupation) {
+    public ClientDto(Long id, String loginId, String password, String name, String nickname, String email, Client.Gender gender, Client.Occupation occupation) {
         this.id = id;
+        this.loginId = loginId;
         this.password = password;
         this.name = name;
         this.nickname = nickname;
@@ -29,6 +30,7 @@ public class ClientDto {
     public Client toEntity(){
         return Client.builder()
                 .id(id)
+                .loginId(loginId)
                 .password(password)
                 .name(name)
                 .nickname(nickname)
@@ -40,6 +42,7 @@ public class ClientDto {
     public ClientDto toDto(Client client){
         return ClientDto.builder()
                 .id(client.getId())
+                .loginId(client.getLoginId())
                 .password(client.getPassword())
                 .name(client.getName())
                 .nickname(client.getNickname())
