@@ -10,6 +10,7 @@ import org.springframework.aop.scope.ScopedProxyUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
@@ -52,7 +53,7 @@ class KeywordItemRepositoryTest {
 
     @Test
     public void findByClientId(){
-        Client client = clientRepository.findById("1").get();
+        Client client = clientRepository.findById(1L).get();
 
         List<KeywordItem> keywordItems = new ArrayList<>();
 

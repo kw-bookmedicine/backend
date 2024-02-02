@@ -10,13 +10,14 @@ import java.util.List;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@ToString(of = {"id", "name", "nickname", "email"})
+@ToString(of = {"id","loginId", "name", "nickname", "email"})
 public class Client extends BaseTimeEntity {
 
-    @Id
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "client_id")
-    private String id;
+    private Long id;
 
+    private String loginId;
     private String password;
     private String name;
     private String nickname;
@@ -52,8 +53,9 @@ public class Client extends BaseTimeEntity {
      * 유저 생성(id와 닉네임에 대한 중복확인이 끝났다고 가정)
     * */
     @Builder
-    public Client(String id, String password, String name, LocalDate birth, String nickname, String email, Gender gender, Occupation occupation) {
+    public Client(Long id, String loginId, String password, String name, LocalDate birth, String nickname, String email, Gender gender, Occupation occupation) {
         this.id = id;
+        this.loginId = loginId;
         this.password = password;
         this.name = name;
         this.birth = birth;

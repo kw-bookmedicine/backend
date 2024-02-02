@@ -37,7 +37,7 @@ public class KeywordService {
     }
 
     public ClientKeywordDTO getClientKeywords(Long id){
-        clientRepository.findById(String.valueOf(id))
+        clientRepository.findById(id)
                 .orElseThrow(() -> new AllException("해당 id의 유저가 없습니다.") {
                     @Override
                     public String getErrorMessage() {
