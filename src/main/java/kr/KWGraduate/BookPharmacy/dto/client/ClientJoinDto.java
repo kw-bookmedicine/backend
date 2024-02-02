@@ -41,6 +41,7 @@ public class ClientJoinDto {
                 .email(email)
                 .gender(gender)
                 .occupation(occupation)
+                .role("ROLE_USER")
                 .build();
     }
     public static ClientJoinDto toDto(Client client){
