@@ -7,6 +7,7 @@ import kr.KWGraduate.BookPharmacy.entity.Client;
 import kr.KWGraduate.BookPharmacy.exception.status.*;
 import kr.KWGraduate.BookPharmacy.repository.ClientRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,9 +19,11 @@ import java.util.NoSuchElementException;
 @Service
 public class ClientService {
     private final ClientRepository clientRepository;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Transactional
     public void signUp(ClientJoinDto clientJoinDto) throws AllException {
+        clientJoinDto.setPassword(bCryptPasswordEncoder.encode(clientJoinDto.getPassword()));
         Client client = clientJoinDto.toEntity();
         validateDuplicateClient(client);
 
