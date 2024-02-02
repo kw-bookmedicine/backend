@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,12 +18,16 @@ public class Client extends BaseTimeEntity {
     @Column(name = "client_id")
     private Long id;
 
+    @Column(unique = true)
     private String loginId;
     private String password;
     private String name;
+    @Column(unique = true)
     private String nickname;
+    @Column(unique = true)
     private String email;
     private LocalDate birth;
+    private String role;
 
     @Enumerated(EnumType.STRING)
     private Gender gender;
@@ -53,7 +58,9 @@ public class Client extends BaseTimeEntity {
      * 유저 생성(id와 닉네임에 대한 중복확인이 끝났다고 가정)
     * */
     @Builder
-    public Client(Long id, String loginId, String password, String name, LocalDate birth, String nickname, String email, Gender gender, Occupation occupation) {
+    public Client(Long id, String loginId, String password, String name, LocalDate birth, String nickname, String email, Gender gender, Occupation occupation, String role) {
+        //super(createdDate,lastModifiedTime);
+
         this.id = id;
         this.loginId = loginId;
         this.password = password;
@@ -63,6 +70,8 @@ public class Client extends BaseTimeEntity {
         this.email = email;
         this.gender = gender;
         this.occupation = occupation;
+        this.role = role;
+
     }
 
     public void setPassword(String password) {
