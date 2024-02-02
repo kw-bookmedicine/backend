@@ -20,12 +20,11 @@ public class ClientService {
     private final ClientRepository clientRepository;
 
     @Transactional
-    public ClientJoinDto signUp(ClientJoinDto clientJoinDto) throws AllException {
+    public void signUp(ClientJoinDto clientJoinDto) throws AllException {
         Client client = clientJoinDto.toEntity();
         validateDuplicateClient(client);
 
-        return ClientJoinDto.toDto(clientRepository.save(client));
-
+        clientRepository.save(client);
     }
 
     private void validateDuplicateClient(Client client) {
