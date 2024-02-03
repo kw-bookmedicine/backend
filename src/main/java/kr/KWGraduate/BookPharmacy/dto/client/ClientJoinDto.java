@@ -11,8 +11,8 @@ import lombok.NoArgsConstructor;
 @NotNull
 
 public class ClientJoinDto {
-    private Long id;
-    private String loginId;
+
+    private String username;
     private String password;
     private String name;
     private String nickname;
@@ -21,9 +21,8 @@ public class ClientJoinDto {
     private Client.Occupation occupation;
 
     @Builder
-    public ClientJoinDto(Long id, String loginId, String password, String name, String nickname, String email, Client.Gender gender, Client.Occupation occupation) {
-        this.id = id;
-        this.loginId = loginId;
+    public ClientJoinDto(String username, String password, String name, String nickname, String email, Client.Gender gender, Client.Occupation occupation) {
+        this.username = username;
         this.password = password;
         this.name = name;
         this.nickname = nickname;
@@ -33,8 +32,7 @@ public class ClientJoinDto {
     }
     public Client toEntity(){
         return Client.builder()
-                .id(id)
-                .loginId(loginId)
+                .loginId(username)
                 .password(password)
                 .name(name)
                 .nickname(nickname)
@@ -46,8 +44,7 @@ public class ClientJoinDto {
     }
     public static ClientJoinDto toDto(Client client){
         return ClientJoinDto.builder()
-                .id(client.getId())
-                .loginId(client.getLoginId())
+                .username(client.getLoginId())
                 .password(client.getPassword())
                 .name(client.getName())
                 .nickname(client.getNickname())
