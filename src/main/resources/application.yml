@@ -1,6 +1,6 @@
 spring:
   jwt:
-    secretValue: sdkfjghsdfkghasdghkdfjsghsdkfjghersiuthdkjsfgbsdkfjgbhdsjkdfhgdfs
+    secret: sdkfjghsdfkghasdghkdfjsghsdkfjghersiuthdkjsfgbsdkfjgbhdsjkdfhgdfs
 
   datasource:
     driver-class-name: org.mariadb.jdbc.Driver
