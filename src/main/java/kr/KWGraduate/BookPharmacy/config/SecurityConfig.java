@@ -51,11 +51,13 @@ public class SecurityConfig {
         http.
                 httpBasic((auth) -> auth.disable());
 
+        //나중에 배포할 때 수정(모든 곳에 혀용되지 않도록)
         http.
                 authorizeHttpRequests((auth) -> auth
                         .requestMatchers("/login", "/", "/signup").permitAll()
                         .requestMatchers("/admin").hasRole("ADMIN")
-                        .anyRequest().authenticated()
+                        //.anyRequest().authenticated()
+                        .anyRequest().permitAll()
                 );
 
         http.
