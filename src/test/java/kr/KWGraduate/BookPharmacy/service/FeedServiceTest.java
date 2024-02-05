@@ -41,9 +41,9 @@ class FeedServiceTest {
     public void pagingTest(){
 
         //given
-        Client cli1 = new Client(1L,"123","4321","ha", LocalDate.now(),"spqjf", "lsh@naver", Client.Gender.F, Client.Occupation.UNEMPLOYED);
-        Client cli2 = new Client(2L,"124","4321","sim",LocalDate.now(),"sdfsdgs", "lsh2@naver", Client.Gender.F, Client.Occupation.UNEMPLOYED);
-        Client cli3 = new Client(3L,"125","4321","lee",LocalDate.now(),"sdfsdgs", "lsh3@naver", Client.Gender.F, Client.Occupation.UNEMPLOYED);
+        Client cli1 = new Client(1L,"123","4321","ha", LocalDate.now(),"spqjf", "lsh@naver", Client.Gender.F, Client.Occupation.UNEMPLOYED,"ROLE_USER");
+        Client cli2 = new Client(2L,"124","4321","sim",LocalDate.now(),"sdfsdgs", "lsh2@naver", Client.Gender.F, Client.Occupation.UNEMPLOYED,"ROLE_USER");
+        Client cli3 = new Client(3L,"125","4321","lee",LocalDate.now(),"sdfsdgs", "lsh3@naver", Client.Gender.F, Client.Occupation.UNEMPLOYED,"ROLE_USER");
         clientRepository.save(cli1);
         clientRepository.save(cli2);
         clientRepository.save(cli3);

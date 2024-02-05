@@ -5,9 +5,9 @@ import kr.KWGraduate.BookPharmacy.dto.client.ClientJoinDto;
 import kr.KWGraduate.BookPharmacy.dto.client.ClientLoginDto;
 import kr.KWGraduate.BookPharmacy.entity.Client;
 import kr.KWGraduate.BookPharmacy.exception.status.*;
-import kr.KWGraduate.BookPharmacy.repository.BookRepository;
 import kr.KWGraduate.BookPharmacy.repository.ClientRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,20 +19,21 @@ import java.util.NoSuchElementException;
 @Service
 public class ClientService {
     private final ClientRepository clientRepository;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Transactional
-    public ClientJoinDto signUp(ClientJoinDto clientJoinDto) throws AllException {
+    public void signUp(ClientJoinDto clientJoinDto) throws AllException {
+        clientJoinDto.setPassword(bCryptPasswordEncoder.encode(clientJoinDto.getPassword()));
         Client client = clientJoinDto.toEntity();
         validateDuplicateClient(client);
 
-        return ClientJoinDto.toDto(clientRepository.save(client));
-
+        clientRepository.save(client);
     }
 
     private void validateDuplicateClient(Client client) {
 
 
-        if(isExistId(client.getLoginId())){
+        if(isExistLoginId(client.getLoginId())){
             throw new ExistIdException("이미 id가 존재합니다.");
         }
         if(isExistNickname(client.getNickname())){
@@ -43,12 +44,12 @@ public class ClientService {
         }
     }
 
-    public boolean isExistId(String loginId){
-        return clientRepository.findByLoginId(loginId).isPresent();
+    public boolean isExistLoginId(String loginId){
+        return clientRepository.existsByLoginId(loginId);
     }
-    public boolean isExistNickname(String nickname){ return clientRepository.findByNickname(nickname).isPresent(); }
+    public boolean isExistNickname(String nickname){ return clientRepository.existsByNickname(nickname); }
     public boolean isExistEmail(String email){
-        return clientRepository.findByEmail(email).isPresent();
+        return clientRepository.existsByEmail(email);
     }
 
     public ClientLoginDto Login(String loginId, String password){
