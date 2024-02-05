@@ -14,7 +14,7 @@ import java.util.Date;
 @Component
 public class JWTUtil {
     private SecretKey secretKey;
-    private final Long ACESS_TOKEN_EXPIRATION_TIME_SECOND = 60L; // 5분
+    private final Long ACESS_TOKEN_EXPIRATION_TIME_SECOND = 300L; // 5분
 
     public JWTUtil( @Value("${spring.jwt.secret}") String secret) {
         secretKey = new SecretKeySpec(secret.getBytes(StandardCharsets.UTF_8), Jwts.SIG.HS256.key().build().getAlgorithm());
