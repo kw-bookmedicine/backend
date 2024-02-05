@@ -54,7 +54,10 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
         System.out.println("here");
 
         UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(username, password, null);
+        //Authentication을 구현한 객체임
+        //Authentication은 접근하는 주체의 정보와 권한을 담는 인터페이스
 
+        //실질적으로는 manager에 등록된 provider에 의해 처리된다.
         return authenticationManager.authenticate(authToken);
     }
 
@@ -75,6 +78,7 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) throws IOException, ServletException {
 
         ClientDetails clientDetails = (ClientDetails) authResult.getPrincipal();
+        //provider의 결과로 여기에 저장됨
 
         String username = clientDetails.getUsername();
 
