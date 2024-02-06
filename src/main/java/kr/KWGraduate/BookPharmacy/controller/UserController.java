@@ -1,13 +1,10 @@
 package kr.KWGraduate.BookPharmacy.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
-import jakarta.validation.Valid;
 import kr.KWGraduate.BookPharmacy.dto.client.ClientJoinDto;
 import kr.KWGraduate.BookPharmacy.dto.client.ClientLoginDto;
-import kr.KWGraduate.BookPharmacy.exception.ErrorResult;
 import kr.KWGraduate.BookPharmacy.service.ClientService;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
@@ -35,12 +32,12 @@ public class UserController {
             return ResponseEntity.badRequest().build();
         }
         //front에서 해결가능?
-        ClientLoginDto body = clientService.Login(request.getLoginId(), request.getPassword());
+        ClientLoginDto body = clientService.Login(request.getUsername(), request.getPassword());
         return ResponseEntity.ok(body);
     }
     @Operation(summary = "회원가입", description = "id, password, 이름, 닉네임, 이메일, 성별, 직업만 받도록 함", tags = {"signup"})
     @PostMapping("/signup")
-    public ResponseEntity<ClientJoinDto> signUp(@Validated @RequestBody ClientJoinDto clientJoinDto, BindingResult bindingResult){
+    public ResponseEntity<String> signUp(@Validated @RequestBody ClientJoinDto clientJoinDto, BindingResult bindingResult){
         if(bindingResult.hasErrors()){
             FieldError fieldError = bindingResult.getFieldError();
             String errorMessage = new StringBuffer("signUp validation error")
@@ -52,8 +49,8 @@ public class UserController {
 
             return ResponseEntity.badRequest().build();
         }
-        ClientJoinDto body = clientService.signUp(clientJoinDto);
-        return ResponseEntity.ok(body);
+        clientService.signUp(clientJoinDto);
+        return ResponseEntity.ok("success");
     }
 
 
