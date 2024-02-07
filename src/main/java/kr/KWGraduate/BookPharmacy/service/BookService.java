@@ -7,6 +7,7 @@ import kr.KWGraduate.BookPharmacy.repository.BookRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,7 +18,10 @@ import java.util.Optional;
 public class BookService {
     private final BookRepository bookRepository;
 
-    public List<BookDto> getBookListByMiddleCategory(int pageNumber, int pageSize, String categoryName){
+    public List<BookDto> getBookListByMiddleCategory(String categoryName, Pageable pageable){
+
+        int pageNumber = pageable.getPageNumber();
+        int pageSize = pageable.getPageSize();
 
         PageRequest pageRequest = PageRequest.of(pageNumber, pageSize);
         Page<Book> bookPageList = bookRepository.findBookPagingByMiddleCategory(categoryName, pageRequest);
@@ -32,7 +36,11 @@ public class BookService {
     /**
      * 검색어와 paging size를 입력받으면, 해당하는 책 dto 리스트를 반환
      */
-    public List<BookSearchDto> searchBySearchWord(int pageNumber, int pageSize, String searchKeyword){
+    public List<BookSearchDto> searchBySearchWord(String searchKeyword, Pageable pageable){
+
+        int pageNumber = pageable.getPageNumber();
+        int pageSize = pageable.getPageSize();
+
         PageRequest pageRequest = PageRequest.of(pageNumber, pageSize);
         Page<Book> bookPageList = bookRepository.findPagingByTitleContaining(searchKeyword, pageRequest);
 
