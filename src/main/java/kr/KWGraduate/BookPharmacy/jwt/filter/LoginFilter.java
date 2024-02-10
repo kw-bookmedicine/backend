@@ -53,7 +53,7 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
         System.out.println(password);
         System.out.println("here");
 
-        UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(username, password, null);
+        UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(username, password);
         //Authentication을 구현한 객체임
         //Authentication은 접근하는 주체의 정보와 권한을 담는 인터페이스
 
