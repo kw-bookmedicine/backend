@@ -58,8 +58,7 @@ public class BookController {
         List<Map<String, Object>> result = new ArrayList<>();
 
         // 페이징 사이즈를 10으로 할당
-        PageRequest pageRequest = PageRequest.of(0,10);
-
+        PageRequest pageRequest = PageRequest.of(0,8);
 
         // 대분류에 속하는 중분류들을 조회하고, 그 중분류들에 해당하는 책들 10권을 Map에 추가함
         List<CategoryDto> childCategories = categoryService.getChildCategory(bigCategoryName);
