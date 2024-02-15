@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -52,24 +53,28 @@ public class BookController {
 
     @Operation(summary = "대분류에 속하는 중분류들에 대한 각각의 book 리스트 요청", description = "Map<중분류 이름, 책리스트>로 반환")
     @GetMapping(value = "/list/big")
-    public ResponseEntity<Map<String, List<BookDto>>> getListMapByBigCategory(@RequestParam(name = "name") String bigCategoryName){
+    public ResponseEntity<Object> getListMapByBigCategory(@RequestParam(name = "name") String bigCategoryName){
 
-        Map<String, List<BookDto>> map = new HashMap<>();
+        List<Map<String, Object>> result = new ArrayList<>();
 
         // 페이징 사이즈를 10으로 할당
-        PageRequest pageRequest = PageRequest.of(0,10);
-
+        PageRequest pageRequest = PageRequest.of(0,8);
 
         // 대분류에 속하는 중분류들을 조회하고, 그 중분류들에 해당하는 책들 10권을 Map에 추가함
         List<CategoryDto> childCategories = categoryService.getChildCategory(bigCategoryName);
         for (CategoryDto childCategory : childCategories) {
-            String categoryName = childCategory.getName();
-            List<BookDto> bookDtoList = bookService.getBookListByMiddleCategory(categoryName, pageRequest);
+            Map<String, Object> middleCategoryInfo = new HashMap<>();
 
-            map.put(categoryName, bookDtoList);
+            String categoryName = childCategory.getName();
+            middleCategoryInfo.put("categoryName", categoryName);
+
+            List<BookDto> bookDtoList = bookService.getBookListByMiddleCategory(categoryName, pageRequest);
+            middleCategoryInfo.put("bookList", bookDtoList);
+
+            result.add(middleCategoryInfo);
         }
 
-        return ResponseEntity.ok(map);
+        return ResponseEntity.ok(result);
     }
 
 }
