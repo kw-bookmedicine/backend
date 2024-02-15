@@ -25,6 +25,7 @@ public class FeedController {
 
     private final FeedService feedService;
 
+
     @Operation(summary = "모든 feed 요청", description = "모든 feed들을 페이징해서 요청 예) /api/feed/all?page=0&size=5")
     @GetMapping("/all")
     public ResponseEntity<Page<FeedDto>> getAllFeedPaging(@Parameter(name = "page", description = "page는 기본 0부터 시작")
@@ -35,17 +36,14 @@ public class FeedController {
     }
 
     @Operation(summary = "책에 해당하는 feed 요청", description = "해당 책에 대한 feed들을 페이징해서 " +
-            "요청 예) /api/feed/book?title=java&author=이성훈&publishYear=2022&page=0&size=5")
+            "요청 예) /api/feed/book?isbn=1234-5678-1&page=0&size=5")
     @GetMapping("/book")
-    public ResponseEntity<Page<FeedDto>> getByBookAttr(@RequestParam(name ="title") String title,
-                                                        @RequestParam(name ="author") String author,
-                                                        @RequestParam(name ="publishYear") String publishYear,
+    public ResponseEntity<Page<FeedDto>> getByBookAttr(@RequestParam(name ="isbn") String isbn,
                                                         @Parameter(name = "page", description = "page는 기본 0부터 시작")
-                                            @PageableDefault(sort = "createdDate", direction = Sort.Direction.DESC) Pageable pageable ){
-        BookDto bookDto = BookDto.builder().title(title).author(author).publicYear(publishYear).build();
-        Page<FeedDto> result = feedService.getFeedsPagingByBookDto(bookDto, pageable);
+                                            @PageableDefault(sort = "createdDate", direction = Sort.Direction.DESC) Pageable pageable){
+
+        Page<FeedDto> result = feedService.getFeedsPagingByIsbn(isbn, pageable);
 
         return ResponseEntity.ok(result);
     }
-
 }

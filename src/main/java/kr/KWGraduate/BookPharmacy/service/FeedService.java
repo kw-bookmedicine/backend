@@ -28,13 +28,9 @@ public class FeedService {
     /**
      * BookDto를 전달 받으면, 그 BookDto의 attribute들을 통해 feeds를 페이징하여 조회 (특정 책의 feed들을 조회할 때 사용)
      * */
-    public Page<FeedDto> getFeedsPagingByBookDto(BookDto bookDto, Pageable pageable){
+    public Page<FeedDto> getFeedsPagingByIsbn(String isbn, Pageable pageable){
 
-        // distinct한 책 조회 (우선은 title, author, publishYear로 unique한 값을 찾을 수 있다고 가정하겠음)
-        String title = bookDto.getTitle();
-        String author = bookDto.getAuthor();
-        String publishYear = bookDto.getPublicYear();
-        Book book = bookRepository.findByTitleAndAuthorAndPublishYear(title, author, publishYear).get();
+        Book book = bookRepository.findOptionalByIsbn(isbn).get();
 
         //페이징조회
 //        PageRequest pageRequest = PageRequest.of(pageNumber, pageSize, Sort.by(Sort.Direction.DESC, "registerDateTime"));
