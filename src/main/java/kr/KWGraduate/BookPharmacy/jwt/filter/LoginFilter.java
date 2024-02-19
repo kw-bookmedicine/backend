@@ -7,6 +7,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import kr.KWGraduate.BookPharmacy.dto.client.ClientDetails;
 import kr.KWGraduate.BookPharmacy.dto.client.ClientLoginDto;
+import kr.KWGraduate.BookPharmacy.dto.token.TokenDto;
 import kr.KWGraduate.BookPharmacy.exception.status.AllException;
 import kr.KWGraduate.BookPharmacy.jwt.JWTUtil;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -47,17 +48,10 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
         String username = loginDto.getUsername();
         String password = loginDto.getPassword();
 
-        System.out.println(request.getContentType());
-
-        System.out.println(username);
-        System.out.println(password);
-        System.out.println("here");
-
         UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(username, password);
         //Authentication을 구현한 객체임
         //Authentication은 접근하는 주체의 정보와 권한을 담는 인터페이스
 
-        //실질적으로는 manager에 등록된 provider에 의해 처리된다.
         return authenticationManager.authenticate(authToken);
     }
 
@@ -85,16 +79,17 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
         Collection<? extends GrantedAuthority> authorities = authResult.getAuthorities();
         Iterator<? extends GrantedAuthority> iterator = authorities.iterator();
         GrantedAuthority auth = iterator.next();
-
         String role = auth.getAuthority();
 
-        String token = jwtUtil.createJwt(username, role);
+        TokenDto token = jwtUtil.createJwt(username, role);
 
-        response.addHeader("Authorization", "Bearer " + token);
+        response.addHeader("Authorization", token.getGrantType()+" "+token.getAccessToken() +" " +token.getRefreshToken());
+        response.getWriter().write("success");
     }
 
     @Override
     protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response, AuthenticationException failed) throws IOException, ServletException {
         response.setStatus(401);
+        response.getWriter().write("fail");
     }
 }
