@@ -1,6 +1,8 @@
 spring:
   jwt:
     secret: sdkfjghsdfkghasdghkdfjsghsdkfjghersiuthdkjsfgbsdkfjgbhdsjkdfhgdfs
+    access-token-expiration: 60
+    refresh-token-expiration: 300 #5분
 
   datasource:
     driver-class-name: org.mariadb.jdbc.Driver
@@ -23,3 +25,4 @@ spring:
 
 logging.level:
   org.hibernate.SQL: debug
+  #org.springframework.security: trace
