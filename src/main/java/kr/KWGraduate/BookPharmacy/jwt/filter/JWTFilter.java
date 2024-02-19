@@ -12,7 +12,9 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
+import org.springframework.web.servlet.HandlerExceptionResolver;
 
 import java.io.IOException;
 
@@ -22,34 +24,30 @@ public class JWTFilter extends OncePerRequestFilter {
     private final JWTUtil jwtUtil;
     //나중에 Detail에 dto로 변경해도 될듯함
     private final ClientDetailsService clientDetailsService;
-
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        String authorization = request.getHeader("Authorization");
+        try{
+            String authorization = jwtUtil.resolveToken(request);
 
-        if (authorization == null || !authorization.startsWith("Bearer ")) {
+            System.out.println("authorization now");
+            String token = authorization.split(" ")[1];
 
-            System.out.println("token null");
-            filterChain.doFilter(request, response);
-            return;
+            if(!jwtUtil.validateToken(token)){
+                System.out.println("not valid");
+                filterChain.doFilter(request, response);
+                return;
+            }
+
+            Authentication authToken = jwtUtil.getAuthentication(token);
+            //세션에 사용자 등록
+            SecurityContextHolder.getContext().setAuthentication(authToken);
+
+
+        }catch (Exception e){
+            request.setAttribute("exception",e);
         }
-
-        System.out.println("authorization now");
-        String token = authorization.split(" ")[1];
-
-        if(jwtUtil.isExpired(token)){
-            System.out.println("token expired");
+        finally {
             filterChain.doFilter(request, response);
-            return;
         }
-        String username = jwtUtil.getUsername(token);
-
-        UserDetails userDetails = clientDetailsService.loadUserByUsername(username);
-
-        Authentication authToken = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-        //세션에 사용자 등록
-        SecurityContextHolder.getContext().setAuthentication(authToken);
-
-        filterChain.doFilter(request, response);
     }
 }
