@@ -6,7 +6,7 @@ spring:
 
   jwt:
     secret: sdkfjghsdfkghasdghkdfjsghsdkfjghersiuthdkjsfgbsdkfjgbhdsjkdfhgdfs
-    access-token-expiration: 60
+    access-token-expiration: 180
     refresh-token-expiration: 300 #5분
 
   datasource:
