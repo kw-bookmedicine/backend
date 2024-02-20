@@ -10,7 +10,7 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@ToString(of = {"isbn", "title", "author", "bigCategory", "middleCategory"})
+@ToString(of = {"isbn", "title", "author", "bigCategory", "middleCategory", "imageUrl", "count"})
 public class Book extends BaseTimeEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,6 +22,8 @@ public class Book extends BaseTimeEntity {
     private String publishYear; // 발행년도
     private String content; // 책내용
     private String mediaFlagNumber; // 미디어구분명
+    private String imageUrl; // 이미지 url
+    private Long count; // 조회된 횟수
 
     @OneToMany(mappedBy = "book", cascade = CascadeType.ALL)
     private List<Feed> feeds = new ArrayList<>();
@@ -38,7 +40,7 @@ public class Book extends BaseTimeEntity {
     private Categories middleCategory;
 
     @Builder
-    public Book(String isbn, String title, String author, String publishYear, String content, Categories bigCategory, Categories middleCategory) {
+    public Book(String isbn, String title, String author, String publishYear, String content, Categories bigCategory, Categories middleCategory, String imageUrl) {
         this.isbn = isbn;
         this.title = title;
         this.author = author;
@@ -46,5 +48,6 @@ public class Book extends BaseTimeEntity {
         this.content = content;
         this.bigCategory = bigCategory;
         this.middleCategory = middleCategory;
+        this.imageUrl = imageUrl;
     }
 }

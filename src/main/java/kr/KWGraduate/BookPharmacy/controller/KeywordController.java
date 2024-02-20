@@ -2,8 +2,7 @@ package kr.KWGraduate.BookPharmacy.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import kr.KWGraduate.BookPharmacy.dto.keyword.BookKeywordDTO;
-import kr.KWGraduate.BookPharmacy.dto.keyword.ClientKeywordDTO;
+import kr.KWGraduate.BookPharmacy.dto.KeywordItemDto;
 import kr.KWGraduate.BookPharmacy.service.KeywordService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -11,6 +10,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -23,7 +24,7 @@ public class KeywordController {
     @Operation(summary = "책의 키워드 요청", description = "해당 책에 대한 키워드들을 요청 <br>" +
             "요청 예) /api/keyword/book?isbn=1234-5678-5<br> " +
             "하지만 현재 우리 db에 예시 데이터가 존재하는 데 1234-5678-5부터 1234-5678-58까지 조회가능")
-    public ResponseEntity<BookKeywordDTO> getBookKeyword(@RequestParam(name = "isbn") String isbn) {
+    public ResponseEntity<List<KeywordItemDto>> getBookKeyword(@RequestParam(name = "isbn") String isbn) {
         return ResponseEntity.ok(keywordService.getBookKeywords(isbn));
     }
 
@@ -31,7 +32,7 @@ public class KeywordController {
     @Operation(summary = "클라이언트의 키워드 요청", description = "해당 클라이언트에 대한 키워드들을 요청 <br>" +
             "요청 예) /api/keyword/client?id=1<br> " +
             "하지만 현재 우리 db에 예시 데이터만 존재하는데 id가 1~10까지 존재함")
-    public ResponseEntity<ClientKeywordDTO> getClientKeyword(@RequestParam(name = "id") Long id){
+    public ResponseEntity<List<KeywordItemDto>> getClientKeyword(@RequestParam(name = "id") Long id){
         return ResponseEntity.ok(keywordService.getClientKeywords(id));
     }
 

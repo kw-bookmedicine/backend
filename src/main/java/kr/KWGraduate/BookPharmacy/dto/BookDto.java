@@ -18,6 +18,7 @@ public class BookDto {
     private String mediaFlagNumber; // 미디어구분명
     private String bigCategoryName; // 대분류명
     private String middleCategoryName; // 중분류명
+    private String imageUrl; // 이미지 URL
 
     public BookDto(Book book) {
         this.isbn = book.getIsbn();
@@ -28,10 +29,11 @@ public class BookDto {
         this.mediaFlagNumber = book.getMediaFlagNumber();
         this.bigCategoryName = book.getBigCategory().getName();
         this.middleCategoryName = book.getMiddleCategory().getName();
+        this.imageUrl = book.getImageUrl();
     }
 
     @Builder
-    public BookDto(String isbn, String title, String author, String publicYear, String content, String mediaFlagNumber, String bigCategoryName, String middleCategoryName) {
+    public BookDto(String isbn, String title, String author, String publicYear, String content, String mediaFlagNumber, String bigCategoryName, String middleCategoryName, String imageUrl) {
         this.isbn = isbn;
         this.title = title;
         this.author = author;
@@ -40,6 +42,7 @@ public class BookDto {
         this.mediaFlagNumber = mediaFlagNumber;
         this.bigCategoryName = bigCategoryName;
         this.middleCategoryName = middleCategoryName;
+        this.imageUrl = imageUrl;
     }
 
     /**
@@ -71,6 +74,7 @@ public class BookDto {
                 .author(bookDto.getAuthor())
                 .isbn(bookDto.getIsbn())
                 .content(bookDto.getContent())
+                .imageUrl(bookDto.getImageUrl())
                 .build();
 
         return book;
