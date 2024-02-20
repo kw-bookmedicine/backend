@@ -50,16 +50,24 @@ public interface BookRepository extends JpaRepository<Book, Long> {
     List<Book> findByBigCategory(@Param("categoryName") String categoryName);
 
     /**
-     * 검색어로 책 조회
-     * @param searchKeyword
+     * 검색어로 제목에 대하여 책 조회
+     * @param searchWord
      * @return List<Book>
      */
-    List<Book> findByTitleContaining(String searchKeyword);
+    List<Book> findByTitleContaining(String searchWord);
 
     /**
-     * 검색어로 책 조회 (페이징) (Service 레이어에서 BookSearchDto로 전환)
-     * @param searchKeyword
-     * @return List<Book>
+     * 검색어로 제목에 대하여 책 조회 (페이징) (Service 레이어에서 BookSearchDto로 전환)
+     * @param searchWord
+     * @return Page<Book>
      */
-    Page<Book> findPagingByTitleContaining(String searchKeyword, Pageable pageable);
+    Page<Book> findPagingByTitleContaining(String searchWord, Pageable pageable);
+
+    /**
+     * 검색어로 제목과 작가에 대하여 책 조회 (페이징) (Service 레이어에서 BookSearchDto로 전환)
+     * @param searchWord
+     * @return Page<Book>
+     */
+    @Query("SELECT b FROM Book b WHERE LOWER(b.title) LIKE %:searchWord% OR LOWER(b.author) LIKE %:searchWord%")
+    Page<Book> findPagingByTitleContainingOrAuthorContaining(@Param("searchWord") String searchWord, Pageable pageable);
 }
