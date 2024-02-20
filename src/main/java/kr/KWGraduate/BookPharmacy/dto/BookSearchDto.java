@@ -35,7 +35,7 @@ public class BookSearchDto {
     /**
      * Book리스트를 BookSearchDto리스트로 변환하는 함수
      * */
-    public static List<BookSearchDto> toSearchDtoList(List<Book> bookList) {
+    public static List<BookSearchDto> toDtoList(List<Book> bookList) {
         List<BookSearchDto> bookSearhDtoList = bookList.stream().map(book -> new BookSearchDto(book))
                 .collect(Collectors.toList());
         return bookSearhDtoList;

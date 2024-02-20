@@ -1,9 +1,9 @@
 package kr.KWGraduate.BookPharmacy.repository;
 
-import kr.KWGraduate.BookPharmacy.dto.keyword.BookKeywordDTO;
-import kr.KWGraduate.BookPharmacy.dto.keyword.ClientKeywordDTO;
 import kr.KWGraduate.BookPharmacy.entity.Book;
 import kr.KWGraduate.BookPharmacy.entity.KeywordItem;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -25,4 +25,8 @@ public interface KeywordItemRepository extends JpaRepository<KeywordItem, Long> 
 
     //인기
 
+
+    // 검색어를 이름에 포함하는 키워드 목록 불러오기
+    @Query("SELECT k FROM KeywordItem k WHERE LOWER(k.name) LIKE %:searchWord%")
+    Page<KeywordItem> findByNameContaining(@Param("searchWord") String searchWord, Pageable pageable);
 }
