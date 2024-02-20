@@ -10,6 +10,7 @@ import kr.KWGraduate.BookPharmacy.dto.client.ClientLoginDto;
 import kr.KWGraduate.BookPharmacy.dto.token.TokenDto;
 import kr.KWGraduate.BookPharmacy.exception.status.AllException;
 import kr.KWGraduate.BookPharmacy.jwt.JWTUtil;
+import kr.KWGraduate.BookPharmacy.service.redis.RefreshTokenService;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -30,10 +31,12 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
     private final String CONTENT_TYPE = "application/json";
     private final ObjectMapper objectMapper;
     private final JWTUtil jwtUtil;
-    public LoginFilter(AuthenticationManager authenticationManager, ObjectMapper objectMapper,JWTUtil jwtUtil) {
+    private final RefreshTokenService refreshTokenService;
+    public LoginFilter(AuthenticationManager authenticationManager, ObjectMapper objectMapper,JWTUtil jwtUtil,RefreshTokenService refreshTokenService) {
         this.authenticationManager = authenticationManager;
         this.objectMapper = objectMapper;
         this.jwtUtil = jwtUtil;
+        this.refreshTokenService = refreshTokenService;
     }
 
     @Override
@@ -83,6 +86,7 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
 
         TokenDto token = jwtUtil.createJwt(username, role);
 
+        refreshTokenService.save(token,username);
         response.addHeader("Authorization", token.getGrantType()+" "+token.getAccessToken() +" " +token.getRefreshToken());
         response.getWriter().write("success");
     }
