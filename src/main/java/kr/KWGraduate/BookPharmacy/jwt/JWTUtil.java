@@ -38,12 +38,12 @@ public class JWTUtil {
         REFRESH_TOKEN_EXPIRATION_TIME_SECOND = refreshTokenExpiration;
         this.clientDetailsService = clientDetailsService;
     }
-//    public String getUsername(String token){
-//        return Jwts.parser().verifyWith(secretKey).build().parseSignedClaims(token).getPayload().get("username",String.class);
-//    }
-//    public String getRole(String token){
-//        return Jwts.parser().verifyWith(secretKey).build().parseSignedClaims(token).getPayload().get("role",String.class);
-//    }
+    public String getUsername(String token){
+        return Jwts.parser().verifyWith(secretKey).build().parseSignedClaims(token).getPayload().getSubject();
+    }
+    public String getRole(String token){
+        return Jwts.parser().verifyWith(secretKey).build().parseSignedClaims(token).getPayload().get("role",String.class);
+    }
 //    public Boolean isExpired(String token) {
 //        return Jwts.parser().verifyWith(secretKey).build().parseSignedClaims(token).getPayload().getExpiration().before(new Date());
 //    }
@@ -64,6 +64,7 @@ public class JWTUtil {
                 .signWith(secretKey)
                 .compact();
         String refreshToken = Jwts.builder()
+                .subject(username)
                 .issuedAt(new Date(System.currentTimeMillis()))
                 .expiration(Date.from(OffsetDateTime.now().plusSeconds(REFRESH_TOKEN_EXPIRATION_TIME_SECOND).toInstant()))
                 .signWith(secretKey)
