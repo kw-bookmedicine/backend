@@ -5,6 +5,7 @@ import kr.KWGraduate.BookPharmacy.jwt.JWTUtil;
 import kr.KWGraduate.BookPharmacy.jwt.filter.JWTFilter;
 import kr.KWGraduate.BookPharmacy.jwt.filter.LoginFilter;
 import kr.KWGraduate.BookPharmacy.service.ClientDetailsService;
+import kr.KWGraduate.BookPharmacy.service.redis.RefreshTokenService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -39,7 +40,7 @@ public class SecurityConfig {
 
     private final AuthenticationEntryPoint entryPoint;
     private final AccessDeniedHandler deniedHandler;
-
+    private final RefreshTokenService refreshTokenService;
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception{
         return authenticationConfiguration.getAuthenticationManager();
@@ -71,10 +72,10 @@ public class SecurityConfig {
                 );
 
         http.
-                addFilterAt(new LoginFilter(authenticationManager(authenticationConfiguration),objectMapper,jwtUtil), UsernamePasswordAuthenticationFilter.class);
+                addFilterAt(new LoginFilter(authenticationManager(authenticationConfiguration),objectMapper,jwtUtil,refreshTokenService), UsernamePasswordAuthenticationFilter.class);
 
         http
-                .addFilterBefore(new JWTFilter(jwtUtil,clientDetailsService), LoginFilter.class);
+                .addFilterBefore(new JWTFilter(jwtUtil,clientDetailsService,refreshTokenService), LoginFilter.class);
         http.
                 sessionManagement((session) -> session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS));
