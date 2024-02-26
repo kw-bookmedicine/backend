@@ -59,16 +59,14 @@ public class SecurityConfig {
                 formLogin(AbstractHttpConfigurer::disable);
         http.
                 httpBasic(AbstractHttpConfigurer::disable);
-
-
         //나중에 배포할 때 수정(모든 곳에 혀용되지 않도록)
         http.
                 authorizeHttpRequests((auth) -> auth
                         .requestMatchers("/login", "/", "/signup").permitAll()
                         .requestMatchers("/admin").hasRole("ADMIN")
                         .requestMatchers("/hello").hasRole("USER")
-                        //.anyRequest().authenticated()
-                        .anyRequest().permitAll()
+                        .anyRequest().authenticated()
+                        //.anyRequest().permitAll()
                 );
 
         http.
