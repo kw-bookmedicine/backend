@@ -6,7 +6,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ProblemDetail;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.ErrorResponse;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -43,6 +42,11 @@ public class UserExceptionController {
     public ResponseEntity<ErrorResult> handleException(AllException ex){
         ErrorResult errorResult = new ErrorResult("error occur", ex.getErrorMessage());
         return new ResponseEntity<>(errorResult,HttpStatus.BAD_REQUEST);
+    }
+    @ExceptionHandler
+    public ResponseEntity<ErrorResult> handleException(Exception ex){
+        ErrorResult errorResult = new ErrorResult("error occur", ex.getMessage());
+        return new ResponseEntity<>(errorResult,HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }
 
