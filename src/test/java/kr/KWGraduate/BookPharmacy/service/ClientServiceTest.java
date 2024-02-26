@@ -26,10 +26,13 @@ class ClientServiceTest {
     @Test
     public void join(){
 
-        ClientJoinDto cli1 = new ClientJoinDto(1L,"123","4321","ha","bob","spqjf", Client.Gender.F, Client.Occupation.UNEMPLOYED);
-        ClientJoinDto cli2 = new ClientJoinDto(2L,"124","4321","sim","sdfs","sdfsdgs", Client.Gender.F, Client.Occupation.UNEMPLOYED);
+        ClientJoinDto cli1 = new ClientJoinDto("123","4321","ha","bob","spqjf", Client.Gender.F, Client.Occupation.UNEMPLOYED);
+        ClientJoinDto cli2 = new ClientJoinDto("124","4321","sim","sdfs","sdfsdgs", Client.Gender.F, Client.Occupation.UNEMPLOYED);
 
         clientService.signUp(cli1);
+
+
+
 
         assertThat(clientService.getClientsCount()).isEqualTo(1);
         clientService.signUp(cli2);
@@ -40,9 +43,9 @@ class ClientServiceTest {
 
     @Test
     public void joinFail(){
-        ClientJoinDto cli1 = new ClientJoinDto(1L,"123","4321","ha","bob","spqjf", Client.Gender.F, Client.Occupation.UNEMPLOYED);
+        ClientJoinDto cli1 = new ClientJoinDto("123","4321","ha","bob","spqjf", Client.Gender.F, Client.Occupation.UNEMPLOYED);
 
-        ClientJoinDto cli2 = new ClientJoinDto(2L,"124","4321","sim","sdfs","spqjf", Client.Gender.F, Client.Occupation.UNEMPLOYED);
+        ClientJoinDto cli2 = new ClientJoinDto("124","4321","sim","sdfs","spqjf", Client.Gender.F, Client.Occupation.UNEMPLOYED);
 
         clientService.signUp(cli1);
 
@@ -51,15 +54,15 @@ class ClientServiceTest {
     @Test
     public void basicCRUD(){
         //코드 수정해야힘
-        ClientJoinDto cli1 = new ClientJoinDto(1L,"123","4321","ha","bob","spqjf", Client.Gender.F, Client.Occupation.UNEMPLOYED);
-        ClientJoinDto cli2 = new ClientJoinDto(2L,"124","4321","sim","sdfs","sdfsdgs", Client.Gender.F, Client.Occupation.UNEMPLOYED);
+        ClientJoinDto cli1 = new ClientJoinDto("123","4321","ha","bob","spqjf", Client.Gender.F, Client.Occupation.UNEMPLOYED);
+        ClientJoinDto cli2 = new ClientJoinDto("124","4321","sim","sdfs","sdfsdgs", Client.Gender.F, Client.Occupation.UNEMPLOYED);
 
         clientService.signUp(cli1);
         clientService.signUp(cli2);
 
 
 
-        Client findCli = clientService.findById(cli1.getLoginId());
+        Client findCli = clientService.findById(cli1.getUsername());
 
         assertThat(findCli.getNickname()).isEqualTo("sdgsdf");
 
@@ -72,7 +75,7 @@ class ClientServiceTest {
     }
     @Test
     public void Login(){
-        ClientJoinDto cli1 = new ClientJoinDto(1L,"123","4321","ha","bob","spqjf", Client.Gender.F, Client.Occupation.UNEMPLOYED);
+        ClientJoinDto cli1 = new ClientJoinDto("123","4321","ha","bob","spqjf", Client.Gender.F, Client.Occupation.UNEMPLOYED);
         clientService.signUp(cli1);
 
         assertThat(clientService.Login("123","4321")).isEqualTo(new ClientLoginDto("123","4321"));

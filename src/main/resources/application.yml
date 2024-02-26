@@ -1,6 +1,13 @@
 spring:
+  data:
+    redis:
+      host: svc.sel5.cloudtype.app
+      port: 31288
+
   jwt:
     secret: sdkfjghsdfkghasdghkdfjsghsdkfjghersiuthdkjsfgbsdkfjgbhdsjkdfhgdfs
+    access-token-expiration: 180
+    refresh-token-expiration: 300 #5분
 
   datasource:
     driver-class-name: org.mariadb.jdbc.Driver
@@ -23,3 +30,4 @@ spring:
 
 logging.level:
   org.hibernate.SQL: debug
+  #org.springframework.security: trace

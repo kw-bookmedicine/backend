@@ -15,10 +15,6 @@ import java.time.LocalDateTime;
 @Getter
 public class BaseTimeEntity {
 
-//    public BaseTimeEntity(LocalDateTime createdDate, LocalDateTime lastModifiedDate){
-//        this.createdDate = createdDate;
-//        this.lastModifiedDate = lastModifiedDate;
-//    }
 
     @CreatedDate
     @Column(updatable = false)

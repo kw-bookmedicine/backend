@@ -3,6 +3,7 @@ package kr.KWGraduate.BookPharmacy.service;
 import kr.KWGraduate.BookPharmacy.dto.client.ClientDetails;
 import kr.KWGraduate.BookPharmacy.repository.ClientRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -17,6 +18,6 @@ public class ClientDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return clientRepository.findByLoginId(username)
                 .map(ClientDetails::new)
-                .orElse(null);
+                .orElseThrow(() -> new UsernameNotFoundException("can not find username"));
     }
 }

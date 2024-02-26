@@ -59,7 +59,6 @@ public class Client extends BaseTimeEntity {
     * */
     @Builder
     public Client(Long id, String loginId, String password, String name, LocalDate birth, String nickname, String email, Gender gender, Occupation occupation, String role) {
-        //super(createdDate,lastModifiedTime);
 
         this.id = id;
         this.loginId = loginId;
