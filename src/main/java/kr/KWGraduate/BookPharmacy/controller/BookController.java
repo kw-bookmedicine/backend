@@ -42,7 +42,7 @@ public class BookController {
     }
 
     @Operation(summary = "중분류에 해당하는 book 리스트 요청", description = "중분류에 해당하는 book들을 페이징해서 " +
-            "요청 예) /api/feed/book?name=한국소설&page=0&size=5")
+            "요청 예) /api/book/list/middle?name=한국소설&page=0&size=5")
     @GetMapping(value = "/list/middle")
     public ResponseEntity<List<BookDto>> getBookListByMiddleCategory(@RequestParam(name = "name") String middleCategoryName,
                                                                      @Parameter(name = "page", description = "page는 기본 0부터 시작") Pageable pageable) {

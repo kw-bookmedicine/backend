@@ -19,7 +19,7 @@ import java.util.List;
 
 @SpringBootTest
 @Transactional
-@Rollback(false)
+@Rollback
 class BookRepositoryTest {
     @PersistenceContext EntityManager em;
     @Autowired BookRepository bookRepository;

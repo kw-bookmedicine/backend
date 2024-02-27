@@ -3,6 +3,7 @@ package kr.KWGraduate.BookPharmacy.repository;
 import kr.KWGraduate.BookPharmacy.entity.Book;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -54,17 +55,27 @@ public interface BookRepository extends JpaRepository<Book, Long> {
      * @param searchWord
      * @return List<Book>
      */
+    @EntityGraph(attributePaths = {"bigCategory", "middleCategory"})
     List<Book> findByTitleContaining(String searchWord);
 
     /**
-     * 검색어로 제목에 대하여 책 조회 (페이징) (Service 레이어에서 BookSearchDto로 전환)
+     * 검색어로 제목에 대하여 책 조회 (페이징)
      * @param searchWord
      * @return Page<Book>
      */
+    @EntityGraph(attributePaths = {"bigCategory", "middleCategory"})
     Page<Book> findPagingByTitleContaining(String searchWord, Pageable pageable);
 
     /**
-     * 검색어로 제목과 작가에 대하여 책 조회 (페이징) (Service 레이어에서 BookSearchDto로 전환)
+     * 검색어로 작가명에 대하여 책 조회 (페이징)
+     * @param searchWord
+     * @return Page<Book>
+     */
+    @EntityGraph(attributePaths = {"bigCategory", "middleCategory"})
+    Page<Book> findPagingByAuthorContaining(String searchWord, Pageable pageable);
+
+    /**
+     * 검색어로 제목과 작가명에 대하여 책 조회 (페이징)
      * @param searchWord
      * @return Page<Book>
      */
