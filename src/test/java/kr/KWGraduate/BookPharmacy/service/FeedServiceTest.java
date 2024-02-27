@@ -25,7 +25,7 @@ import java.time.LocalDate;
 
 @SpringBootTest
 @Transactional
-@Rollback(false)
+@Rollback
 class FeedServiceTest {
 
     @Autowired FeedRepository feedRepository;
