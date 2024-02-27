@@ -1,6 +1,5 @@
 package kr.KWGraduate.BookPharmacy.repository;
 
-import kr.KWGraduate.BookPharmacy.dto.keyword.BookKeywordDTO;
 import kr.KWGraduate.BookPharmacy.entity.*;
 import kr.KWGraduate.BookPharmacy.service.BookService;
 import kr.KWGraduate.BookPharmacy.service.ClientService;
