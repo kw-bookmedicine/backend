@@ -3,12 +3,14 @@ package kr.KWGraduate.BookPharmacy.jwt.filter;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import kr.KWGraduate.BookPharmacy.dto.client.ClientDetails;
 import kr.KWGraduate.BookPharmacy.dto.client.ClientLoginDto;
 import kr.KWGraduate.BookPharmacy.dto.token.TokenDto;
 import kr.KWGraduate.BookPharmacy.exception.status.AllException;
+import kr.KWGraduate.BookPharmacy.jwt.CookieType;
 import kr.KWGraduate.BookPharmacy.jwt.JWTUtil;
 import kr.KWGraduate.BookPharmacy.service.redis.RefreshTokenService;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -84,10 +86,12 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
         GrantedAuthority auth = iterator.next();
         String role = auth.getAuthority();
 
-        TokenDto token = jwtUtil.createJwt(username, role);
+        TokenDto token = jwtUtil.createJwt(username, role,"false");
 
         refreshTokenService.save(token,username);
-        response.addHeader("Authorization", token.getGrantType()+" "+token.getAccessToken() +" " +token.getRefreshToken());
+
+        response.addCookie(CookieType.Authorization.createCookie(token.getAccessToken()));
+        response.addCookie(CookieType.Refresh.createCookie(token.getRefreshToken()));
         response.getWriter().write("success");
     }
 

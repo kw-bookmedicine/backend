@@ -17,7 +17,7 @@ class JWTUtilTest {
 
     @Test
     public void createToken() throws SignatureException {
-        TokenDto jwt = jwtUtil.createJwt("sim", "USER");
+        TokenDto jwt = jwtUtil.createJwt("sim", "USER","false");
         System.out.println(jwt);
 
         Authentication authentication = jwtUtil.getAuthentication(jwt.getAccessToken());
