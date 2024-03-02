@@ -4,6 +4,8 @@ import io.jsonwebtoken.*;
 
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
+import kr.KWGraduate.BookPharmacy.dto.oauth2.CustomOauth2Client;
+import kr.KWGraduate.BookPharmacy.dto.oauth2.Oauth2ClientDto;
 import kr.KWGraduate.BookPharmacy.dto.token.TokenDto;
 import kr.KWGraduate.BookPharmacy.service.ClientDetailsService;
 import org.springframework.beans.factory.annotation.Value;
@@ -45,6 +47,9 @@ public class JWTUtil {
     public String getRole(String token){
         return Jwts.parser().verifyWith(secretKey).build().parseSignedClaims(token).getPayload().get("role",String.class);
     }
+    public String isOauth(String token){
+        return Jwts.parser().verifyWith(secretKey).build().parseSignedClaims(token).getPayload().get("isOauth",String.class);
+    }
 //    public Boolean isExpired(String token) {
 //        return Jwts.parser().verifyWith(secretKey).build().parseSignedClaims(token).getPayload().getExpiration().before(new Date());
 //    }
@@ -54,18 +59,19 @@ public class JWTUtil {
         return true;
     }
 
-    public TokenDto createJwt(String username, String role){
+    public TokenDto createJwt(String username, String role, String isOauth){
 
         String accessToken =  Jwts.builder()
                 .subject(username)
-                //.claim("username", username)
                 .claim("role", role)
+                .claim("isOauth", isOauth)
                 .issuedAt(new Date(System.currentTimeMillis()))
                 .expiration(Date.from(OffsetDateTime.now().plusSeconds(ACCESS_TOKEN_EXPIRATION_TIME_SECOND).toInstant()))
                 .signWith(secretKey)
                 .compact();
         String refreshToken = Jwts.builder()
                 .subject(username)
+                .claim("isOauth", isOauth)
                 .issuedAt(new Date(System.currentTimeMillis()))
                 .expiration(Date.from(OffsetDateTime.now().plusSeconds(REFRESH_TOKEN_EXPIRATION_TIME_SECOND).toInstant()))
                 .signWith(secretKey)
@@ -77,37 +83,34 @@ public class JWTUtil {
                 .build();
     }
     public Authentication getAuthentication(String accessToken) throws SignatureException {
-        Claims claims = parseClaims(accessToken);
+        //Claims claims = parseClaims(accessToken);
 
-        String principal = claims.getSubject();
-        UserDetails userDetails = clientDetailsService.loadUserByUsername(principal);
+        if(isOauth(accessToken).equals("true")){
+            Oauth2ClientDto oauth2ClientDto = Oauth2ClientDto.builder()
+                    .username(getUsername(accessToken))
+                    .role(getRole(accessToken))
+                    .build();
 
-        System.out.println(userDetails.getUsername());
-        for(var s : userDetails.getAuthorities()){
-            System.out.println(s.getAuthority());
+            CustomOauth2Client customOauth2Client = new CustomOauth2Client(oauth2ClientDto);
+            return new UsernamePasswordAuthenticationToken(customOauth2Client,null,customOauth2Client.getAuthorities());
+        }else{
+
+            String principal = getUsername(accessToken);
+            UserDetails userDetails = clientDetailsService.loadUserByUsername(principal);
+
+            System.out.println(userDetails.getUsername());
+            for(var s : userDetails.getAuthorities()){
+                System.out.println(s.getAuthority());
+            }
+
+            return new UsernamePasswordAuthenticationToken(userDetails, null,userDetails.getAuthorities());
         }
 
-        return new UsernamePasswordAuthenticationToken(userDetails, null,userDetails.getAuthorities());
     }
 
-    private Claims parseClaims(String accessToken) throws SignatureException {
-        try{
-            return Jwts.parser()
-                    .verifyWith(secretKey)
-                    .build()
-                    .parseSignedClaims(accessToken)
-                    .getPayload();
-        }catch(UnsupportedJwtException e){
-            throw new SignatureException("parser가 동작 안함");
-        }
-
-    }
 
     public String resolveCookie(HttpServletRequest request,String key){
-//        String authorization = request.getHeader("Authorization");
-//        if (authorization == null || !authorization.startsWith("Bearer ")) {
-//            throw new JwtException("token is null or not start Bearer");
-//        }
+
         String authorization = "";
         Cookie[] cookies = request.getCookies();
 
