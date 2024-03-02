@@ -6,8 +6,8 @@ spring:
 
   jwt:
     secret: sdkfjghsdfkghasdghkdfjsghsdkfjghersiuthdkjsfgbsdkfjgbhdsjkdfhgdfs
-    access-token-expiration: 180
-    refresh-token-expiration: 300 #5분
+    access-token-expiration: 60 #180
+    refresh-token-expiration: 90 #300 5분
 
   datasource:
     driver-class-name: org.mariadb.jdbc.Driver
@@ -38,13 +38,6 @@ spring:
             redirect-uri: http://localhost:8080/login/oauth2/code/naver
             authorization-grant-type: authorization_code
             scope: name,email,birthday
-          google:
-            client-name: google
-            client-id: 625366027924-vr0ufavfb2vjo7e32asnk0no26sa9hdo.apps.googleusercontent.com
-            client-secret: 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
-            redirect-uri: http://localhost:8080/login/oauth2/code/google
-            authorization-grant-type: authorization_code
-            scope: profile,email
 
 
         provider:
@@ -58,4 +51,6 @@ spring:
 
 logging.level:
   org.hibernate.SQL: debug
-  #org.springframework.security: trace
+#  org.springframework.security: trace
+#  org.springframework: debug
+#  org:springframework.web: debug

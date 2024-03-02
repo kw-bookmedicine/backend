@@ -7,19 +7,14 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import kr.KWGraduate.BookPharmacy.dto.token.TokenDto;
-import kr.KWGraduate.BookPharmacy.entity.Client;
 import kr.KWGraduate.BookPharmacy.entity.redis.RefreshToken;
 import kr.KWGraduate.BookPharmacy.jwt.JWTUtil;
 import kr.KWGraduate.BookPharmacy.service.ClientDetailsService;
 import kr.KWGraduate.BookPharmacy.service.redis.RefreshTokenService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
-import org.springframework.web.servlet.HandlerExceptionResolver;
 
 import java.io.IOException;
 import java.security.SignatureException;
@@ -37,10 +32,12 @@ public class JWTFilter extends OncePerRequestFilter {
         String authorization = "";
         String tokenInfo = "";
         try{
-            authorization = jwtUtil.resolveToken(request);
+            //authorization = jwtUtil.resolveCookie(request,"Authorization");
 
             System.out.println("authorization now");
-            tokenInfo = authorization.split(" ")[1];
+            //tokenInfo = authorization.split(",")[1];
+
+            tokenInfo = jwtUtil.resolveCookie(request,"Authorization");
 
             if(!jwtUtil.validateToken(tokenInfo)){
                 System.out.println("not valid");

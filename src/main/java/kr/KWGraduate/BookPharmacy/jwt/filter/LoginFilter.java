@@ -3,6 +3,7 @@ package kr.KWGraduate.BookPharmacy.jwt.filter;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import kr.KWGraduate.BookPharmacy.dto.client.ClientDetails;
@@ -87,8 +88,20 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
         TokenDto token = jwtUtil.createJwt(username, role);
 
         refreshTokenService.save(token,username);
-        response.addHeader("Authorization", token.getGrantType()+" "+token.getAccessToken() +" " +token.getRefreshToken());
+        //response.addHeader("Authorization", token.getGrantType()+" "+token.getAccessToken() +" " +token.getRefreshToken());
+        response.addCookie(createCookie("Authorization",token.getAccessToken()));
+        response.addCookie(createCookie("RefreshToken",token.getRefreshToken()));
         response.getWriter().write("success");
+    }
+
+    private Cookie createCookie(String key, String value) {
+        Cookie cookie = new Cookie(key, value);
+        cookie.setMaxAge(60 * 5);
+        cookie.setSecure(true);
+        cookie.setPath("/");
+        cookie.setHttpOnly(true);
+
+        return cookie;
     }
 
     @Override

@@ -2,6 +2,7 @@ package kr.KWGraduate.BookPharmacy.jwt;
 
 import io.jsonwebtoken.*;
 
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import kr.KWGraduate.BookPharmacy.dto.token.TokenDto;
 import kr.KWGraduate.BookPharmacy.service.ClientDetailsService;
@@ -102,10 +103,21 @@ public class JWTUtil {
 
     }
 
-    public String resolveToken(HttpServletRequest request){
-        String authorization = request.getHeader("Authorization");
-        if (authorization == null || !authorization.startsWith("Bearer ")) {
-            throw new JwtException("token is null or not start Bearer");
+    public String resolveCookie(HttpServletRequest request,String key){
+//        String authorization = request.getHeader("Authorization");
+//        if (authorization == null || !authorization.startsWith("Bearer ")) {
+//            throw new JwtException("token is null or not start Bearer");
+//        }
+        String authorization = "";
+        Cookie[] cookies = request.getCookies();
+
+        for(Cookie cookie : cookies){
+            if (cookie.getName().equals(key)) {
+                authorization = cookie.getValue();
+            }
+        }
+        if (authorization == null) {
+            throw new JwtException("there is no authorization cookie");
         }
 
         return authorization;
