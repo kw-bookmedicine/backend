@@ -4,14 +4,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import kr.KWGraduate.BookPharmacy.jwt.JWTUtil;
 import kr.KWGraduate.BookPharmacy.jwt.filter.JWTFilter;
 import kr.KWGraduate.BookPharmacy.jwt.filter.LoginFilter;
+import kr.KWGraduate.BookPharmacy.jwt.oauth2.Oauth2SuccessHandler;
 import kr.KWGraduate.BookPharmacy.service.ClientDetailsService;
+import kr.KWGraduate.BookPharmacy.service.Oauth2ClientService;
 import kr.KWGraduate.BookPharmacy.service.redis.RefreshTokenService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Primary;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -19,12 +18,12 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.oauth2.client.web.OAuth2LoginAuthenticationFilter;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.servlet.HandlerExceptionResolver;
 
 import java.util.Collections;
 
@@ -41,6 +40,9 @@ public class SecurityConfig {
     private final AuthenticationEntryPoint entryPoint;
     private final AccessDeniedHandler deniedHandler;
     private final RefreshTokenService refreshTokenService;
+    private final Oauth2ClientService oauth2ClientService;
+    private final Oauth2SuccessHandler oauth2SuccessHandler;
+
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception{
         return authenticationConfiguration.getAuthenticationManager();
@@ -59,6 +61,14 @@ public class SecurityConfig {
                 formLogin(AbstractHttpConfigurer::disable);
         http.
                 httpBasic(AbstractHttpConfigurer::disable);
+
+        http.
+                oauth2Login((oauth2) -> oauth2
+                        .userInfoEndpoint((userInfoEndpointConfig) -> userInfoEndpointConfig
+                                .userService(oauth2ClientService))
+                        .successHandler(oauth2SuccessHandler)
+                );
+
         //나중에 배포할 때 수정(모든 곳에 혀용되지 않도록)
         http.
                 authorizeHttpRequests((auth) -> auth
@@ -72,8 +82,12 @@ public class SecurityConfig {
         http.
                 addFilterAt(new LoginFilter(authenticationManager(authenticationConfiguration),objectMapper,jwtUtil,refreshTokenService), UsernamePasswordAuthenticationFilter.class);
 
+//        http
+//                .addFilterAfter(new JWTFilter(jwtUtil,clientDetailsService,refreshTokenService), OAuth2LoginAuthenticationFilter.class);
         http
-                .addFilterBefore(new JWTFilter(jwtUtil,clientDetailsService,refreshTokenService), LoginFilter.class);
+                .addFilterBefore(new JWTFilter(jwtUtil,clientDetailsService,refreshTokenService), UsernamePasswordAuthenticationFilter.class);
+
+
         http.
                 sessionManagement((session) -> session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS));
@@ -93,9 +107,8 @@ public class SecurityConfig {
                     configuration.setAllowCredentials(true);
                     configuration.setAllowedHeaders(Collections.singletonList("*"));
                     configuration.setMaxAge(3600L);
-
+                    configuration.setExposedHeaders(Collections.singletonList("Set-Cookie"));
                     configuration.setExposedHeaders(Collections.singletonList("Authorization"));
-
                     return configuration;
                 })));
 
