@@ -1,7 +1,10 @@
 package kr.KWGraduate.BookPharmacy.jwt;
 
 import jakarta.servlet.http.Cookie;
+import kr.KWGraduate.BookPharmacy.config.Domain;
 import org.springframework.http.ResponseCookie;
+
+import static kr.KWGraduate.BookPharmacy.config.Domain.*;
 
 public enum CookieType {
 
@@ -25,7 +28,7 @@ public enum CookieType {
     public String createCookie(String token){
         return  ResponseCookie.from(key,token)
                 .sameSite("Lax")
-                .domain("https://localhost:3030")
+                .domain(FrontServer.getDomain())
                 .maxAge(60*5)
                 .secure(true)
                 .path("/")
