@@ -4,12 +4,14 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+import static kr.KWGraduate.BookPharmacy.config.Domain.*;
+
 @Configuration
 public class CorsMvcConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
                 .exposedHeaders("Set-Cookie")
-                .allowedOrigins("https://localhost:3000");
+                .allowedOrigins(FrontServer.getPresentAddress());
     }
 }

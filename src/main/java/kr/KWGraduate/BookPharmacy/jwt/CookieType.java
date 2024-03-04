@@ -1,7 +1,13 @@
 package kr.KWGraduate.BookPharmacy.jwt;
 
 import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import kr.KWGraduate.BookPharmacy.config.Domain;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseCookie;
+
+import static kr.KWGraduate.BookPharmacy.config.Domain.*;
 
 public enum CookieType {
 
@@ -13,24 +19,44 @@ public enum CookieType {
         this.key = key;
     }
 
-//    public Cookie createCookie(String value){
-//        Cookie cookie = new Cookie(key, value);
-//        cookie.setMaxAge(60 * 5);
-//        cookie.setSecure(true);
-//        cookie.setPath("/");
-//        cookie.setHttpOnly(true);
-//
-//        return cookie;
-//    }
     public String createCookie(String token){
         return  ResponseCookie.from(key,token)
                 .sameSite("Lax")
-                .domain("https://localhost:3030")
+                .domain(FrontServer.getDomain())
                 .maxAge(60*5)
                 .secure(true)
                 .path("/")
                 .httpOnly(true)
                 .build()
                 .toString();
+    }
+    public static void deleteCookie(HttpServletRequest request, HttpServletResponse response){
+
+        if(request.getCookies().length <= 0){
+            return;
+        }
+
+        String accessCookie = ResponseCookie.from(Authorization.key,"")
+                .sameSite("Lax")
+                .domain(FrontServer.getDomain())
+                .maxAge(0)
+                .secure(true)
+                .path("/")
+                .httpOnly(true)
+                .build()
+                .toString();
+
+        String refreshCookie = ResponseCookie.from(Refresh.key,"")
+                .sameSite("Lax")
+                .domain(FrontServer.getDomain())
+                .maxAge(0)
+                .secure(true)
+                .path("/")
+                .httpOnly(true)
+                .build()
+                .toString();
+
+        response.addHeader(HttpHeaders.SET_COOKIE,accessCookie);
+        response.addHeader(HttpHeaders.SET_COOKIE,refreshCookie);
     }
 }
