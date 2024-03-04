@@ -21,7 +21,7 @@ public enum CookieType {
 
     public String createCookie(String token){
         return  ResponseCookie.from(key,token)
-                .sameSite("Lax")
+                .sameSite("None")
                 .domain(FrontServer.getPresentDomain())
                 .maxAge(60*5)
                 .secure(true)
