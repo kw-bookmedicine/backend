@@ -72,7 +72,7 @@ public class FeedService {
      */
     public FeedDto updateFeed(FeedDto feedDto, String userId) {
 
-        String isbn = feedDto.getIsbn();
+        String isbn = feedDto.getBookIsbn();
         Feed feed = feedRepository.findOptionalByLoginIdAndIsbn(userId, isbn)
                 .orElseThrow(() -> new ResourceNotFoundException("feed doesn't exist. -> userId: " + userId + " isbn: " + isbn));
 

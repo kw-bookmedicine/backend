@@ -9,7 +9,7 @@ import java.util.List;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@ToString(of = {"name"})
+@ToString(of = {"name", "count"})
 public class KeywordItem {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -17,6 +17,8 @@ public class KeywordItem {
     private Long id;
 
     private String name;
+
+    private Long count;
 
     @OneToMany(mappedBy = "keywordItem", cascade = CascadeType.ALL)
     private List<BookKeyword> bookKeywords = new ArrayList<>();
@@ -27,5 +29,6 @@ public class KeywordItem {
     @Builder
     public KeywordItem(String name) {
         this.name = name;
+        this.count = count;
     }
 }

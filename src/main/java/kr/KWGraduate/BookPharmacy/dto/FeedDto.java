@@ -14,7 +14,7 @@ public class FeedDto {
     private String bookTitle;
     private String bookAuthor;
     private String bookPublishYear;
-    private String isbn;
+    private String bookIsbn;
     private String clientNickname;
     private String comment;
     private float rating;
@@ -26,11 +26,11 @@ public class FeedDto {
     }
 
     @Builder
-    public FeedDto(String bookTitle, String bookAuthor, String bookPublishYear, String isbn, String clientNickname, String comment, float rating, LocalDateTime registerDateTime, LocalDateTime lastModifiedDate) {
+    public FeedDto(String bookTitle, String bookAuthor, String bookPublishYear, String bookIsbn, String clientNickname, String comment, float rating, LocalDateTime registerDateTime, LocalDateTime lastModifiedDate) {
         this.bookTitle = bookTitle;
         this.bookAuthor = bookAuthor;
         this.bookPublishYear = bookPublishYear;
-        this.isbn = isbn;
+        this.bookIsbn = bookIsbn;
         this.clientNickname = clientNickname;
         this.comment = comment;
         this.rating = rating;
@@ -42,8 +42,7 @@ public class FeedDto {
         this.bookTitle = book.getTitle();
         this.bookAuthor = book.getAuthor();
         this.bookPublishYear = book.getPublishYear();
-        this.isbn = book.getIsbn();
-
+        this.bookIsbn = book.getIsbn();
         return this;
     }
 

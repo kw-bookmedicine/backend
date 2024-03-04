@@ -1,11 +1,13 @@
 package kr.KWGraduate.BookPharmacy.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import jakarta.servlet.http.HttpServletRequest;
 import kr.KWGraduate.BookPharmacy.jwt.JWTUtil;
 import kr.KWGraduate.BookPharmacy.jwt.filter.JWTFilter;
 import kr.KWGraduate.BookPharmacy.jwt.filter.LoginFilter;
+import kr.KWGraduate.BookPharmacy.jwt.oauth2.Oauth2SuccessHandler;
 import kr.KWGraduate.BookPharmacy.service.ClientDetailsService;
+import kr.KWGraduate.BookPharmacy.service.Oauth2ClientService;
+import kr.KWGraduate.BookPharmacy.service.redis.RefreshTokenService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,12 +15,15 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.oauth2.client.web.OAuth2LoginAuthenticationFilter;
+import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.CorsConfigurationSource;
 
 import java.util.Collections;
 
@@ -30,8 +35,14 @@ public class SecurityConfig {
     private final AuthenticationConfiguration authenticationConfiguration;
     private final ObjectMapper objectMapper;
     private final JWTUtil jwtUtil;
-
     private final ClientDetailsService clientDetailsService;
+
+    private final AuthenticationEntryPoint entryPoint;
+    private final AccessDeniedHandler deniedHandler;
+    private final RefreshTokenService refreshTokenService;
+    private final Oauth2ClientService oauth2ClientService;
+    private final Oauth2SuccessHandler oauth2SuccessHandler;
+
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception{
         return authenticationConfiguration.getAuthenticationManager();
@@ -45,49 +56,60 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
 
         http.
-                csrf((auth) -> auth.disable());
+                csrf(AbstractHttpConfigurer::disable);
         http.
-                formLogin((auth) -> auth.disable());
+                formLogin(AbstractHttpConfigurer::disable);
         http.
-                httpBasic((auth) -> auth.disable());
+                httpBasic(AbstractHttpConfigurer::disable);
+
+        http.
+                oauth2Login((oauth2) -> oauth2
+                        .userInfoEndpoint((userInfoEndpointConfig) -> userInfoEndpointConfig
+                                .userService(oauth2ClientService))
+                        .successHandler(oauth2SuccessHandler)
+                );
 
         //나중에 배포할 때 수정(모든 곳에 혀용되지 않도록)
         http.
                 authorizeHttpRequests((auth) -> auth
-                        .requestMatchers("/login", "/", "/signup").permitAll()
+                        .requestMatchers("/login", "/", "/signup","/swagger-ui/**" ,"/v3/api-docs/**").permitAll()
                         .requestMatchers("/admin").hasRole("ADMIN")
                         .requestMatchers("/hello").hasRole("USER")
-                        //.anyRequest().authenticated()
-                        .anyRequest().permitAll()
+                        .anyRequest().authenticated()
+                        //.anyRequest().permitAll()
                 );
 
         http.
-                addFilterAt(new LoginFilter(authenticationManager(authenticationConfiguration),objectMapper,jwtUtil), UsernamePasswordAuthenticationFilter.class);
+                addFilterAt(new LoginFilter(authenticationManager(authenticationConfiguration),objectMapper,jwtUtil,refreshTokenService), UsernamePasswordAuthenticationFilter.class);
 
+//        http
+//                .addFilterAfter(new JWTFilter(jwtUtil,clientDetailsService,refreshTokenService), OAuth2LoginAuthenticationFilter.class);
         http
-                .addFilterBefore(new JWTFilter(jwtUtil,clientDetailsService), LoginFilter.class);
+                .addFilterBefore(new JWTFilter(jwtUtil,clientDetailsService,refreshTokenService), UsernamePasswordAuthenticationFilter.class);
+
+
         http.
                 sessionManagement((session) -> session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 
+        http.exceptionHandling(handler -> handler
+                .accessDeniedHandler(deniedHandler)
+                .authenticationEntryPoint(entryPoint)
+        );
+
         http
-                .cors((corsCustomizer -> corsCustomizer.configurationSource(new CorsConfigurationSource() {
+                .cors((corsCustomizer -> corsCustomizer.configurationSource(request -> {
 
-                    @Override
-                    public CorsConfiguration getCorsConfiguration(HttpServletRequest request) {
+                    CorsConfiguration configuration = new CorsConfiguration();
 
-                        CorsConfiguration configuration = new CorsConfiguration();
-
-                        configuration.setAllowedOrigins(Collections.singletonList("http://localhost:3000"));
-                        configuration.setAllowedMethods(Collections.singletonList("*"));
-                        configuration.setAllowCredentials(true);
-                        configuration.setAllowedHeaders(Collections.singletonList("*"));
-                        configuration.setMaxAge(3600L);
-
-                        configuration.setExposedHeaders(Collections.singletonList("Authorization"));
-
-                        return configuration;
-                    }
+                    configuration.setAllowedOrigins(Collections.singletonList("http://localhost:3000"));
+                    configuration.setAllowedMethods(Collections.singletonList("*"));
+                    configuration.setAllowCredentials(true);
+                    configuration.setAllowedHeaders(Collections.singletonList("*"));
+                    configuration.setMaxAge(3600L);
+                    configuration.setExposedHeaders(Collections.singletonList("Set-Cookie"));
+                    configuration.setExposedHeaders(Collections.singletonList("Authorization"));
+                    return configuration;
                 })));
 
         return http.build();
