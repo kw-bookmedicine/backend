@@ -1,12 +1,10 @@
 package kr.KWGraduate.BookPharmacy.jwt.oauth2;
 
 import jakarta.servlet.ServletException;
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import kr.KWGraduate.BookPharmacy.dto.oauth2.CustomOauth2Client;
 import kr.KWGraduate.BookPharmacy.dto.token.TokenDto;
-import kr.KWGraduate.BookPharmacy.jwt.CookieType;
 import kr.KWGraduate.BookPharmacy.jwt.JWTUtil;
 import kr.KWGraduate.BookPharmacy.service.redis.RefreshTokenService;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +18,7 @@ import java.io.IOException;
 import java.util.Collection;
 import java.util.Iterator;
 
+import static kr.KWGraduate.BookPharmacy.config.Domain.*;
 import static kr.KWGraduate.BookPharmacy.jwt.CookieType.Authorization;
 import static kr.KWGraduate.BookPharmacy.jwt.CookieType.Refresh;
 
@@ -46,13 +45,11 @@ public class Oauth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         TokenDto token = jwtUtil.createJwt(username, role,"true");
 
         refreshTokenService.save(token,username);
-//        response.addCookie(CookieType.Authorization.createCookie(token.getAccessToken()));
-//        response.addCookie(CookieType.Refresh.createCookie(token.getRefreshToken()));
-        response.setHeader(HttpHeaders.SET_COOKIE,Authorization.createCookie(token.getAccessToken()));
-        response.setHeader(HttpHeaders.SET_COOKIE, Refresh.createCookie(token.getRefreshToken()));
+        response.addHeader(HttpHeaders.SET_COOKIE,Authorization.createCookie(token.getAccessToken()));
+        response.addHeader(HttpHeaders.SET_COOKIE, Refresh.createCookie(token.getRefreshToken()));
 
         response.getWriter().write("success");
-        response.sendRedirect("https://localhost:3000/");
+        response.sendRedirect(FrontServer.getPresentAddress());
     }
 
 
