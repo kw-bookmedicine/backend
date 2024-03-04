@@ -37,7 +37,7 @@ public enum CookieType {
         }
 
         String accessCookie = ResponseCookie.from(Authorization.key,"")
-                .sameSite("Lax")
+                .sameSite("None")
                 .domain(FrontServer.getPresentDomain())
                 .maxAge(0)
                 .secure(true)
@@ -47,7 +47,7 @@ public enum CookieType {
                 .toString();
 
         String refreshCookie = ResponseCookie.from(Refresh.key,"")
-                .sameSite("Lax")
+                .sameSite("None")
                 .domain(FrontServer.getPresentDomain())
                 .maxAge(0)
                 .secure(true)
