@@ -96,11 +96,9 @@ public class JWTFilter extends OncePerRequestFilter {
 
         refreshTokenService.save(token, username);
 
-//        response.addCookie(Authorization.createCookie(token.getAccessToken()));
-//        response.addCookie(CookieType.Refresh.createCookie(token.getRefreshToken()));
 
-        response.setHeader(HttpHeaders.SET_COOKIE,Authorization.createCookie(token.getAccessToken()));
-        response.setHeader(HttpHeaders.SET_COOKIE, Refresh.createCookie(token.getRefreshToken()));
+        response.addHeader(HttpHeaders.SET_COOKIE,Authorization.createCookie(token.getAccessToken()));
+        response.addHeader(HttpHeaders.SET_COOKIE, Refresh.createCookie(token.getRefreshToken()));
 
         //jwtUtil쓰지말고 객체만들어서 반환 가능
         Authentication authToken = jwtUtil.getAuthentication(token.getAccessToken());

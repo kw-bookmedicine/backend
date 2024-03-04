@@ -93,11 +93,8 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
         TokenDto token = jwtUtil.createJwt(username, role,"false");
 
         refreshTokenService.save(token,username);
-        response.setHeader(HttpHeaders.SET_COOKIE,Authorization.createCookie(token.getAccessToken()));
-        response.setHeader(HttpHeaders.SET_COOKIE, Refresh.createCookie(token.getRefreshToken()));
-
-//        response.addCookie(CookieType.Authorization.createCookie(token.getAccessToken()));
-//        response.addCookie(CookieType.Refresh.createCookie(token.getRefreshToken()));
+        response.addHeader(HttpHeaders.SET_COOKIE,Authorization.createCookie(token.getAccessToken()));
+        response.addHeader(HttpHeaders.SET_COOKIE, Refresh.createCookie(token.getRefreshToken()));
         response.getWriter().write("success");
     }
 
