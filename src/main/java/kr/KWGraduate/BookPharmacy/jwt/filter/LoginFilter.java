@@ -13,6 +13,7 @@ import kr.KWGraduate.BookPharmacy.exception.status.AllException;
 import kr.KWGraduate.BookPharmacy.jwt.CookieType;
 import kr.KWGraduate.BookPharmacy.jwt.JWTUtil;
 import kr.KWGraduate.BookPharmacy.service.redis.RefreshTokenService;
+import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -26,6 +27,9 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.Collection;
 import java.util.Iterator;
+
+import static kr.KWGraduate.BookPharmacy.jwt.CookieType.Authorization;
+import static kr.KWGraduate.BookPharmacy.jwt.CookieType.Refresh;
 
 public class LoginFilter extends UsernamePasswordAuthenticationFilter {
 
@@ -89,9 +93,11 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
         TokenDto token = jwtUtil.createJwt(username, role,"false");
 
         refreshTokenService.save(token,username);
+        response.setHeader(HttpHeaders.SET_COOKIE,Authorization.createCookie(token.getAccessToken()));
+        response.setHeader(HttpHeaders.SET_COOKIE, Refresh.createCookie(token.getRefreshToken()));
 
-        response.addCookie(CookieType.Authorization.createCookie(token.getAccessToken()));
-        response.addCookie(CookieType.Refresh.createCookie(token.getRefreshToken()));
+//        response.addCookie(CookieType.Authorization.createCookie(token.getAccessToken()));
+//        response.addCookie(CookieType.Refresh.createCookie(token.getRefreshToken()));
         response.getWriter().write("success");
     }
 

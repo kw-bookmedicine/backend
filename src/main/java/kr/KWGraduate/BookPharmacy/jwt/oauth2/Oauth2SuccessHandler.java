@@ -10,6 +10,7 @@ import kr.KWGraduate.BookPharmacy.jwt.CookieType;
 import kr.KWGraduate.BookPharmacy.jwt.JWTUtil;
 import kr.KWGraduate.BookPharmacy.service.redis.RefreshTokenService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpHeaders;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
@@ -18,6 +19,9 @@ import org.springframework.stereotype.Component;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.Iterator;
+
+import static kr.KWGraduate.BookPharmacy.jwt.CookieType.Authorization;
+import static kr.KWGraduate.BookPharmacy.jwt.CookieType.Refresh;
 
 @Component
 @RequiredArgsConstructor
@@ -42,10 +46,13 @@ public class Oauth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         TokenDto token = jwtUtil.createJwt(username, role,"true");
 
         refreshTokenService.save(token,username);
-        response.addCookie(CookieType.Authorization.createCookie(token.getAccessToken()));
-        response.addCookie(CookieType.Refresh.createCookie(token.getRefreshToken()));
+//        response.addCookie(CookieType.Authorization.createCookie(token.getAccessToken()));
+//        response.addCookie(CookieType.Refresh.createCookie(token.getRefreshToken()));
+        response.setHeader(HttpHeaders.SET_COOKIE,Authorization.createCookie(token.getAccessToken()));
+        response.setHeader(HttpHeaders.SET_COOKIE, Refresh.createCookie(token.getRefreshToken()));
+
         response.getWriter().write("success");
-        response.sendRedirect("http://localhost:3000/");
+        response.sendRedirect("https://localhost:3000/");
     }
 
 
