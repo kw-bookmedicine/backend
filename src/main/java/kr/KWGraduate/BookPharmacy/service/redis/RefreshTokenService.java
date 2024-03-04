@@ -5,7 +5,6 @@ import kr.KWGraduate.BookPharmacy.entity.redis.RefreshToken;
 import kr.KWGraduate.BookPharmacy.exception.status.NoExistIdException;
 import kr.KWGraduate.BookPharmacy.repository.redis.RefreshTokenRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.boot.autoconfigure.data.redis.RedisProperties;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -18,8 +17,12 @@ public class RefreshTokenService {
                 .loginId(username)
                 .accessToken(token.getAccessToken())
                 .refreshToken(token.getRefreshToken())
+                .isLogout(false)
                 .build();
 
+        tokenRepository.save(refreshToken);
+    }
+    public void save(RefreshToken refreshToken){
         tokenRepository.save(refreshToken);
     }
     public RefreshToken findByUsername(String username){

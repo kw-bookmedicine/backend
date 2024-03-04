@@ -4,7 +4,6 @@ import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.JwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import kr.KWGraduate.BookPharmacy.dto.token.TokenDto;
@@ -67,6 +66,10 @@ public class JWTFilter extends OncePerRequestFilter {
             String isOauth = jwtUtil.isOauth(refreshTokenInfo);
 
             RefreshToken refreshToken = refreshTokenService.findByUsername(username);
+
+            if(refreshToken.isLogout()){
+                throw new JwtException("token is stilled");
+            }
 
             if(refreshToken.getAccessToken().equals(tokenInfo)){
                 //재발급
