@@ -1,6 +1,7 @@
 package kr.KWGraduate.BookPharmacy.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import kr.KWGraduate.BookPharmacy.jwt.CookieType;
 import kr.KWGraduate.BookPharmacy.jwt.JWTUtil;
 import kr.KWGraduate.BookPharmacy.jwt.filter.JWTFilter;
 import kr.KWGraduate.BookPharmacy.jwt.filter.LoginFilter;
@@ -70,9 +71,9 @@ public class SecurityConfig {
                 logout(logout ->{
                     logout.logoutUrl("/logout");
                     logout.addLogoutHandler(logoutHandler);
-                    logout.deleteCookies("Authorization","Refresh");
 
                     logout.logoutSuccessHandler(((request, response, authentication) -> {
+                        CookieType.deleteCookie(request,response);
                         SecurityContextHolder.clearContext();
                         response.getWriter().write("success");
                     }));
