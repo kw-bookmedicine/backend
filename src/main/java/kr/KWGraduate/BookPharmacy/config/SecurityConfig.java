@@ -17,12 +17,14 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.oauth2.client.web.OAuth2LoginAuthenticationFilter;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.logout.LogoutHandler;
 import org.springframework.web.cors.CorsConfiguration;
 
 import java.util.Collections;
@@ -43,6 +45,7 @@ public class SecurityConfig {
     private final Oauth2ClientService oauth2ClientService;
     private final Oauth2SuccessHandler oauth2SuccessHandler;
 
+    private final LogoutHandler logoutHandler;
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception{
         return authenticationConfiguration.getAuthenticationManager();
@@ -61,6 +64,19 @@ public class SecurityConfig {
                 formLogin(AbstractHttpConfigurer::disable);
         http.
                 httpBasic(AbstractHttpConfigurer::disable);
+
+        http.
+                logout(logout ->{
+                    logout.logoutUrl("/logout");
+                    logout.addLogoutHandler(logoutHandler);
+                    logout.deleteCookies("Authorization","Refresh");
+
+                    logout.logoutSuccessHandler(((request, response, authentication) -> {
+                        SecurityContextHolder.clearContext();
+                        response.getWriter().write("success");
+                    }));
+
+                });
 
         http.
                 oauth2Login((oauth2) -> oauth2
@@ -102,7 +118,7 @@ public class SecurityConfig {
 
                     CorsConfiguration configuration = new CorsConfiguration();
 
-                    configuration.setAllowedOrigins(Collections.singletonList("http://localhost:3000"));
+                    configuration.setAllowedOrigins(Collections.singletonList("https://localhost:3000"));
                     configuration.setAllowedMethods(Collections.singletonList("*"));
                     configuration.setAllowCredentials(true);
                     configuration.setAllowedHeaders(Collections.singletonList("*"));
