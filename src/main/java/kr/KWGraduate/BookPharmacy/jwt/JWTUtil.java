@@ -7,8 +7,11 @@ import jakarta.servlet.http.HttpServletRequest;
 import kr.KWGraduate.BookPharmacy.dto.oauth2.CustomOauth2Client;
 import kr.KWGraduate.BookPharmacy.dto.oauth2.Oauth2ClientDto;
 import kr.KWGraduate.BookPharmacy.dto.token.TokenDto;
+import kr.KWGraduate.BookPharmacy.entity.redis.RefreshToken;
 import kr.KWGraduate.BookPharmacy.service.ClientDetailsService;
+import kr.KWGraduate.BookPharmacy.service.redis.RefreshTokenService;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -29,17 +32,20 @@ public class JWTUtil {
 
     private ClientDetailsService clientDetailsService;
 
+    private final RefreshTokenService refreshTokenService;
     public JWTUtil(
             @Value("${spring.jwt.secret}") String secret,
             @Value("${spring.jwt.access-token-expiration}") long accessTokenExpiration,
             @Value("${spring.jwt.refresh-token-expiration}") long refreshTokenExpiration,
-            ClientDetailsService clientDetailsService) {
+            ClientDetailsService clientDetailsService,
+            RefreshTokenService refreshTokenService) {
 
         secretKey = new SecretKeySpec(secret.getBytes(StandardCharsets.UTF_8), Jwts.SIG.HS256.key().build().getAlgorithm());
         //암호화 방식은 Jwts.SIG.HS256
         ACCESS_TOKEN_EXPIRATION_TIME_SECOND = accessTokenExpiration;
         REFRESH_TOKEN_EXPIRATION_TIME_SECOND = refreshTokenExpiration;
         this.clientDetailsService = clientDetailsService;
+        this.refreshTokenService = refreshTokenService;
     }
     public String getUsername(String token){
         return Jwts.parser().verifyWith(secretKey).build().parseSignedClaims(token).getPayload().getSubject();
@@ -55,6 +61,13 @@ public class JWTUtil {
 //    }
 
     public Boolean validateToken(String token){
+        String username = getUsername(token);
+        RefreshToken refreshToken = refreshTokenService.findByUsername(username);
+
+        if(refreshToken.isLogout()){
+            throw new JwtException("token is stilled");
+        }
+
         Jwts.parser().verifyWith(secretKey).build().parseSignedClaims(token).getPayload();
         return true;
     }
@@ -111,8 +124,11 @@ public class JWTUtil {
 
     public String resolveCookie(HttpServletRequest request,String key){
 
-        String authorization = "";
+        String authorization = null;
         Cookie[] cookies = request.getCookies();
+        if(cookies == null){
+            throw new AccessDeniedException("there is no role");
+        }
 
         for(Cookie cookie : cookies){
             if (cookie.getName().equals(key)) {
@@ -120,7 +136,7 @@ public class JWTUtil {
             }
         }
         if (authorization == null) {
-            throw new JwtException("there is no authorization cookie");
+            throw new AccessDeniedException("there is no role");
         }
 
         return authorization;
