@@ -13,12 +13,16 @@ import kr.KWGraduate.BookPharmacy.jwt.JWTUtil;
 import kr.KWGraduate.BookPharmacy.service.ClientDetailsService;
 import kr.KWGraduate.BookPharmacy.service.redis.RefreshTokenService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpHeaders;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 import java.security.SignatureException;
+
+import static kr.KWGraduate.BookPharmacy.jwt.CookieType.Authorization;
+import static kr.KWGraduate.BookPharmacy.jwt.CookieType.Refresh;
 
 @RequiredArgsConstructor
 public class JWTFilter extends OncePerRequestFilter {
@@ -33,7 +37,7 @@ public class JWTFilter extends OncePerRequestFilter {
         String tokenInfo = "";
         try{
 
-            tokenInfo = jwtUtil.resolveCookie(request,CookieType.Authorization.name());
+            tokenInfo = jwtUtil.resolveCookie(request, Authorization.name());
 
             if(!jwtUtil.validateToken(tokenInfo)){
                 System.out.println("not valid");
@@ -92,8 +96,11 @@ public class JWTFilter extends OncePerRequestFilter {
 
         refreshTokenService.save(token, username);
 
-        response.addCookie(CookieType.Authorization.createCookie(token.getAccessToken()));
-        response.addCookie(CookieType.Refresh.createCookie(token.getRefreshToken()));
+//        response.addCookie(Authorization.createCookie(token.getAccessToken()));
+//        response.addCookie(CookieType.Refresh.createCookie(token.getRefreshToken()));
+
+        response.setHeader(HttpHeaders.SET_COOKIE,Authorization.createCookie(token.getAccessToken()));
+        response.setHeader(HttpHeaders.SET_COOKIE, Refresh.createCookie(token.getRefreshToken()));
 
         //jwtUtil쓰지말고 객체만들어서 반환 가능
         Authentication authToken = jwtUtil.getAuthentication(token.getAccessToken());
