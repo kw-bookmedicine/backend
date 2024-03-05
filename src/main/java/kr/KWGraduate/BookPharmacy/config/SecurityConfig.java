@@ -28,6 +28,7 @@ import org.springframework.security.web.authentication.logout.LogoutHandler;
 import org.springframework.web.cors.CorsConfiguration;
 
 import java.util.Collections;
+import java.util.List;
 
 import static kr.KWGraduate.BookPharmacy.config.Domain.*;
 
@@ -120,7 +121,7 @@ public class SecurityConfig {
 
                     CorsConfiguration configuration = new CorsConfiguration();
 
-                    configuration.setAllowedOrigins(Collections.singletonList(FrontServer.getPresentAddress()));
+                    configuration.setAllowedOrigins(List.of(FrontServer.getPresentAddress(),LocalHttps.getAddress()));
                     configuration.setAllowedMethods(Collections.singletonList("*"));
                     configuration.setAllowCredentials(true);
                     configuration.setAllowedHeaders(Collections.singletonList("*"));
