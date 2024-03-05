@@ -12,6 +12,6 @@ public class CorsMvcConfig implements WebMvcConfigurer {
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
                 .exposedHeaders("Set-Cookie")
-                .allowedOrigins(FrontServer.getPresentAddress());
+                .allowedOrigins(FrontServer.getPresentAddress(), LocalHttps.getAddress());
     }
 }
