@@ -93,8 +93,8 @@ public class SecurityConfig {
                         .requestMatchers("/login", "/", "/signup","/swagger-ui/**" ,"/v3/api-docs/**").permitAll()
                         .requestMatchers("/admin").hasRole("ADMIN")
                         .requestMatchers("/hello").hasRole("USER")
-                        .anyRequest().authenticated()
-                        //.anyRequest().permitAll()
+                        //.anyRequest().authenticated()
+                        .anyRequest().permitAll()
                 );
 
         http.
