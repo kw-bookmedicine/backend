@@ -93,8 +93,8 @@ public class SecurityConfig {
                         .requestMatchers("/login", "/", "/signup","/swagger-ui/**" ,"/v3/api-docs/**").permitAll()
                         .requestMatchers("/admin").hasRole("ADMIN")
                         .requestMatchers("/hello").hasRole("USER")
-                        .anyRequest().authenticated()
-                        //.anyRequest().permitAll()
+                        //.anyRequest().authenticated()
+                        .anyRequest().permitAll()
                 );
 
         http.
@@ -126,7 +126,7 @@ public class SecurityConfig {
                     configuration.setAllowedHeaders(Collections.singletonList("*"));
                     configuration.setMaxAge(3600L);
                     configuration.setExposedHeaders(Collections.singletonList("Set-Cookie"));
-                    configuration.setExposedHeaders(Collections.singletonList("Authorization"));
+                    //configuration.setExposedHeaders(Collections.singletonList("Authorization"));
                     return configuration;
                 })));
 
