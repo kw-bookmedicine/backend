@@ -2,21 +2,20 @@ package kr.KWGraduate.BookPharmacy.config;
 
 import lombok.Getter;
 
-@Getter
 public enum Domain {
-    LocalHttp("http://localhost:3000"), LocalHttps("https://localhost:3000"), FrontServer("https://www.bookpharmacy.store");
+    LocalHttp("http://localhost:3000",".localhost"), LocalHttps("https://localhost:3000",".localhost"), FrontServer("https://www.bookpharmacy.store",".bookpharmacy.store");
 
     private final String address;
-    private final String domain = ".localhost";
-    private final String serverDomain = ".bookpharmacy.store";
+    private final String domain;
 
-    private Domain(String address){
+    private Domain(String address, String domain){
         this.address = address;
+        this.domain = domain;
     }
     public String getPresentAddress(){
-        return FrontServer.getAddress();
+        return FrontServer.address;
     }
     public String getPresentDomain(){
-        return serverDomain;
+        return FrontServer.domain;
     }
 }

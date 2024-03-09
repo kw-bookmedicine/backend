@@ -1,6 +1,7 @@
 package kr.KWGraduate.BookPharmacy.entity;
 
 import jakarta.persistence.*;
+import kr.KWGraduate.BookPharmacy.dto.client.ClientUpdateDto;
 import lombok.*;
 
 import java.time.LocalDate;
@@ -103,10 +104,10 @@ public class Client extends BaseTimeEntity {
         }
     }
 
-    public void update(String password, String nickname,Occupation occupation){
-        this.setPassword(password);
-        this.setNickname(nickname);
-        this.setOccupation(occupation);
+    public void update(ClientUpdateDto clientUpdateDto){
+        this.setPassword(clientUpdateDto.getPassword());
+        this.setNickname(clientUpdateDto.getNickname());
+        this.setOccupation(clientUpdateDto.getOccupation());
     }
 
 }

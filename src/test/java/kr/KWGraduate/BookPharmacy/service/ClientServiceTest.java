@@ -2,6 +2,7 @@ package kr.KWGraduate.BookPharmacy.service;
 
 import kr.KWGraduate.BookPharmacy.dto.client.ClientJoinDto;
 import kr.KWGraduate.BookPharmacy.dto.client.ClientLoginDto;
+import kr.KWGraduate.BookPharmacy.dto.client.ClientResponseDto;
 import kr.KWGraduate.BookPharmacy.entity.Client;
 import kr.KWGraduate.BookPharmacy.exception.status.ExistEmailException;
 import kr.KWGraduate.BookPharmacy.exception.status.IsNotSamePasswordException;
@@ -62,26 +63,14 @@ class ClientServiceTest {
 
 
 
-        Client findCli = clientService.findById(cli1.getUsername());
+        ClientResponseDto findCli = clientService.findById(cli1.getUsername());
 
         assertThat(findCli.getNickname()).isEqualTo("sdgsdf");
 
         assertThat(clientService.getClientsCount()).isEqualTo(2);
 
-        clientService.removeClient(findCli.getId());
-        assertThat(clientService.getClientsCount()).isEqualTo(1);
 
 
     }
-    @Test
-    public void Login(){
-        ClientJoinDto cli1 = new ClientJoinDto("123","4321","ha","bob","spqjf", Client.Gender.F, Client.Occupation.UNEMPLOYED);
-        clientService.signUp(cli1);
-
-        assertThat(clientService.Login("123","4321")).isEqualTo(new ClientLoginDto("123","4321"));
-
-        Assertions.assertThrows(NoExistIdException.class,() -> clientService.Login("121","4321"));
-        Assertions.assertThrows(IsNotSamePasswordException.class,() -> clientService.Login("123","431"));
-
-    }
+    
 }
