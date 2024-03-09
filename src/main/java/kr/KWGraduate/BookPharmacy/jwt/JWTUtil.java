@@ -4,8 +4,8 @@ import io.jsonwebtoken.*;
 
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
-import kr.KWGraduate.BookPharmacy.dto.oauth2.CustomOauth2Client;
-import kr.KWGraduate.BookPharmacy.dto.oauth2.Oauth2ClientDto;
+import kr.KWGraduate.BookPharmacy.dto.client.oauth2.CustomOauth2Client;
+import kr.KWGraduate.BookPharmacy.dto.client.oauth2.Oauth2ClientDto;
 import kr.KWGraduate.BookPharmacy.dto.token.TokenDto;
 import kr.KWGraduate.BookPharmacy.entity.redis.RefreshToken;
 import kr.KWGraduate.BookPharmacy.service.ClientDetailsService;
