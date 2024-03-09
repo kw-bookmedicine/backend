@@ -1,4 +1,4 @@
-package kr.KWGraduate.BookPharmacy.dto.oauth2;
+package kr.KWGraduate.BookPharmacy.dto.client.oauth2;
 
 public interface Oauth2Response {
     //ex) naver, google
