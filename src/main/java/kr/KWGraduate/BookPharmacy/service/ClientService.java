@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -72,11 +73,15 @@ public class ClientService {
         clientRepository.deleteById(id);
     }
 
-    public Client findById(String id){
-        return clientRepository.findById(id).orElseThrow(() -> new NoExistIdException("id가 존재하지 않음"));
+    public ClientResponseDto findById(String id){
+        return clientRepository.findById(id)
+                .map(ClientResponseDto::toDto)
+                .orElseThrow(() -> new NoExistIdException("id 없음"));
     }
-    public List<Client> findAll(){
-        return clientRepository.findAll();
+    public List<ClientResponseDto> findAll(){
+        return clientRepository.findAll().stream()
+                .map(ClientResponseDto::toDto)
+                .collect(Collectors.toList());
     }
 
     public Long getClientsCount(){
