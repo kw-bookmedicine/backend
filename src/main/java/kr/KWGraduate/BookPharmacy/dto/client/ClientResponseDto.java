@@ -1,4 +1,4 @@
-package kr.KWGraduate.BookPharmacy.dto;
+package kr.KWGraduate.BookPharmacy.dto.client;
 
 import kr.KWGraduate.BookPharmacy.entity.Client;
 import lombok.Builder;
@@ -7,9 +7,7 @@ import lombok.Data;
 @Data
 public class ClientDto {
 
-    private Long id;
     private String loginId;
-    private String password;
     private String name;
     private String nickname;
     private String email;

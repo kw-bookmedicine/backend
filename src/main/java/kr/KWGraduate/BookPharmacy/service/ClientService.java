@@ -1,24 +1,20 @@
 package kr.KWGraduate.BookPharmacy.service;
 
-import kr.KWGraduate.BookPharmacy.dto.ClientDto;
 import kr.KWGraduate.BookPharmacy.dto.client.AuthenticationAdapter;
 import kr.KWGraduate.BookPharmacy.dto.client.ClientJoinDto;
-import kr.KWGraduate.BookPharmacy.dto.client.ClientLoginDto;
+import kr.KWGraduate.BookPharmacy.dto.client.ClientResponseDto;
 import kr.KWGraduate.BookPharmacy.dto.client.ClientUpdateDto;
 import kr.KWGraduate.BookPharmacy.entity.Client;
 import kr.KWGraduate.BookPharmacy.exception.status.*;
 import kr.KWGraduate.BookPharmacy.repository.ClientRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.parameters.P;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -51,9 +47,7 @@ public class ClientService {
     }
     @Transactional
     public void updateClient(ClientUpdateDto clientUpdateDto){
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        AuthenticationAdapter principal = (AuthenticationAdapter)authentication.getPrincipal();
-        String username = principal.getUsername();
+        String username = getUsername();
 
         Client client = clientRepository.findByLoginId(username).get();
         clientUpdateDto.setPassword((bCryptPasswordEncoder.encode(clientUpdateDto.getPassword())));
@@ -79,5 +73,10 @@ public class ClientService {
         return clientRepository.count();
     }
 
-
+    private String getUsername() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        AuthenticationAdapter principal = (AuthenticationAdapter)authentication.getPrincipal();
+        String username = principal.getUsername();
+        return username;
+    }
 }
