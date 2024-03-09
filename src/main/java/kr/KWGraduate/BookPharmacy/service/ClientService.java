@@ -55,6 +55,12 @@ public class ClientService {
         client.update(clientUpdateDto);
 
     }
+    public ClientResponseDto getClient(){
+        String username = getUsername();
+
+        Client client = clientRepository.findByLoginId(username).get();
+        return ClientResponseDto.toDto(client);
+    }
 
 
     @Transactional
@@ -76,7 +82,6 @@ public class ClientService {
     private String getUsername() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         AuthenticationAdapter principal = (AuthenticationAdapter)authentication.getPrincipal();
-        String username = principal.getUsername();
-        return username;
+        return principal.getUsername();
     }
 }
