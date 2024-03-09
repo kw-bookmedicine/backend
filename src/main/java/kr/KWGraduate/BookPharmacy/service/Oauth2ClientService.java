@@ -1,13 +1,15 @@
 package kr.KWGraduate.BookPharmacy.service;
 
-import kr.KWGraduate.BookPharmacy.dto.oauth2.*;
+import kr.KWGraduate.BookPharmacy.dto.client.oauth2.CustomOauth2Client;
+import kr.KWGraduate.BookPharmacy.dto.client.oauth2.NaverResponse;
+import kr.KWGraduate.BookPharmacy.dto.client.oauth2.Oauth2ClientDto;
+import kr.KWGraduate.BookPharmacy.dto.client.oauth2.Oauth2Response;
 import kr.KWGraduate.BookPharmacy.entity.Client;
 import kr.KWGraduate.BookPharmacy.repository.ClientRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
-import org.springframework.security.oauth2.core.endpoint.OAuth2AuthorizationResponse;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 

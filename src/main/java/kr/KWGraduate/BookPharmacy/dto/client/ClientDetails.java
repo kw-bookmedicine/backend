@@ -8,7 +8,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.ArrayList;
 import java.util.Collection;
 
-public class ClientDetails implements UserDetails {
+public class ClientDetails implements UserDetails , AuthenticationAdapter {
 
     private final Client client;
 

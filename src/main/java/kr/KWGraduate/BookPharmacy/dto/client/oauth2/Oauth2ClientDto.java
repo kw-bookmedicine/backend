@@ -1,4 +1,4 @@
-package kr.KWGraduate.BookPharmacy.dto.oauth2;
+package kr.KWGraduate.BookPharmacy.dto.client.oauth2;
 
 import lombok.Builder;
 import lombok.Data;

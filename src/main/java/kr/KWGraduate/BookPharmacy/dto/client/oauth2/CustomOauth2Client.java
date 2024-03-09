@@ -1,5 +1,6 @@
-package kr.KWGraduate.BookPharmacy.dto.oauth2;
+package kr.KWGraduate.BookPharmacy.dto.client.oauth2;
 
+import kr.KWGraduate.BookPharmacy.dto.client.AuthenticationAdapter;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 import org.springframework.security.core.GrantedAuthority;
@@ -11,7 +12,7 @@ import java.util.Map;
 
 @RequiredArgsConstructor
 @ToString
-public class CustomOauth2Client implements OAuth2User {
+public class CustomOauth2Client implements OAuth2User, AuthenticationAdapter {
 
     private final Oauth2ClientDto oauth2ClientDto;
 
@@ -38,6 +39,7 @@ public class CustomOauth2Client implements OAuth2User {
         return oauth2ClientDto.getName();
     }
 
+    @Override
     public String getUsername(){
         return oauth2ClientDto.getUsername();
     }

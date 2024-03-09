@@ -3,7 +3,7 @@ package kr.KWGraduate.BookPharmacy.jwt.oauth2;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import kr.KWGraduate.BookPharmacy.dto.oauth2.CustomOauth2Client;
+import kr.KWGraduate.BookPharmacy.dto.client.oauth2.CustomOauth2Client;
 import kr.KWGraduate.BookPharmacy.dto.token.TokenDto;
 import kr.KWGraduate.BookPharmacy.jwt.JWTUtil;
 import kr.KWGraduate.BookPharmacy.service.redis.RefreshTokenService;
