@@ -4,6 +4,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import kr.KWGraduate.BookPharmacy.dto.client.ClientJoinDto;
 import kr.KWGraduate.BookPharmacy.dto.client.ClientLoginDto;
+import kr.KWGraduate.BookPharmacy.dto.client.ClientResponseDto;
 import kr.KWGraduate.BookPharmacy.dto.client.ClientUpdateDto;
 import kr.KWGraduate.BookPharmacy.service.ClientService;
 import lombok.RequiredArgsConstructor;
@@ -43,6 +44,12 @@ public class UserController {
     public ResponseEntity<String> update(@RequestBody ClientUpdateDto clientUpdateDto){
         clientService.updateClient(clientUpdateDto);
         return ResponseEntity.ok("success");
+    }
+
+    @Operation(summary = "본인의 회원정보 가져오기",description = "회원의 모든 정보 가져옴")
+    @GetMapping("/client")
+    public ResponseEntity<ClientResponseDto> getClient(){
+        return ResponseEntity.ok(clientService.getClient());
     }
 
 
