@@ -40,7 +40,7 @@ public class UserController {
     }
 
     @Operation(summary = "회원정보 수정" , description = "password, 닉네임, 직업 수정")
-    @PutMapping("/update")
+    @PutMapping("/client")
     public ResponseEntity<String> update(@RequestBody ClientUpdateDto clientUpdateDto){
         clientService.updateClient(clientUpdateDto);
         return ResponseEntity.ok("success");
@@ -51,6 +51,14 @@ public class UserController {
     public ResponseEntity<ClientResponseDto> getClient(){
         return ResponseEntity.ok(clientService.getClient());
     }
+
+    @Operation(summary = "회원정보 탈퇴", description = "회원 탈퇴")
+    @DeleteMapping("/client")
+    public ResponseEntity<String> cancellation(){
+        clientService.cancellation();
+        return ResponseEntity.ok("success");
+    }
+
 
 
 }

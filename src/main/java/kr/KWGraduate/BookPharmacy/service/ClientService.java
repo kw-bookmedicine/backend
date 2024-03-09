@@ -62,7 +62,11 @@ public class ClientService {
         return ClientResponseDto.toDto(client);
     }
 
-
+    @Transactional
+    public void cancellation(){
+        String username = getUsername();
+        clientRepository.deleteByLoginId(username);
+    }
     @Transactional
     public void removeClient(Long id){
         clientRepository.deleteById(id);

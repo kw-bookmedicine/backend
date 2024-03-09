@@ -24,4 +24,6 @@ public interface ClientRepository extends JpaRepository<Client,String> {
     Boolean existsByLoginId(String loginId);
 
     void deleteById(@Param("id")Long id);
+
+    void deleteByLoginId(@Param("loginId") String loginId);
 }
