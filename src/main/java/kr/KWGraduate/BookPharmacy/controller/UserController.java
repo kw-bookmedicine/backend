@@ -4,6 +4,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import kr.KWGraduate.BookPharmacy.dto.client.ClientJoinDto;
 import kr.KWGraduate.BookPharmacy.dto.client.ClientLoginDto;
+import kr.KWGraduate.BookPharmacy.dto.client.ClientUpdateDto;
 import kr.KWGraduate.BookPharmacy.service.ClientService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -34,6 +35,13 @@ public class UserController {
     @PostMapping("/signup")
     public ResponseEntity<String> signup(@RequestBody ClientJoinDto clientJoinDto){
         clientService.signUp(clientJoinDto);
+        return ResponseEntity.ok("success");
+    }
+
+    @Operation(summary = "회원정보 수정" , description = "password, 닉네임, 직업 수정")
+    @PutMapping("/update")
+    public ResponseEntity<String> update(@RequestBody ClientUpdateDto clientUpdateDto){
+        clientService.updateClient(clientUpdateDto);
         return ResponseEntity.ok("success");
     }
 
