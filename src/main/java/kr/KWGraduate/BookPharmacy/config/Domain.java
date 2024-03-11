@@ -2,6 +2,7 @@ package kr.KWGraduate.BookPharmacy.config;
 
 import lombok.Getter;
 
+@Getter
 public enum Domain {
     LocalHttp("http://localhost:3000",".localhost"), LocalHttps("https://localhost:3000",".localhost"), FrontServer("https://www.bookpharmacy.store",".bookpharmacy.store");
 
