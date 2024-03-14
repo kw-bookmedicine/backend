@@ -11,6 +11,7 @@ import java.time.LocalDateTime;
 @Data
 public class FeedDto {
 
+    private Long feedId;
     private String bookTitle;
     private String bookAuthor;
     private String bookPublishYear;
@@ -26,7 +27,8 @@ public class FeedDto {
     }
 
     @Builder
-    public FeedDto(String bookTitle, String bookAuthor, String bookPublishYear, String bookIsbn, String clientNickname, String comment, float rating, LocalDateTime registerDateTime, LocalDateTime lastModifiedDate) {
+    public FeedDto(Long feedId, String bookTitle, String bookAuthor, String bookPublishYear, String bookIsbn, String clientNickname, String comment, float rating, LocalDateTime registerDateTime, LocalDateTime lastModifiedDate) {
+        this.feedId = feedId;
         this.bookTitle = bookTitle;
         this.bookAuthor = bookAuthor;
         this.bookPublishYear = bookPublishYear;
@@ -53,6 +55,7 @@ public class FeedDto {
     }
 
     public FeedDto setFeedAttr(Feed feed) {
+        this.feedId = feed.getId();
         this.comment = feed.getComment();
         this.rating = Math.round(feed.getRating() * 10) / 10.0f; // 소수점 첫째 자리까지 반올림
         this.registerDateTime = feed.getCreatedDate();

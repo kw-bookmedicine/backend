@@ -74,20 +74,24 @@ public class FeedService {
     }
 
     /**
-     * FeedDto와 clientId를 전달받으면, FeedDto.isbn과 userId 통하여 피드를 수정
+     * FeedDto를 전달받으면, FeedDto.feedId를 통하여 피드를 수정
      */
-    public FeedDto updateFeed(FeedDto feedDto, String userId) {
+    public FeedDto updateFeed(FeedDto feedDto) {
 
-        String isbn = feedDto.getBookIsbn();
-        Optional<Feed> optional = feedRepository.findOptionalByLoginIdAndIsbn(userId, isbn);
+        Long feedId = feedDto.getFeedId();
+        Optional<Feed> optional = feedRepository.findById(feedId);
         Feed feed;
 
         if(optional.isEmpty()){
             feed = new Feed();
+            String isbn = feedDto.getBookIsbn();
+            String clientNickname = feedDto.getClientNickname();
+
             Book book = bookRepository.findOptionalByIsbn(isbn)
                     .orElseThrow(() -> new ResourceNotFoundException("book doesn't exist. -> isbn: " + isbn));
-            Client client = clientRepository.findByLoginId(userId)
-                    .orElseThrow(() -> new NoExistIdException("id doesn't exist. -> " + userId));
+            Client client = clientRepository.findByNickname(clientNickname)
+                    .orElseThrow(() -> new NoExistIdException("nickname doesn't exist. -> " + clientNickname));
+            // 연관관계 매핑
             feed.setClientAndBook(client, book);
         }else{
             feed = optional.get();
@@ -112,10 +116,10 @@ public class FeedService {
     /**
      * FeedDto와 clientId를 전달받으면, FeedDto.isbn과 userId 통하여 피드를 삭제(독서경험이 사라지면 안됨)
      */
-    public void deleteFeed(String isbn, String userId) {
+    public void deleteFeed(Long feedId) {
 
-        Feed feed = feedRepository.findOptionalByLoginIdAndIsbn(userId, isbn)
-                .orElseThrow(() -> new ResourceNotFoundException("feed doesn't exist. -> userId: " + userId + " isbn: " + isbn));
+        Feed feed = feedRepository.findById(feedId)
+                .orElseThrow(() -> new ResourceNotFoundException("feed doesn't exist."));
 
         float afterRating = 0;
         String afterComment = null;

@@ -73,7 +73,7 @@ class FeedServiceTest {
         feedDto.setComment("마음이 다시 바뀜");
         feedDto.setRating(3.0f);
 
-        FeedDto updatedFeedDto = feedService.updateFeed(feedDto, userId); // updateFeed 함수 마지막에 flush가 동작함
+        FeedDto updatedFeedDto = feedService.updateFeed(feedDto); // updateFeed 함수 마지막에 flush가 동작함
 
         //then
         Feed findFeed = feedRepository.findById(1L).get();
@@ -98,7 +98,7 @@ class FeedServiceTest {
         em.flush();
 
         //when
-        feedService.deleteFeed(isbn, userId);// updateFeed 함수 마지막에 flush가 동작함
+        feedService.deleteFeed(1L);// updateFeed 함수 마지막에 flush가 동작함
 
         //then
         Feed findFeed = feedRepository.findById(1L).get();
