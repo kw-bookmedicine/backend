@@ -33,7 +33,7 @@ public class FeedDto {
         this.bookIsbn = bookIsbn;
         this.clientNickname = clientNickname;
         this.comment = comment;
-        this.rating = rating;
+        this.rating = Math.round(rating * 10) / 10.0f; // 소수점 첫째 자리까지 반올림
         this.registerDateTime = registerDateTime;
         this.lastModifiedDate = lastModifiedDate;
     }
@@ -54,7 +54,7 @@ public class FeedDto {
 
     public FeedDto setFeedAttr(Feed feed) {
         this.comment = feed.getComment();
-        this.rating = feed.getRating();
+        this.rating = Math.round(feed.getRating() * 10) / 10.0f; // 소수점 첫째 자리까지 반올림
         this.registerDateTime = feed.getCreatedDate();
         this.lastModifiedDate = feed.getLastModifiedDate();
 

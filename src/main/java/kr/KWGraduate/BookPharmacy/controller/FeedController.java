@@ -14,6 +14,8 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/feeds")
 @RequiredArgsConstructor
@@ -75,4 +77,12 @@ public class FeedController {
         return (ResponseEntity) ResponseEntity.ok();
     }
 
+    @Operation(summary = "읽은 경험 한번에 추가하기")
+    @PostMapping("/experiences")
+    public ResponseEntity addReadingExperiences(List<String> isbnList, @RequestParam(name = "userId") String userId){
+
+        feedService.createMultipleExperience(isbnList, userId);
+
+        return (ResponseEntity) ResponseEntity.ok();
+    }
 }
