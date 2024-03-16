@@ -87,12 +87,12 @@ public interface BookRepository extends JpaRepository<Book, Long> {
 
     List<Book> findAllByIsbnIn(List<String> isbn);
 
-    /**
-     * 제목에 대한 검색 AND 키워드에 대한 검색 (리스트)
-     * @param keywordNameList
-     * @return
-     */
-    @Query("SELECT b FROM Book b JOIN FETCH b.bookKeywords bk JOIN FETCH bk.keywordItem ki " +
-            "WHERE b.bookKeywords.size = (SELECT COUNT(ki) FROM KeywordItem ki WHERE ki.name IN :names)")
-    List<Book> findPagingByTitleContainingAndKeywordContaining(@Param("names") List<String> keywordNameList);
+//    /**
+//     * 제목에 대한 검색 AND 키워드에 대한 검색 (리스트)
+//     * @param keywordNameList
+//     * @return
+//     */
+//    @Query("SELECT b FROM Book b JOIN FETCH b.bookKeywords bk JOIN FETCH bk.keywordItem ki " +
+//            "WHERE b.bookKeywords.size = (SELECT COUNT(ki) FROM KeywordItem ki WHERE ki.name IN :names)")
+//    List<Book> findPagingByTitleContainingAndKeywordContaining(@Param("names") List<String> keywordNameList);
 }
