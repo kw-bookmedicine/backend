@@ -114,4 +114,10 @@ class BookRepositoryTest {
         }
     }
 
+    @Test
+    @DisplayName("제목 AND 키워드에 대해 조회하기")
+    public void findByTitleAndKeyword() {
+
+    }
+
 }

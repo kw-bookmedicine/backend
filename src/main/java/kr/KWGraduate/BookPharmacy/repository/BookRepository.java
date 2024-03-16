@@ -81,4 +81,18 @@ public interface BookRepository extends JpaRepository<Book, Long> {
      */
     @Query("SELECT b FROM Book b WHERE LOWER(b.title) LIKE %:searchWord% OR LOWER(b.author) LIKE %:searchWord%")
     Page<Book> findPagingByTitleContainingOrAuthorContaining(@Param("searchWord") String searchWord, Pageable pageable);
+
+    @Query("select b from Book b join fetch b.feeds f where f.isRated = true")
+    List<Book> findBooksWithRatedFeeds();
+
+    List<Book> findAllByIsbnIn(List<String> isbn);
+
+//    /**
+//     * 제목에 대한 검색 AND 키워드에 대한 검색 (리스트)
+//     * @param keywordNameList
+//     * @return
+//     */
+//    @Query("SELECT b FROM Book b JOIN FETCH b.bookKeywords bk JOIN FETCH bk.keywordItem ki " +
+//            "WHERE b.bookKeywords.size = (SELECT COUNT(ki) FROM KeywordItem ki WHERE ki.name IN :names)")
+//    List<Book> findPagingByTitleContainingAndKeywordContaining(@Param("names") List<String> keywordNameList);
 }
