@@ -11,7 +11,7 @@ spring:
 
   datasource:
     driver-class-name: org.mariadb.jdbc.Driver
-#    url: jdbc:mariadb://localhost:20049/BOOK_PHARMACY_LOCAL
+#    url: jdbc:mariadb://localhost:20049/book_pharmacy
 #    username: root
 #    password: deokwon11@
 #    url: jdbc:mariadb://svc.sel5.cloudtype.app:32449/BOOK_PHARMACY

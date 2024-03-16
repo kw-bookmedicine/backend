@@ -32,9 +32,6 @@ class ClientServiceTest {
 
         clientService.signUp(cli1);
 
-
-
-
         assertThat(clientService.getClientsCount()).isEqualTo(1);
         clientService.signUp(cli2);
 

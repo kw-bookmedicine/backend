@@ -15,11 +15,11 @@ public class Feed extends BaseTimeEntity {
     @Column(name = "feed_id")
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "client_id")
     private Client client;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "book_id")
     private Book book;
 
@@ -37,6 +37,9 @@ public class Feed extends BaseTimeEntity {
     }
 
     public Feed() {
+        this.isRated = false;
+        this.comment = null;
+        this.rating = 0;
     }
 
     /**

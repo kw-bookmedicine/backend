@@ -1,7 +1,9 @@
 package kr.KWGraduate.BookPharmacy.service;
 
+import jakarta.annotation.PostConstruct;
 import kr.KWGraduate.BookPharmacy.dto.BookDto;
 import kr.KWGraduate.BookPharmacy.entity.Book;
+import kr.KWGraduate.BookPharmacy.entity.Feed;
 import kr.KWGraduate.BookPharmacy.repository.BookRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;

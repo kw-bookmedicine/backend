@@ -1,6 +1,7 @@
 package kr.KWGraduate.BookPharmacy.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 import java.util.ArrayList;
@@ -16,6 +17,7 @@ public class Book extends BaseTimeEntity {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "book_id")
     private Long id;
+    @NotNull
     private String isbn; // 일련번호
     private String title; // 책이름
     private String author; // 저자명
