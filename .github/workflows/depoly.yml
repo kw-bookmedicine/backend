@@ -69,7 +69,7 @@ jobs:
       run: |
         aws s3 cp \
         --region ap-northeast-2 \
-        ./spring-build.zip s3://backend-rex-bucket
+        ./spring-build.zip s3://bookpharmacy-backend-bucket
 
     - name: Code Deploy 배포 요청
       run: aws deploy create-deployment --application-name backend-deploy-group
