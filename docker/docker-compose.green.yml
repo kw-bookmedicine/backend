@@ -1,0 +1,7 @@
+#green
+services:
+  backend:
+    build: ..
+    ports:
+      - "8082:80"
+    container_name: spring-green
