@@ -72,7 +72,7 @@ jobs:
         ./spring-build.zip s3://bookpharmacy-backend-bucket
 
     - name: Code Deploy 배포 요청
-      run: aws deploy create-deployment --application-name backend-deploy-group
+      run: aws deploy create-deployment --application-name book-pharmacy-backend-codedeploy
         --deployment-config-name CodeDeployDefault.OneAtATime
-        --deployment-group-name backend-deploy-group
+        --deployment-group-name book-pharmacy-backend
         --s3-location bucket=backend-rex-bucket,bundleType=zip,key=spring-build.zip
