@@ -8,7 +8,7 @@ files:
   # 코드 파일의 소스 경로
   - source: /
     # 코드 파일의 대상 경로 -> /home/ubuntu/app 디렉토리로 파일을 복사한다.
-    destination: /home/ubuntu/app
+    destination: /home/ubuntu/app/
     # 대상 경로에 이미 파일이 존재하는 경우, 덮어쓰기를 허용할지 여부
     overwrite: yes
 
@@ -18,9 +18,9 @@ permissions:
   - object: /
     # 모든 파일 및 디렉토리를 의미
     pattern: "**"
-    # 파일 및 디렉토리의 소유자를 ec2-user로 설정
+    # 파일 및 디렉토리의 소유자를 ubuntu로 설정
     owner: ubuntu
-    # 파일 및 디렉토리의 그룹을 ec2-user로 설정
+    # 파일 및 디렉토리의 그룹을 ubuntu로 설정
     group: ubuntu
 
 # Deploy 전후에 실행할 스크립트 또는 명령에 관련된 설정
