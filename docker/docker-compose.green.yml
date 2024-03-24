@@ -1,7 +1,17 @@
 #green
 services:
   backend:
-    build: ..
+    build: .
     ports:
-      - "8082:80"
+      - "8082:8080"
     container_name: spring-green
+
+
+# 도커의 역할
+# blue 8081 green 8082
+# spring tomcat 8080 임
+
+
+
+#   Nginx   Docker
+# 80 -> 8082 -> 8080
