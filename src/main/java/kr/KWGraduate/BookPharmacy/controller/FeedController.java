@@ -76,7 +76,7 @@ public class FeedController {
         return (ResponseEntity) ResponseEntity.ok();
     }
 
-    @Operation(summary = "읽은 경험 한번에 추가하기 ")
+    @Operation(summary = "읽은 경험 한번에 추가하기")
     @PostMapping("/experiences")
     public ResponseEntity addReadingExperiences(List<String> isbnList, @RequestParam(name = "userId") String userId){
 
