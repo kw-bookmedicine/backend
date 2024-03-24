@@ -68,7 +68,7 @@ public class FeedController {
     }
 
     @Operation(summary = "feed를 삭제함 (삭제)", description = "요청 예)  /api/feeds/1")
-    @DeleteMapping("/{feedId}")
+    @DeleteMapping("/{feedId} ")
     public ResponseEntity deleteFeed(@PathVariable("feedId") Long feedId){
 
         feedService.deleteFeed(feedId);
