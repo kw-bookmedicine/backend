@@ -50,8 +50,6 @@ jobs:
     #
     # - name: Build with Gradle 8.5
     #   run: gradle build
-    - name: yml 파일확인
-      run: ls
 
     - name: zip file 생성
       run: |
