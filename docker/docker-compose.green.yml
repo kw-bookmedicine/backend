@@ -5,12 +5,12 @@ services:
     ports:
       - "8082:8080"
     container_name: spring-green
-
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
 
 # 도커의 역할
 # blue 8081 green 8082
 # spring tomcat 8080 임
-
 
 
 #   Nginx   Docker
