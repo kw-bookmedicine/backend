@@ -58,17 +58,17 @@ public class FeedController {
         return ResponseEntity.ok(result);
     }
 
-    @Operation(summary = "feed를 업데이트함 (등록, 수정)", description = "요청 예) /api/feeds?userId=sim")
+    @Operation(summary = "feed를 업데이트함 (등록, 수정)", description = "요청 예) /api/feeds/1")
     @PutMapping("/{feedId}")
     public ResponseEntity<FeedDto> updateFeed(FeedDto feedDto, @PathVariable("feedId") String feedId){
 
         FeedDto modifiedFeed = feedService.updateFeed(feedDto);
 
-        return ResponseEntity.ok(modifiedFeed);
+        return ResponseEntity.ok    (modifiedFeed);
     }
 
-    @Operation(summary = "feed를 삭제함 (삭제)", description = "요청 예) /api/feeds?userId=sim&isbn=1234-5678-9")
-    @DeleteMapping("/{feedId}")
+    @Operation(summary = "feed를 삭제함 (삭제)", description = "요청 예)  /api/feeds/1")
+    @DeleteMapping("/{feedId} ")
     public ResponseEntity deleteFeed(@PathVariable("feedId") Long feedId){
 
         feedService.deleteFeed(feedId);

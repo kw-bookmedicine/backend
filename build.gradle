@@ -11,6 +11,10 @@ java {
 	sourceCompatibility = '17'
 }
 
+jar {
+	enabled=false
+}
+
 configurations {
 	compileOnly {
 		extendsFrom annotationProcessor
@@ -19,6 +23,14 @@ configurations {
 
 repositories {
 	mavenCentral()
+}
+
+task copyPrivate(type: Copy) {
+	copy {
+		from './submodule-config'
+		include '*.yml'
+		into 'src/main/resources'
+	}
 }
 
 dependencies {
