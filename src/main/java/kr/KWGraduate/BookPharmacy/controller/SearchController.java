@@ -32,7 +32,7 @@ public class SearchController {
 
     @Operation(summary = "[모달]책제목에 검색어를 포함하는 book 리스트 6개 요청 <파라미터에서 target을 modal로 지정해야함>" +
             " 예시) /api/search/book?title=그림&target=modal")
-    @GetMapping(value = "/book")
+    @GetMapping(value = "/book", params = {"title", "target=modal"})
     public ResponseEntity<List<BookSearchDto>> getBookListByTitleOnModal(@RequestParam(name = "title") String searchWord){
 
         PageRequest pageRequest = PageRequest.of(0, 6, Sort.by("count").descending());
@@ -44,7 +44,7 @@ public class SearchController {
 
     @Operation(summary = "[모달]작가명에 검색어를 포함하는 book 리스트 6개 요청 <파라미터에서 target을 modal로 지정해야함>" +
             " 예시) /api/search/book?author=김&target=modal")
-    @GetMapping(value = "/book")
+    @GetMapping(value = "/book", params = {"author", "target=modal"})
     public ResponseEntity<List<BookSearchDto>> getBookListByAuthorOnModal(@RequestParam(name = "author") String searchWord){
 
         PageRequest pageRequest = PageRequest.of(0, 6, Sort.by("count").descending());
@@ -56,7 +56,7 @@ public class SearchController {
 
     @Operation(summary = "[페이지]책제목에 검색어를 포함하는 book 리스트 ?개 요청 <파라미터에서 target을 page로 지정해야함>" +
             " 예시) /api/search/book?title=그림&target=page&page=0&size=20")
-    @GetMapping(value = "/book")
+    @GetMapping(value = "/book", params = {"title", "target=page"})
     public ResponseEntity<List<BookDto>> getBookListByTitleOnPage(@RequestParam(name = "title") String searchWord,
                                                                   @RequestParam(name = "page") int page, @RequestParam(name = "size") int size){
 
@@ -69,7 +69,7 @@ public class SearchController {
 
     @Operation(summary = "[페이지]작가명에 검색어를 포함하는 book 리스트 ?개 요청 <파라미터에서 target을 page로 지정해야함>" +
             " 예시) /api/search/book?author=남해운&target=page&page=0&size=20")
-    @GetMapping(value = "/book")
+    @GetMapping(value = "/book", params = {"author", "target=page"})
     public ResponseEntity<List<BookDto>> getBookListByAuthorOnPage(@RequestParam(name = "author") String searchWord,
                                                                    @RequestParam(name = "page") int page, @RequestParam(name = "size") int size){
 
