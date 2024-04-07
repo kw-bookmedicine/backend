@@ -18,15 +18,15 @@ public interface BoardRepository extends JpaRepository<Board,Long> {
     Slice<Board> findByKeyword(Pageable pageable, @Param("keyword")Keyword keyword);
 
     //검색에 키워드까지 추가
-    @Query("select b from Board b join fetch b.client c where (b.title like %:title% or b.description like %:description%) and b.status = kr.KWGraduate.BookPharmacy.enums.Status.PRESCRIBING")
-    Slice<Board> findByTitleContainingOrDescriptionContaining(Pageable pageable,@Param("title") String title, @Param("description") String description);
+    @Query("select b from Board b join fetch b.client c where (b.title like %:searchKeyword% or b.description like %:searchKeyword%) and b.status = kr.KWGraduate.BookPharmacy.enums.Status.PRESCRIBING")
+    Slice<Board> findByTitleContainingOrDescriptionContaining(Pageable pageable,@Param("searchKeyword") String searchKeyword);
 
-    @Query("select b from Board b join fetch b.client c where c.id = :id")
-    Slice<Board> findByClientId(Pageable pageable, @Param("id") Long clientId);
+    @Query("select b from Board b join fetch b.client c where c.loginId = :loginId")
+    Slice<Board> findByUsername(Pageable pageable, @Param("loginId") String username);
 
 
-    @Query("select b from Board b join fetch b.client c where c.id = :id and b.status = :status")
-    Slice<Board> findByClientIdAndStatus(Pageable pageable, @Param("id") Long clientId, @Param("status")Status status);
+    @Query("select b from Board b join fetch b.client c where c.loginId = :loginId and b.status = :status")
+    Slice<Board> findByUsernameAndStatus(Pageable pageable, @Param("loginId") String username, @Param("status")Status status);
 
     void deleteById(Long id);
 }
