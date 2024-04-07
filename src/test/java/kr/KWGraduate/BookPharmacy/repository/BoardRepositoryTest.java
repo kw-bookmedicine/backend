@@ -42,7 +42,7 @@ class BoardRepositoryTest {
 //                .build();
 //        clientRepository.save(client);
 
-        Client client = clientRepository.findById(1L).get();
+        Client client = clientRepository.findByLoginId("sim").get();
 
         Board board1 = Board.builder()
                 .title("마음치료")
@@ -153,14 +153,14 @@ class BoardRepositoryTest {
             System.out.println(allBoard);
         }
 
-        for (Board board : boardRepository.findByClientIdAndStatus(pageRequest, 1L, Status.PRESCRIBING)) {
+        for (Board board : boardRepository.findByUsernameAndStatus(pageRequest, "sim", Status.PRESCRIBING)) {
             System.out.println(board);
         }
 
-        for (Board board : boardRepository.findByClientId(pageRequest, 1L)) {
+        for (Board board : boardRepository.findByUsername(pageRequest, "sim")) {
             System.out.println(board);
         }
-        for (Board board : boardRepository.findByTitleContainingOrDescriptionContaining(pageRequest,"마음","마음")) {
+        for (Board board : boardRepository.findByTitleContainingOrDescriptionContaining(pageRequest,"마음")) {
             System.out.println(board);
         }
 
