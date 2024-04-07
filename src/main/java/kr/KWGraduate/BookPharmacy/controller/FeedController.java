@@ -64,7 +64,7 @@ public class FeedController {
 
         FeedDto modifiedFeed = feedService.updateFeed(feedDto);
 
-        return ResponseEntity.ok(modifiedFeed);
+        return ResponseEntity.ok    (modifiedFeed);
     }
 
     @Operation(summary = "feed를 삭제함 (삭제)", description = "요청 예)  /api/feeds/1")
