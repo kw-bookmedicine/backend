@@ -13,8 +13,8 @@ public interface PrescriptionRepository extends JpaRepository<Prescription, Long
     @Query("select p from Prescription p join fetch p.board b where b.id = :id")
     Slice<Prescription> findByBoardId(Pageable pageable, @Param("id") Long boardId);
 
-    @Query("select p from Prescription p join fetch p.client c where c.id = :id")
-    Slice<Prescription> findByClientId(Pageable pageable, @Param("id") Long clientId);
+    @Query("select p from Prescription p join fetch p.client c where c.loginId = :loginId")
+    Slice<Prescription> findByUsername(Pageable pageable, @Param("loginId") String username);
 
 
     @Query("select b.id, count(p) from Prescription p join p.board b group by b.id")
