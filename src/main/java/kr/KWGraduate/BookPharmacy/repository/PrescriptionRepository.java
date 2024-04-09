@@ -20,5 +20,6 @@ public interface PrescriptionRepository extends JpaRepository<Prescription, Long
     @Query("select b.id, count(p) from Prescription p join p.board b where b.id in :boardIds group by b.id")
     List<Object[]> countByBoard(@Param("boardIds") List<Long> boardIds);
 
+
     void deleteById(Long id);
 }
