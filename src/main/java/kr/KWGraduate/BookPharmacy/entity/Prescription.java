@@ -9,6 +9,9 @@ import lombok.NoArgsConstructor;
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
+@Table(indexes = {
+        @Index(name = "prescription_created_date_index", columnList = "created_date")
+})
 public class Prescription extends BaseTimeEntity{
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "prescription_id")
@@ -26,9 +29,9 @@ public class Prescription extends BaseTimeEntity{
     @JoinColumn(name = "board_id")
     private Board board;
 
-    String title;
+    private String title;
 
-    String description;
+    private String description;
 
     @Builder
     public Prescription(Client client, Book book, Board board, String title, String description){

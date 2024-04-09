@@ -13,19 +13,21 @@ import java.util.List;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @ToString(of = {"id","loginId", "name", "nickname", "email"})
+@Table(indexes = {
+        @Index(name = "client_login_id_index", columnList = "login_id", unique = true),
+        @Index(name = "client_nickname_index", columnList = "nickname", unique = true),
+        @Index(name = "client_email_index", columnList = "email", unique = true)
+})
 public class Client extends BaseTimeEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "client_id")
     private Long id;
 
-    @Column(unique = true)
     private String loginId;
     private String password;
     private String name;
-    @Column(unique = true)
     private String nickname;
-    @Column(unique = true)
     private String email;
     private LocalDate birth;
     private String role;
