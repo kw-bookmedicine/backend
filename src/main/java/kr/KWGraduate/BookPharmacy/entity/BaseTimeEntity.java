@@ -26,4 +26,11 @@ public class BaseTimeEntity {
     public LocalDateTime getCreatedDate() {
         return createdDate;
     }
+
+    @PrePersist
+    public void onPersist() {
+        String customLocalDateTimeFormat = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+        LocalDateTime parsedCreatedDate = LocalDateTime.parse(customLocalDateTimeFormat, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+        this.createdDate = parsedCreatedDate;
+    }
 }
