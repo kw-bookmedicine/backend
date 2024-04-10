@@ -15,7 +15,7 @@ public class PrescriptionBoardPageDto {
     private String description;
     private LocalDateTime createdDate;
     private String nickname;
-    private String book_title;
+    private String bookTitle;
     private String author; // 저자명
     private String publishingHouse; // 출판사명
     private String publishYear; // 발행년도
@@ -28,7 +28,7 @@ public class PrescriptionBoardPageDto {
         this.description = prescription.getDescription();
         this.createdDate = prescription.getCreatedDate();
         this.nickname = prescription.getClient().getNickname();
-        this.book_title = prescription.getBook().getTitle();
+        this.bookTitle = prescription.getBook().getTitle();
         this.author = prescription.getBook().getAuthor();
         this.publishYear = prescription.getBook().getPublishYear();
         this.imageUrl = prescription.getBook().getImageUrl();
