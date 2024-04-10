@@ -8,6 +8,7 @@ import kr.KWGraduate.BookPharmacy.dto.FeedDto;
 import kr.KWGraduate.BookPharmacy.service.FeedService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
@@ -38,10 +39,10 @@ public class FeedController {
             "요청 예) /api/feeds/book?isbn=1234-5678-1&page=0&size=5")
     @GetMapping("/book")
     public ResponseEntity<Page<FeedDto>> getByBookAttr(@RequestParam(name ="isbn") String isbn,
-                                                        @Parameter(name = "page", description = "page는 기본 0부터 시작")
-                                            @PageableDefault(sort = "createdDate", direction = Sort.Direction.DESC) Pageable pageable){
+                                                        @RequestParam(name = "page") int page, @RequestParam(name = "size") int size){
 
-        Page<FeedDto> result = feedService.getFeedsPagingByIsbn(isbn, pageable);
+        PageRequest pageRequest = PageRequest.of(page, size, Sort.by("createdDate").descending());
+        Page<FeedDto> result = feedService.getFeedsPagingByIsbn(isbn, pageRequest);
 
         return ResponseEntity.ok(result);
     }
@@ -50,10 +51,10 @@ public class FeedController {
             "요청 예) /api/feeds?userId=sim&page=0&size=5")
     @GetMapping("")
     public ResponseEntity<Page<FeedDto>> getAllFeedsByUser(@RequestParam(name = "userId") String userId,
-                                                           @Parameter(name = "page", description = "page는 기본 0부터 시작")
-                                           @PageableDefault(sort = "createdDate", direction = Sort.Direction.DESC) Pageable pageable) {
+                                                           @RequestParam(name = "page") int page, @RequestParam(name = "size") int size) {
 
-        Page<FeedDto> result = feedService.getRatedFeedsPagingByUserId(userId, pageable);
+        PageRequest pageRequest = PageRequest.of(page, size, Sort.by("createdDate").descending());
+        Page<FeedDto> result = feedService.getRatedFeedsPagingByUserId(userId, pageRequest);
 
         return ResponseEntity.ok(result);
     }
