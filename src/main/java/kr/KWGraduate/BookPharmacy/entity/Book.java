@@ -16,7 +16,7 @@ import java.util.List;
         @Index(name = "book_isbn_index", columnList = "isbn", unique = true),
         @Index(name = "book_count_index", columnList = "count")
 })
-public class Book extends BaseTimeEntity {
+public class Book {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "book_id")
