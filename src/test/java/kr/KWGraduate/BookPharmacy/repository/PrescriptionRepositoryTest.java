@@ -63,6 +63,7 @@ class PrescriptionRepositoryTest {
         Board save1 = boardRepository.save(board2);
         Long boardId2 = save1.getId();
 
+
         Prescription prescription1 = Prescription.builder()
                 .board(board1)
                 .book(book)
@@ -182,6 +183,7 @@ class PrescriptionRepositoryTest {
 
         System.out.println("here");
         List<Object[]> objects = prescriptionRepository.countByBoard(List.of(boardId1, boardId2));
+
         for(var s : objects){
             System.out.println(s[0] +" "+ s[1]);
         }

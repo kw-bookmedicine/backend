@@ -58,9 +58,9 @@ public class SearchController {
             " 예시) /api/search/book?title=그림&target=page&page=0&size=20")
     @GetMapping(value = "/book", params = {"title", "target=page"})
     public ResponseEntity<List<BookDto>> getBookListByTitleOnPage(@RequestParam(name = "title") String searchWord,
-                                                                  @Parameter(name = "page", description = "page는 기본 0부터 시작") Pageable pageable){
+                                                                  @RequestParam(name = "page") int page, @RequestParam(name = "size") int size){
 
-        PageRequest pageRequest = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(),Sort.by("count").descending());
+        PageRequest pageRequest = PageRequest.of(page, size, Sort.by("count").descending());
 
         List<BookDto> bookDtoList = searchService.searchBookOnPageByTitleContainingSearchWord(searchWord, pageRequest);
 
@@ -71,9 +71,9 @@ public class SearchController {
             " 예시) /api/search/book?author=남해운&target=page&page=0&size=20")
     @GetMapping(value = "/book", params = {"author", "target=page"})
     public ResponseEntity<List<BookDto>> getBookListByAuthorOnPage(@RequestParam(name = "author") String searchWord,
-                                                                  @Parameter(name = "page", description = "page는 기본 0부터 시작") Pageable pageable){
+                                                                   @RequestParam(name = "page") int page, @RequestParam(name = "size") int size){
 
-        PageRequest pageRequest = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(),Sort.by("count").descending());
+        PageRequest pageRequest = PageRequest.of(page, size, Sort.by("count").descending());
 
         List<BookDto> bookDtoList = searchService.searchBookOnPageByAuthorContainingSearchWord(searchWord, pageRequest);
 
