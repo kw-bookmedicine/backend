@@ -40,11 +40,11 @@ public class Book extends BaseTimeEntity {
     @OneToMany(mappedBy = "book", cascade = CascadeType.ALL)
     private List<BookKeyword> bookKeywords = new ArrayList<>();
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "big_category_id")
     private Categories bigCategory;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "middle_category_id")
     private Categories middleCategory;
 
