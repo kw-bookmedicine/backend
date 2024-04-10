@@ -12,6 +12,10 @@ import java.util.List;
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @ToString(of = {"isbn", "title", "author", "bigCategory", "middleCategory", "imageUrl", "count"})
+@Table(indexes = {
+        @Index(name = "book_isbn_index", columnList = "isbn", unique = true),
+        @Index(name = "book_count_index", columnList = "count")
+})
 public class Book extends BaseTimeEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
