@@ -1,10 +1,7 @@
 package kr.KWGraduate.BookPharmacy.entity;
 
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -12,6 +9,7 @@ import lombok.NoArgsConstructor;
 @Table(indexes = {
         @Index(name = "prescription_created_date_index", columnList = "created_date")
 })
+@ToString(of = {"id" , "title" , "description"})
 public class Prescription extends BaseTimeEntity{
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "prescription_id")
