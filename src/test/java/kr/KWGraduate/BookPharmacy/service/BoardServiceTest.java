@@ -65,7 +65,7 @@ class BoardServiceTest {
                 .title("마음치료")
                 .client(client)
                 .description("asdf")
-                .keyword(Keyword.Economy)
+                .keyword(Keyword.Economy_Management)
                 .build();
 
         Board board2 = Board.builder()
@@ -93,7 +93,7 @@ class BoardServiceTest {
                 .title("마음 치료")
                 .client(client)
                 .description("도와줄게")
-                .keyword(Keyword.Economy)
+                .keyword(Keyword.Economy_Management)
                 .build();
 
         Board board6 = Board.builder()
@@ -107,7 +107,7 @@ class BoardServiceTest {
                 .title("마음 치료")
                 .client(client)
                 .description("도와줄게")
-                .keyword(Keyword.Economy)
+                .keyword(Keyword.Economy_Management)
                 .build();
         board7.setStatus(Status.PRESCRIBED);
 
@@ -140,7 +140,7 @@ class BoardServiceTest {
                 .title("마음 치료")
                 .client(client)
                 .description("도와줄게")
-                .keyword(Keyword.Economy)
+                .keyword(Keyword.Economy_Management)
                 .build();
         board11.setStatus(Status.PRESCRIBED);
 
@@ -261,6 +261,16 @@ class BoardServiceTest {
         prescriptionRepository.saveAll(list);
 
     }
+    @Test
+    void newTest(){
+        for (Board board : boardRepository.findByUsername(pageRequest, "sim")) {
+            for (var s : board.getQuesAndDis()) {
+                System.out.println(s.getQuestion());
+                System.out.println(s.getDistractor());
+            }
+        }
+
+    }
 
 
     @Test
@@ -273,7 +283,7 @@ class BoardServiceTest {
 
     @Test
     void test2(){
-        for (BoardConcernPageDto board : boardService.getBoards(pageRequest, Keyword.Economy)) {
+        for (BoardConcernPageDto board : boardService.getBoards(pageRequest, Keyword.Economy_Management)) {
             System.out.println(board);
         }
 
@@ -320,7 +330,7 @@ class BoardServiceTest {
         BoardCreateDto board = BoardCreateDto.builder()
                 .title("게시판")
                 .description("설명")
-                .keyword(Keyword.Economy)
+                .keyword(Keyword.Economy_Management)
                 .build();
 
         Long boardId = boardService.createBoard(board, userDetails);

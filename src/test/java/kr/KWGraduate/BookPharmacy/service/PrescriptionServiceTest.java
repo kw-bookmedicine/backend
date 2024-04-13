@@ -62,7 +62,7 @@ class PrescriptionServiceTest {
                 .title("마음치료")
                 .client(client)
                 .description("asdf")
-                .keyword(Keyword.Economy)
+                .keyword(Keyword.Economy_Management)
                 .build();
 
         Board board2 = Board.builder()
@@ -90,7 +90,7 @@ class PrescriptionServiceTest {
                 .title("마음 치료")
                 .client(client)
                 .description("도와줄게")
-                .keyword(Keyword.Economy)
+                .keyword(Keyword.Economy_Management)
                 .build();
 
         Board board6 = Board.builder()

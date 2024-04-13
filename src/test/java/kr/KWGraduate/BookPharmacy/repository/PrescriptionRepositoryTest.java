@@ -45,7 +45,7 @@ class PrescriptionRepositoryTest {
                 .title("마음치료")
                 .client(client)
                 .description("asdf")
-                .keyword(Keyword.Economy)
+                .keyword(Keyword.Economy_Management)
                 .build();
 
 
@@ -54,7 +54,7 @@ class PrescriptionRepositoryTest {
                 .title("게시판2")
                 .client(client)
                 .description("asdfㅁㄴㅇㄻㄴㅇㄹ")
-                .keyword(Keyword.Economy)
+                .keyword(Keyword.Economy_Management)
                 .build();
 
 
