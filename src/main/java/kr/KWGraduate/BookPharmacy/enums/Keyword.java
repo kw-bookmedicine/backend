@@ -1,25 +1,72 @@
 package kr.KWGraduate.BookPharmacy.enums;
 
+import kr.KWGraduate.BookPharmacy.constant.BoardKeywordQuestion;
+import kr.KWGraduate.BookPharmacy.constant.QuestionDistractor;
+import kr.KWGraduate.BookPharmacy.dto.question.QuesAndDis;
 import lombok.Getter;
+
+import java.util.List;
+import java.util.Map;
+
+import static kr.KWGraduate.BookPharmacy.constant.BoardKeywordQuestion.*;
+import static kr.KWGraduate.BookPharmacy.constant.QuestionDistractor.*;
 
 @Getter
 public enum Keyword {
-    Economy("돈이 없으세요?"),
-    Health("건강이 없으세요?"),
-    Children_Parenting("자녀이 없으세요?"),
-    Employment_Career("일자리가 없으세요?"),
-    Study_SelfImprovement("공부이 없으세요?"),
-    Relationships_Communication("관계이 없으세요?"),
-    Fiction_Essays("소설이 없으세요?"),
-    Philosophy("철학이 없으세요?"),
-    History("역사가 없으세요?"),
-    Science("과학이 없으세요?"),
-    Society("사회가 없으세요?"),
-    Hobbies("취미가 없으세요?");
 
-    private String question;
+    Economy_Management(List.of(
+            QuesAndDis.of(economyManagementQues1, economyManagementDistractor1),
+            QuesAndDis.of(economyManagementQues2, economyManagementDistractor2)
+    )),
+    Health(List.of(
+            QuesAndDis.of(healthQues1, healthDistractor1),
+            QuesAndDis.of(healthQues2, healthDistractor2)
+    )),
+    Children_Parenting(List.of(
+            QuesAndDis.of(childParentQues1, childParentDistractor1),
+            QuesAndDis.of(childParentQues2, childParentDistractor2)
+    )),
+    Employment_Career(List.of(
+            QuesAndDis.of(careerQues1, careerDistractor1),
+            QuesAndDis.of(careerQues2, careerDistractor2)
+    )),
+    Workbook_Examination(List.of(
+            QuesAndDis.of(workbookQues1, workbookDistractor1)
+    )),
+    Relationships_Communication(List.of(
+            QuesAndDis.of(relationQues1, relationDistractor1),
+            QuesAndDis.of(relationQues2, relationDistractor2)
+    )),
+    Fiction_Essays(List.of(
+            QuesAndDis.of(fictionQues1, fictionDistractor1),
+            QuesAndDis.of(fictionQues2, fictionDistractor2)
+    )),
+    Philosophy(List.of(
+            QuesAndDis.of(philosophyQues1, fictionDistractor1),
+            QuesAndDis.of(philosophyQues2, fictionDistractor2)
+    )),
+    History(List.of(
+            QuesAndDis.of(historyQues1, historyDistractor1),
+            QuesAndDis.of(historyQues2, historyDistractor2)
+    )),
+    Science_Math_Engineering(List.of(
+            QuesAndDis.of(scienceQues1, scienceDistractor1),
+            QuesAndDis.of(scienceQues2, scienceDistractor2)
+    )),
+    Society(List.of(
+            QuesAndDis.of(societyQues1, societyDistractor1),
+            QuesAndDis.of(societyQues2, societyDistractor2)
+    )),
+    Hobbies(List.of(QuesAndDis.of(hobbyQues1, hobbyDistractor1)));
 
-    Keyword(String question){
-        this.question = question;
+    private final List<QuesAndDis> quesAndDis;
+
+    private final List<String> commonQuestions
+            =List.of("공통 질문");
+
+    Keyword(List<QuesAndDis> quesAndDis){
+        this.quesAndDis = quesAndDis;
     }
 }
+
+
