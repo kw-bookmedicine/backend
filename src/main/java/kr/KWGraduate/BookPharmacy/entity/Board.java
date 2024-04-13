@@ -1,11 +1,13 @@
 package kr.KWGraduate.BookPharmacy.entity;
 
 import jakarta.persistence.*;
+import kr.KWGraduate.BookPharmacy.dto.question.QuesAndDis;
 import kr.KWGraduate.BookPharmacy.enums.Keyword;
 import kr.KWGraduate.BookPharmacy.enums.Status;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -54,5 +56,9 @@ public class Board extends BaseTimeEntity{
         this.description =description;
         this.keyword = keyword;
         this.status = Status.PRESCRIBING;
+    }
+
+    public List<QuesAndDis> getQuesAndDis(){
+        return keyword.getQuesAndDis();
     }
 }
