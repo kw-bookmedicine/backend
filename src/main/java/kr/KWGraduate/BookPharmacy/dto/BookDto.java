@@ -1,13 +1,14 @@
 package kr.KWGraduate.BookPharmacy.dto;
 
 import kr.KWGraduate.BookPharmacy.entity.Book;
-import kr.KWGraduate.BookPharmacy.entity.BookKeyword;
 import kr.KWGraduate.BookPharmacy.entity.KeywordItem;
 import lombok.Builder;
 import lombok.Data;
 
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static org.springframework.util.ClassUtils.CGLIB_CLASS_SEPARATOR;
 
 @Data
 public class BookDto {
@@ -23,7 +24,7 @@ public class BookDto {
     private String bigCategoryName; // 대분류명
     private String middleCategoryName; // 중분류명
     private String imageUrl; // 이미지 URL
-    private List<BookKeywordDto> bookKeywordList; // 키워드 리스트
+    private List<KeywordItemDto> keywordItemList; // 키워드 리스트
 
     public BookDto(Book book) {
         this.isbn = book.getIsbn();
@@ -37,14 +38,12 @@ public class BookDto {
         this.bigCategoryName = book.getBigCategory().getName();
         this.middleCategoryName = book.getMiddleCategory().getName();
         this.imageUrl = book.getImageUrl();
-        this.bookKeywordList = book.getBookKeywords().stream()
-                .map(bookKeyword -> new BookKeywordDto(bookKeyword))
-                .collect(Collectors.toList());
+
     }
 
     @Builder
     public BookDto(String isbn, String title, String author, String publishingHouse, String publicYear, String content, float rating, String mediaFlagNumber,
-                   String bigCategoryName, String middleCategoryName, String imageUrl, List<BookKeywordDto> bookKeywordList) {
+                   String bigCategoryName, String middleCategoryName, String imageUrl) {
         this.isbn = isbn;
         this.title = title;
         this.author = author;
@@ -56,15 +55,25 @@ public class BookDto {
         this.bigCategoryName = bigCategoryName;
         this.middleCategoryName = middleCategoryName;
         this.imageUrl = imageUrl;
-        this.bookKeywordList = bookKeywordList;
     }
 
     /**
-     * Book 리스트를 BookDto 리스트로 변환하는 함수  ---> 사용할 일이 없지 않을까..?
+     * Book 리스트를 BookDto 리스트로 변환하는 함수
      * */
     public static List<BookDto> toDtoList(List<Book> books){
         List<BookDto> bookDtoList = books.stream()
                 .map(book -> toDto(book))
+                .collect(Collectors.toList());
+
+        return bookDtoList;
+    }
+
+    /**
+     * Book 리스트를 BookDto 리스트로 변환하는 함수 (키워드 DTO도 필요한 경우 사용)
+     * */
+    public static List<BookDto> toDtoListWithKeywordDto(List<Book> books){
+        List<BookDto> bookDtoList = books.stream()
+                .map(book -> toDtoWithKeywordDto(book))
                 .collect(Collectors.toList());
 
         return bookDtoList;
@@ -77,6 +86,20 @@ public class BookDto {
         BookDto bookDto = new BookDto(book);
 
         return bookDto;
+    }
+
+    public static BookDto toDtoWithKeywordDto(Book book) {
+        BookDto bookDto = new BookDto(book);
+        List<KeywordItem> keywordItemList = book.getBookKeywords().stream().map(bookKeyword -> bookKeyword.getKeywordItem()).toList();
+        bookDto.setKeywordItemDto(keywordItemList);
+
+        return bookDto;
+    }
+
+
+
+    private void setKeywordItemDto(List<KeywordItem> keywordItemList){
+        this.keywordItemList = KeywordItemDto.toDtoList(keywordItemList);
     }
 
     /**

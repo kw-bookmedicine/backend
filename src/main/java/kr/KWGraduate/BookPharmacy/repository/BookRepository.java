@@ -40,7 +40,7 @@ public interface BookRepository extends JpaRepository<Book, Long> {
     /**
      * 중분류로 책 조회 ( 페이징 )
      */
-    @Query(value = "select b from Book b inner join b.middleCategory mc join fetch b.bigCategory bc where mc.name = :categoryName")
+    @Query(value = "select b from Book b join fetch b.middleCategory mc join fetch b.bigCategory bc where mc.name = :categoryName")
     Page<Book> findBookPagingByMiddleCategory(@Param("categoryName") String categoryName, Pageable pageable);
 
     /**
@@ -86,6 +86,10 @@ public interface BookRepository extends JpaRepository<Book, Long> {
     List<Book> findBooksWithRatedFeeds();
 
     List<Book> findAllByIsbnIn(List<String> isbn);
+
+
+    @Query("select b from Book b join fetch b.bookKeywords bk join fetch bk.keywordItem where b.isbn = :isbn")
+    Book findBookDetailWithKeywordByIsbn(String isbn);
 
 //    /**
 //     * 제목에 대한 검색 AND 키워드에 대한 검색 (리스트)

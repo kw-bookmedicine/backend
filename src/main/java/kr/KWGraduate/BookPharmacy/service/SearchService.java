@@ -43,7 +43,7 @@ public class SearchService {
         Page<Book> bookPageList = bookRepository.findPagingByTitleContaining(searchWord, pageable);
 
         List<Book> bookList = bookPageList.getContent();
-        List<BookDto> bookDtoList = BookDto.toDtoList(bookList);
+        List<BookDto> bookDtoList = BookDto.toDtoListWithKeywordDto(bookList);
 
         return bookDtoList;
     }
@@ -69,7 +69,7 @@ public class SearchService {
         Page<Book> bookPageList = bookRepository.findPagingByAuthorContaining(searchWord, pageable);
 
         List<Book> bookList = bookPageList.getContent();
-        List<BookDto> bookDtoList = BookDto.toDtoList(bookList);
+        List<BookDto> bookDtoList = BookDto.toDtoListWithKeywordDto(bookList);
 
         return bookDtoList;
     }
