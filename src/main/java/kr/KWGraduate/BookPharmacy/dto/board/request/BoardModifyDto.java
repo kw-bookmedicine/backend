@@ -1,6 +1,6 @@
 package kr.KWGraduate.BookPharmacy.dto.board.request;
 
-import kr.KWGraduate.BookPharmacy.enums.Keyword;
+import kr.KWGraduate.BookPharmacy.entity.Keyword;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;

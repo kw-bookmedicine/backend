@@ -2,8 +2,7 @@ package kr.KWGraduate.BookPharmacy.dto.board.request;
 
 import kr.KWGraduate.BookPharmacy.entity.Board;
 import kr.KWGraduate.BookPharmacy.entity.Client;
-import kr.KWGraduate.BookPharmacy.enums.Keyword;
-import kr.KWGraduate.BookPharmacy.enums.Status;
+import kr.KWGraduate.BookPharmacy.entity.Keyword;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;

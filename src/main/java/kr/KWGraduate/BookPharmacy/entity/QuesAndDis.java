@@ -1,4 +1,4 @@
-package kr.KWGraduate.BookPharmacy.dto.question;
+package kr.KWGraduate.BookPharmacy.entity;
 
 import lombok.Getter;
 

@@ -1,12 +1,9 @@
-package kr.KWGraduate.BookPharmacy.enums;
+package kr.KWGraduate.BookPharmacy.entity;
 
-import kr.KWGraduate.BookPharmacy.constant.BoardKeywordQuestion;
-import kr.KWGraduate.BookPharmacy.constant.QuestionDistractor;
-import kr.KWGraduate.BookPharmacy.dto.question.QuesAndDis;
+import kr.KWGraduate.BookPharmacy.entity.QuesAndDis;
 import lombok.Getter;
 
 import java.util.List;
-import java.util.Map;
 
 import static kr.KWGraduate.BookPharmacy.constant.BoardKeywordQuestion.*;
 import static kr.KWGraduate.BookPharmacy.constant.QuestionDistractor.*;
