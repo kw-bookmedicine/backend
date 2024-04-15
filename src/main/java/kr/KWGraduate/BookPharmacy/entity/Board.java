@@ -1,7 +1,6 @@
 package kr.KWGraduate.BookPharmacy.entity;
 
 import jakarta.persistence.*;
-import kr.KWGraduate.BookPharmacy.enums.Status;
 import lombok.*;
 
 @Entity
@@ -29,8 +28,6 @@ public class Board extends BaseTimeEntity{
     @Enumerated(EnumType.STRING)
     private Keyword keyword;
 
-    @Enumerated(EnumType.STRING)
-    private Status status;
 
 
     @Builder
@@ -39,18 +36,13 @@ public class Board extends BaseTimeEntity{
         this.title = title;
         this.description =description;
         this.keyword = keyword;
-        this.status = Status.PRESCRIBING;
     }
 
-    public void setStatus(Status status){
-        this.status = status;
-    }
 
     public void modifyBoard(String title, String description,Keyword keyword){
         this.title = title;
         this.description =description;
         this.keyword = keyword;
-        this.status = Status.PRESCRIBING;
     }
 
 }
