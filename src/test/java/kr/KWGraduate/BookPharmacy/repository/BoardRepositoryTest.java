@@ -3,7 +3,6 @@ package kr.KWGraduate.BookPharmacy.repository;
 import kr.KWGraduate.BookPharmacy.entity.Board;
 import kr.KWGraduate.BookPharmacy.entity.Client;
 import kr.KWGraduate.BookPharmacy.entity.Keyword;
-import kr.KWGraduate.BookPharmacy.enums.Status;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -87,7 +86,7 @@ class BoardRepositoryTest {
                 .description("도와줄게")
                 .keyword(Keyword.Economy_Management)
                 .build();
-        board7.setStatus(Status.PRESCRIBED);
+
 
 
         Board board8 = Board.builder()
@@ -96,7 +95,7 @@ class BoardRepositoryTest {
                 .description("나를 잡아")
                 .keyword(Keyword.Health)
                 .build();
-        board8.setStatus(Status.PRESCRIBED);
+
 
         Board board9 = Board.builder()
                 .title("이별의 극복")
@@ -104,7 +103,7 @@ class BoardRepositoryTest {
                 .description("나도 많이 아팠어")
                 .keyword(Keyword.Relationships_Communication)
                 .build();
-        board9.setStatus(Status.PRESCRIBED);
+
 
         Board board10 = Board.builder()
                 .title("여자친그ㅜ")
@@ -112,7 +111,7 @@ class BoardRepositoryTest {
                 .description("....")
                 .keyword(Keyword.Relationships_Communication)
                 .build();
-        board10.setStatus(Status.PRESCRIBING);
+
 
         Board board11 = Board.builder()
                 .title("마음 치료")
@@ -120,7 +119,7 @@ class BoardRepositoryTest {
                 .description("도와줄게")
                 .keyword(Keyword.Economy_Management)
                 .build();
-        board11.setStatus(Status.PRESCRIBED);
+
 
         Board board12 = Board.builder()
                 .title("마음이 너무 아파")
@@ -128,7 +127,7 @@ class BoardRepositoryTest {
                 .description("이하정 짜증나")
                 .keyword(Keyword.Relationships_Communication)
                 .build();
-        board12.setStatus(Status.PRESCRIBED);
+
 
         boardRepository.save(board1);
         boardRepository.save(board2);
@@ -148,9 +147,6 @@ class BoardRepositoryTest {
             System.out.println(allBoard);
         }
 
-        for (Board board : boardRepository.findByUsernameAndStatus(pageRequest, "sim", Status.PRESCRIBING)) {
-            System.out.println(board);
-        }
 
         for (Board board : boardRepository.findByUsername(pageRequest, "sim")) {
             System.out.println(board);

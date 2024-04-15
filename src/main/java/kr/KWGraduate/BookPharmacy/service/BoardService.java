@@ -9,7 +9,6 @@ import kr.KWGraduate.BookPharmacy.dto.client.AuthenticationAdapter;
 import kr.KWGraduate.BookPharmacy.entity.Board;
 import kr.KWGraduate.BookPharmacy.entity.Client;
 import kr.KWGraduate.BookPharmacy.entity.Keyword;
-import kr.KWGraduate.BookPharmacy.enums.Status;
 import kr.KWGraduate.BookPharmacy.repository.BoardRepository;
 import kr.KWGraduate.BookPharmacy.repository.ClientRepository;
 import kr.KWGraduate.BookPharmacy.repository.PrescriptionRepository;
@@ -102,9 +101,5 @@ public class BoardService {
                 .collect(Collectors.toList());
     }
 
-    public List<BoardMyPageDto> getMyBoards(Pageable pageable, Status status , AuthenticationAdapter authenticationAdapter){
-        Slice<Board> boards = boardRepository.findByUsernameAndStatus(pageable, authenticationAdapter.getUsername(), status);
-        return getBoardMyPageDtos(boards);
-    }
 
 }
