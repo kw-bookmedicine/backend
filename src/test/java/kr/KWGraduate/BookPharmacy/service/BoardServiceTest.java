@@ -10,7 +10,6 @@ import kr.KWGraduate.BookPharmacy.entity.Board;
 import kr.KWGraduate.BookPharmacy.entity.Client;
 import kr.KWGraduate.BookPharmacy.entity.Prescription;
 import kr.KWGraduate.BookPharmacy.entity.Keyword;
-import kr.KWGraduate.BookPharmacy.enums.Status;
 import kr.KWGraduate.BookPharmacy.repository.BoardRepository;
 import kr.KWGraduate.BookPharmacy.repository.ClientRepository;
 import kr.KWGraduate.BookPharmacy.repository.PrescriptionRepository;
@@ -99,7 +98,6 @@ class BoardServiceTest {
                 .description("도와줄게")
                 .keyword(Keyword.Economy_Management)
                 .build();
-        board7.setStatus(Status.PRESCRIBED);
 
 
         Board board8 = Board.builder()
@@ -108,7 +106,6 @@ class BoardServiceTest {
                 .description("나를 잡아")
                 .keyword(Keyword.Health)
                 .build();
-        board8.setStatus(Status.PRESCRIBED);
 
         Board board9 = Board.builder()
                 .title("이별의 극복")
@@ -116,7 +113,6 @@ class BoardServiceTest {
                 .description("나도 많이 아팠어")
                 .keyword(Keyword.Relationships_Communication)
                 .build();
-        board9.setStatus(Status.PRESCRIBED);
 
         Board board10 = Board.builder()
                 .title("여자친그ㅜ")
@@ -124,7 +120,6 @@ class BoardServiceTest {
                 .description("....")
                 .keyword(Keyword.Relationships_Communication)
                 .build();
-        board10.setStatus(Status.PRESCRIBING);
 
         Board board11 = Board.builder()
                 .title("마음 치료")
@@ -132,7 +127,6 @@ class BoardServiceTest {
                 .description("도와줄게")
                 .keyword(Keyword.Economy_Management)
                 .build();
-        board11.setStatus(Status.PRESCRIBED);
 
         Board board12 = Board.builder()
                 .title("마음이 너무 아파")
@@ -140,7 +134,6 @@ class BoardServiceTest {
                 .description("이하정 짜증나")
                 .keyword(Keyword.Relationships_Communication)
                 .build();
-        board12.setStatus(Status.PRESCRIBED);
 
         boardRepository.save(board1);
         boardRepository.save(board2);
@@ -254,7 +247,7 @@ class BoardServiceTest {
     @Test
     void newTest(){
         for (Board board : boardRepository.findByUsername(pageRequest, "sim")) {
-            for (var s : board.getQuesAndDis()) {
+            for (var s : board.getKeyword().getQuesAndDis()) {
                 System.out.println(s.getQuestion());
                 System.out.println(s.getDistractor());
             }
@@ -305,7 +298,7 @@ class BoardServiceTest {
 
         ClientDetails userDetails = new ClientDetails(client);
 
-        for (BoardMyPageDto board : boardService.getMyBoards(pageRequest, Status.PRESCRIBED, userDetails)) {
+        for (BoardMyPageDto board : boardService.getMyBoards(pageRequest, userDetails)) {
             System.out.println(board);
         }
     }
