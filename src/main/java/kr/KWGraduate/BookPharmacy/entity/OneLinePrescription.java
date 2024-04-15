@@ -24,4 +24,7 @@ public class OneLinePrescription extends BaseTimeEntity{
     private String title;
 
     private String description;
+
+    @Enumerated(EnumType.STRING)
+    private Keyword keyword;
 }
