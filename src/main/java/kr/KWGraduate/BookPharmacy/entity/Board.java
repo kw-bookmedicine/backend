@@ -1,11 +1,8 @@
 package kr.KWGraduate.BookPharmacy.entity;
 
 import jakarta.persistence.*;
-import kr.KWGraduate.BookPharmacy.enums.Keyword;
 import kr.KWGraduate.BookPharmacy.enums.Status;
 import lombok.*;
-
-import java.time.LocalDate;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -55,4 +52,5 @@ public class Board extends BaseTimeEntity{
         this.keyword = keyword;
         this.status = Status.PRESCRIBING;
     }
+
 }

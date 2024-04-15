@@ -8,7 +8,7 @@ import kr.KWGraduate.BookPharmacy.dto.board.response.BoardMyPageDto;
 import kr.KWGraduate.BookPharmacy.dto.client.AuthenticationAdapter;
 import kr.KWGraduate.BookPharmacy.entity.Board;
 import kr.KWGraduate.BookPharmacy.entity.Client;
-import kr.KWGraduate.BookPharmacy.enums.Keyword;
+import kr.KWGraduate.BookPharmacy.entity.Keyword;
 import kr.KWGraduate.BookPharmacy.enums.Status;
 import kr.KWGraduate.BookPharmacy.repository.BoardRepository;
 import kr.KWGraduate.BookPharmacy.repository.ClientRepository;
@@ -16,8 +16,6 @@ import kr.KWGraduate.BookPharmacy.repository.PrescriptionRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

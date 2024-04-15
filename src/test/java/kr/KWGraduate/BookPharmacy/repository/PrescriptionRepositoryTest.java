@@ -4,8 +4,7 @@ import kr.KWGraduate.BookPharmacy.entity.Board;
 import kr.KWGraduate.BookPharmacy.entity.Book;
 import kr.KWGraduate.BookPharmacy.entity.Client;
 import kr.KWGraduate.BookPharmacy.entity.Prescription;
-import kr.KWGraduate.BookPharmacy.enums.Keyword;
-import org.assertj.core.api.Assertions;
+import kr.KWGraduate.BookPharmacy.entity.Keyword;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -13,10 +12,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
 import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @Transactional
@@ -45,7 +41,7 @@ class PrescriptionRepositoryTest {
                 .title("마음치료")
                 .client(client)
                 .description("asdf")
-                .keyword(Keyword.Economy)
+                .keyword(Keyword.Economy_Management)
                 .build();
 
 
@@ -54,7 +50,7 @@ class PrescriptionRepositoryTest {
                 .title("게시판2")
                 .client(client)
                 .description("asdfㅁㄴㅇㄻㄴㅇㄹ")
-                .keyword(Keyword.Economy)
+                .keyword(Keyword.Economy_Management)
                 .build();
 
 

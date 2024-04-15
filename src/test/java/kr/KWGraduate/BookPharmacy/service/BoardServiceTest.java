@@ -1,39 +1,29 @@
 package kr.KWGraduate.BookPharmacy.service;
 
-import kr.KWGraduate.BookPharmacy.controller.UserController;
 import kr.KWGraduate.BookPharmacy.dto.board.request.BoardCreateDto;
 import kr.KWGraduate.BookPharmacy.dto.board.request.BoardModifyDto;
 import kr.KWGraduate.BookPharmacy.dto.board.response.BoardConcernPageDto;
 import kr.KWGraduate.BookPharmacy.dto.board.response.BoardDetailDto;
 import kr.KWGraduate.BookPharmacy.dto.board.response.BoardMyPageDto;
 import kr.KWGraduate.BookPharmacy.dto.client.ClientDetails;
-import kr.KWGraduate.BookPharmacy.dto.client.ClientLoginDto;
-import kr.KWGraduate.BookPharmacy.dto.token.TokenDto;
 import kr.KWGraduate.BookPharmacy.entity.Board;
 import kr.KWGraduate.BookPharmacy.entity.Client;
 import kr.KWGraduate.BookPharmacy.entity.Prescription;
-import kr.KWGraduate.BookPharmacy.enums.Keyword;
+import kr.KWGraduate.BookPharmacy.entity.Keyword;
 import kr.KWGraduate.BookPharmacy.enums.Status;
 import kr.KWGraduate.BookPharmacy.repository.BoardRepository;
 import kr.KWGraduate.BookPharmacy.repository.ClientRepository;
 import kr.KWGraduate.BookPharmacy.repository.PrescriptionRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static reactor.core.publisher.Mono.when;
 
 @SpringBootTest
@@ -65,7 +55,7 @@ class BoardServiceTest {
                 .title("마음치료")
                 .client(client)
                 .description("asdf")
-                .keyword(Keyword.Economy)
+                .keyword(Keyword.Economy_Management)
                 .build();
 
         Board board2 = Board.builder()
@@ -93,7 +83,7 @@ class BoardServiceTest {
                 .title("마음 치료")
                 .client(client)
                 .description("도와줄게")
-                .keyword(Keyword.Economy)
+                .keyword(Keyword.Economy_Management)
                 .build();
 
         Board board6 = Board.builder()
@@ -107,7 +97,7 @@ class BoardServiceTest {
                 .title("마음 치료")
                 .client(client)
                 .description("도와줄게")
-                .keyword(Keyword.Economy)
+                .keyword(Keyword.Economy_Management)
                 .build();
         board7.setStatus(Status.PRESCRIBED);
 
@@ -140,7 +130,7 @@ class BoardServiceTest {
                 .title("마음 치료")
                 .client(client)
                 .description("도와줄게")
-                .keyword(Keyword.Economy)
+                .keyword(Keyword.Economy_Management)
                 .build();
         board11.setStatus(Status.PRESCRIBED);
 
@@ -261,6 +251,16 @@ class BoardServiceTest {
         prescriptionRepository.saveAll(list);
 
     }
+    @Test
+    void newTest(){
+        for (Board board : boardRepository.findByUsername(pageRequest, "sim")) {
+            for (var s : board.getQuesAndDis()) {
+                System.out.println(s.getQuestion());
+                System.out.println(s.getDistractor());
+            }
+        }
+
+    }
 
 
     @Test
@@ -273,7 +273,7 @@ class BoardServiceTest {
 
     @Test
     void test2(){
-        for (BoardConcernPageDto board : boardService.getBoards(pageRequest, Keyword.Economy)) {
+        for (BoardConcernPageDto board : boardService.getBoards(pageRequest, Keyword.Economy_Management)) {
             System.out.println(board);
         }
 
@@ -320,7 +320,7 @@ class BoardServiceTest {
         BoardCreateDto board = BoardCreateDto.builder()
                 .title("게시판")
                 .description("설명")
-                .keyword(Keyword.Economy)
+                .keyword(Keyword.Economy_Management)
                 .build();
 
         Long boardId = boardService.createBoard(board, userDetails);

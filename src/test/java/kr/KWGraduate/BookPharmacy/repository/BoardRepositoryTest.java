@@ -2,19 +2,14 @@ package kr.KWGraduate.BookPharmacy.repository;
 
 import kr.KWGraduate.BookPharmacy.entity.Board;
 import kr.KWGraduate.BookPharmacy.entity.Client;
-import kr.KWGraduate.BookPharmacy.enums.Keyword;
+import kr.KWGraduate.BookPharmacy.entity.Keyword;
 import kr.KWGraduate.BookPharmacy.enums.Status;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
-import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.time.LocalDate;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @Transactional
@@ -48,7 +43,7 @@ class BoardRepositoryTest {
                 .title("마음치료")
                 .client(client)
                 .description("asdf")
-                .keyword(Keyword.Economy)
+                .keyword(Keyword.Economy_Management)
                 .build();
 
         Board board2 = Board.builder()
@@ -76,7 +71,7 @@ class BoardRepositoryTest {
                 .title("마음 치료")
                 .client(client)
                 .description("도와줄게")
-                .keyword(Keyword.Economy)
+                .keyword(Keyword.Economy_Management)
                 .build();
 
         Board board6 = Board.builder()
@@ -90,7 +85,7 @@ class BoardRepositoryTest {
                 .title("마음 치료")
                 .client(client)
                 .description("도와줄게")
-                .keyword(Keyword.Economy)
+                .keyword(Keyword.Economy_Management)
                 .build();
         board7.setStatus(Status.PRESCRIBED);
 
@@ -123,7 +118,7 @@ class BoardRepositoryTest {
                 .title("마음 치료")
                 .client(client)
                 .description("도와줄게")
-                .keyword(Keyword.Economy)
+                .keyword(Keyword.Economy_Management)
                 .build();
         board11.setStatus(Status.PRESCRIBED);
 
@@ -164,7 +159,7 @@ class BoardRepositoryTest {
             System.out.println(board);
         }
 
-        for (Board board : boardRepository.findByKeyword(pageRequest, Keyword.Economy)) {
+        for (Board board : boardRepository.findByKeyword(pageRequest, Keyword.Economy_Management)) {
             System.out.println(board);
         }
 

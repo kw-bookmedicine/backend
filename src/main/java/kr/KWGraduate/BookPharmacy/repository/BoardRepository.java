@@ -1,7 +1,7 @@
 package kr.KWGraduate.BookPharmacy.repository;
 
 import kr.KWGraduate.BookPharmacy.entity.Board;
-import kr.KWGraduate.BookPharmacy.enums.Keyword;
+import kr.KWGraduate.BookPharmacy.entity.Keyword;
 import kr.KWGraduate.BookPharmacy.enums.Status;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
