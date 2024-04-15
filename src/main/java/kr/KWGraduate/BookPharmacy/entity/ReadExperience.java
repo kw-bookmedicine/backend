@@ -23,6 +23,7 @@ public class ReadExperience extends BaseTimeEntity {
     @JoinColumn(name = "client_id")
     private Client client;
 
+    @Builder
     public ReadExperience(Book book, Client client){
         this.book = book;
         this.client = client;
