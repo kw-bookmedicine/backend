@@ -7,6 +7,7 @@ import lombok.*;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @ToString(of = {"name"})
+@Table(indexes = {@Index(name = "category_name_index", columnList = "name", unique = true)})
 public class Categories {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -1,16 +1,17 @@
 package kr.KWGraduate.BookPharmacy.entity;
 
 import jakarta.persistence.*;
-import kr.KWGraduate.BookPharmacy.enums.Keyword;
-import kr.KWGraduate.BookPharmacy.enums.Status;
 import lombok.*;
-
-import java.time.LocalDate;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @ToString(of = {"id" , "title","description","keyword","status"})
+@Table(indexes = {
+        @Index(name = "board_keyword_index", columnList = "keyword"),
+        @Index(name = "board_status_index", columnList = "status"),
+        @Index(name = "board_created_date_index", columnList = "created_date")
+})
 public class Board extends BaseTimeEntity{
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "board_id")
@@ -27,8 +28,6 @@ public class Board extends BaseTimeEntity{
     @Enumerated(EnumType.STRING)
     private Keyword keyword;
 
-    @Enumerated(EnumType.STRING)
-    private Status status;
 
 
     @Builder
@@ -37,17 +36,13 @@ public class Board extends BaseTimeEntity{
         this.title = title;
         this.description =description;
         this.keyword = keyword;
-        this.status = Status.PRESCRIBING;
     }
 
-    public void setStatus(Status status){
-        this.status = status;
-    }
 
     public void modifyBoard(String title, String description,Keyword keyword){
         this.title = title;
         this.description =description;
         this.keyword = keyword;
-        this.status = Status.PRESCRIBING;
     }
+
 }

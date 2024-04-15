@@ -10,6 +10,9 @@ import java.util.List;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @ToString(of = {"name", "count"})
+@Table(indexes = {
+        @Index(name = "keyword_count_index",columnList = "count")
+})
 public class KeywordItem {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)

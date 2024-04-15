@@ -45,8 +45,9 @@ public class BookController {
             "요청 예) /api/book/list/middle?name=한국소설&page=0&size=5")
     @GetMapping(value = "/list/middle")
     public ResponseEntity<List<BookDto>> getBookListByMiddleCategory(@RequestParam(name = "name") String middleCategoryName,
-                                                                     @Parameter(name = "page", description = "page는 기본 0부터 시작") Pageable pageable) {
-        List<BookDto> result = bookService.getBookListByMiddleCategory(middleCategoryName, pageable);
+                                                                     @RequestParam(name = "page") int page, @RequestParam(name = "size") int size) {
+        PageRequest pageRequest = PageRequest.of(page, size, Sort.by("count").descending());
+        List<BookDto> result = bookService.getBookListByMiddleCategory(middleCategoryName, pageRequest);
 
         return ResponseEntity.ok(result);
     }
@@ -58,7 +59,7 @@ public class BookController {
         List<Map<String, Object>> result = new ArrayList<>();
 
         // 페이징 사이즈를 10으로 할당
-        PageRequest pageRequest = PageRequest.of(0,8);
+        PageRequest pageRequest = PageRequest.of(0,10);
 
         // 대분류에 속하는 중분류들을 조회하고, 그 중분류들에 해당하는 책들 10권을 Map에 추가함
         List<CategoryDto> childCategories = categoryService.getChildCategory(bigCategoryName);
