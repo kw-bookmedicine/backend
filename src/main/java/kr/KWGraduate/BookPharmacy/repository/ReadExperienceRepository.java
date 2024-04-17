@@ -7,18 +7,27 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface ReadExperienceRepository extends JpaRepository<ReadExperience, Long> {
 
 
     /**
-     * 유저 정보로 읽은 경험 조회하기
+     * 유저 정보로 읽은 경험을 모두 조회하기
      * (나의 독서 경험 관리하기)에서 사용
      * (머신러닝 과정)에서 사용
      */
     @EntityGraph(attributePaths = {"book"})
     @Query("select re from ReadExperience re join fetch re.client c where c.loginId = :loginId")
-    List<ReadExperience> findByClientLoginId(@Param("loginId") String clientLoginId);
+    List<ReadExperience> findByLoginId(@Param("loginId") String clientLoginId);
+
+    /**
+     * 유저 정보와 책 정보로 조회하기
+     * (나의 독서 경험 관리하기)에서 사용
+     */
+    @Query("select re from ReadExperience re join fetch re.client c join fetch re.book b" +
+            " where c.loginId = :loginId and b.isbn = :bookIsbn")
+    Optional<ReadExperience> findByLoginIdAndBookIsbn(@Param("loginId") String clientLoginId, @Param("bookIsbn") String bookIsbn);
 
     /**
      * 책 isbn으로 읽은 경험 조회하기

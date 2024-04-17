@@ -11,6 +11,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.*;
@@ -52,16 +53,32 @@ class ReadExperienceRepositoryTest {
     }
 
     @Test
-    void findByClientLoginId() {
-        List<ReadExperience> result = readExperienceRepository.findByClientLoginId("kw_lsh_3717");
+    void 유저의_아이디로_조회하기() {
+        List<ReadExperience> result = readExperienceRepository.findByLoginId("kw_lsh_3717");
         assertThat(3).isEqualTo(result.size());
         assertThat(result.stream().map(exp -> exp.getBook().getTitle()).collect(Collectors.toList())).contains("title1", "title2", "title3");
     }
 
     @Test
-    void findByBookIsbn() {
+    void 책의_isbn으로_조회하기() {
         List<ReadExperience> result = readExperienceRepository.findByBookIsbn("1234");
         assertThat(3).isEqualTo(result.size());
         assertThat(result.stream().map(exp -> exp.getClient().getLoginId()).collect(Collectors.toList())).contains("kw_lsh_3717", "kw_lsj_3717", "kw_sjy_3717");
+    }
+
+    @Test
+    void 유저의_아이디와_책의_isbn으로_조회하기() {
+        Client client = Client.builder().loginId("kw_test_3717").password("kw_test_password").nickname("KW_TEST").build();
+        Book book = Book.builder().isbn("5555").title("title5").author("author5").build();
+        ReadExperience readExperience = ReadExperience.builder().client(client).book(book).build();
+
+        bookRepository.saveAndFlush(book);
+        clientRepository.saveAndFlush(client);
+
+        ReadExperience save = readExperienceRepository.saveAndFlush(readExperience);
+
+        ReadExperience result = readExperienceRepository.findByLoginIdAndBookIsbn(client.getLoginId(), book.getIsbn()).get();
+
+        assertThat(save.getId()).isEqualTo(result.getId());
     }
 }
