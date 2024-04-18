@@ -316,7 +316,7 @@ class BoardServiceTest {
                 .keyword(Keyword.Economy_Management)
                 .build();
 
-        Long boardId = boardService.createBoard(board, userDetails).getId();
+        Long boardId = boardService.createBoard(board, userDetails);
 
         System.out.println(boardService.getBoardDetail(boardId));
 

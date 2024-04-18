@@ -56,7 +56,7 @@ class AnswerServiceTest {
                 new AnswerCreateDto(Keyword.Health.getQuesAndDis().get(0).getQuestion() , "답변1"),
                 new AnswerCreateDto(Keyword.Health.getQuesAndDis().get(1).getQuestion() , "답변2")
         );
-        answerService.createAnswer(board, createDtos);
+        answerService.createAnswer(board.getId(), createDtos);
 
         List<AnswerBoardPageDto> answers = answerService.getAnswers(board.getId());
 
