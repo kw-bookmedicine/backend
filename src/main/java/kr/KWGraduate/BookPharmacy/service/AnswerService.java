@@ -7,6 +7,7 @@ import kr.KWGraduate.BookPharmacy.dto.answer.response.AnswerBoardPageDto;
 import kr.KWGraduate.BookPharmacy.entity.Answer;
 import kr.KWGraduate.BookPharmacy.entity.Board;
 import kr.KWGraduate.BookPharmacy.repository.AnswerRepository;
+import kr.KWGraduate.BookPharmacy.repository.BoardRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,9 +22,12 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class AnswerService {
     private final AnswerRepository answerRepository;
+    private final BoardRepository boardRepository;
 
     @Transactional
-    public void createAnswer(Board board, List<AnswerCreateDto> answerCreateDtos){
+    public void createAnswer(Long boardId, List<AnswerCreateDto> answerCreateDtos){
+        Board board = boardRepository.findById(boardId).get();
+
         List<Answer> answers = answerCreateDtos.stream()
                 .map(answerCreateDto -> answerCreateDto.toEntity(board))
                 .collect(Collectors.toList());
