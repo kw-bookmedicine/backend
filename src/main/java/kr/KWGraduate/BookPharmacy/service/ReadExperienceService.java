@@ -18,7 +18,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -60,9 +59,11 @@ public class ReadExperienceService {
     /**
      * 단일 책에 대한 독서경험을 추가할때 사용되는 서비스 코드
      * ex) 책 상세정보 페이지에서 '독서경험 추가하기', 한줄처방 페이지에서 '한줄처방 작성하기' 에서 사용된다.
-     * */
+     *
+     * @return
+     */
     @Transactional
-    public void createReadExperience(ReadExperienceCreateDto readExperienceCreateDto, AuthenticationAdapter authentication){
+    public ReadExperience createReadExperience(ReadExperienceCreateDto readExperienceCreateDto, AuthenticationAdapter authentication){
 
         String loginId = authentication.getUsername();
         Client client = clientRepository.findByLoginId(loginId).get();
@@ -71,7 +72,7 @@ public class ReadExperienceService {
         Book book = bookRepository.findOptionalByIsbn(isbn).get();
 
         ReadExperience readExperience = ReadExperience.builder().book(book).client(client).build();
-        readExperienceRepository.save(readExperience);
+        return readExperienceRepository.save(readExperience);
     }
 
     /**
