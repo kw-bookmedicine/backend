@@ -41,4 +41,21 @@ public class OneLinePrescription extends BaseTimeEntity{
         this.description = description;
         this.keyword = keyword;
     }
+
+    public void setClientAndBook(Client client, Book book) {
+        this.client = client;
+        this.book = book;
+    }
+
+    public void setTitle(String title){
+        this.title = title;
+    }
+
+    public void setDescription(String description){
+        this.description = description;
+    }
+
+    public void setBook(Book book){
+        this.book = book;
+    }
 }
