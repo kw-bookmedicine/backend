@@ -8,8 +8,8 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 public class AnswerCreateDto {
-    private String answer;
     private String question;
+    private String answer;
 
     public Answer toEntity(Board board){
         return Answer.builder()
