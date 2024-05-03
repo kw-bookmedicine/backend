@@ -3,6 +3,7 @@ package kr.KWGraduate.BookPharmacy.service;
 import kr.KWGraduate.BookPharmacy.dto.client.AuthenticationAdapter;
 import kr.KWGraduate.BookPharmacy.dto.oneLinePrescription.request.OneLineCreateDto;
 import kr.KWGraduate.BookPharmacy.dto.oneLinePrescription.request.OneLineUpdateDto;
+import kr.KWGraduate.BookPharmacy.dto.oneLinePrescription.response.OneLineResponseDto;
 import kr.KWGraduate.BookPharmacy.entity.Book;
 import kr.KWGraduate.BookPharmacy.entity.Client;
 import kr.KWGraduate.BookPharmacy.entity.Keyword;
@@ -11,10 +12,13 @@ import kr.KWGraduate.BookPharmacy.repository.BookRepository;
 import kr.KWGraduate.BookPharmacy.repository.ClientRepository;
 import kr.KWGraduate.BookPharmacy.repository.OneLinePrescriptionRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -76,7 +80,37 @@ public class OneLinePrescriptionService {
         oneLinePrescriptionRepository.flush();
     }
 
+    public OneLineResponseDto getOneLinePrescription(Long oneLinePrescriptionId) {
+        OneLinePrescription oneLinePrescription = oneLinePrescriptionRepository.findOneLinePrescriptionById(oneLinePrescriptionId).get();
+        OneLineResponseDto dto = new OneLineResponseDto();
+        dto.setAllAttr(oneLinePrescription.getBook(), oneLinePrescription.getClient(), oneLinePrescription);
+
+        return dto;
+    }
+
+    public List<OneLineResponseDto> getAllOneLinePrescriptions(Pageable pageable) {
+        Page<OneLinePrescription> pageResult = oneLinePrescriptionRepository.findPagingAll(pageable);
+        List<OneLineResponseDto> dtoList = pageResult.getContent().stream().map(oneLine -> new OneLineResponseDto()
+                .setAllAttr(oneLine.getBook(), oneLine.getClient(), oneLine)).collect(Collectors.toList());
+
+        return dtoList;
+    }
+
+    public List<OneLineResponseDto> getMyOneLinePrescriptions(AuthenticationAdapter authentication, Pageable pageable) {
+        String loginId = authentication.getUsername();
+        Page<OneLinePrescription> pageResult = oneLinePrescriptionRepository.findByLoginId(loginId, pageable);
+
+        List<OneLineResponseDto> dtoList = pageResult.getContent().stream().map(oneLine -> new OneLineResponseDto()
+                .setAllAttr(oneLine.getBook(), oneLine.getClient(), oneLine)).collect(Collectors.toList());
+
+        return dtoList;
+    }
+
 //    Keyword 매핑 서비스 병합 후 작성
+//    public Page<OneLineResponseDto> getOneLinePrescriptionsByKeyword(Pageable pageable, String keyword){
+//
+//    }
+
 //    public List<OneLinePrescription> getOneLinePrescriptionByKeyword(String keyword) {
 //
 //    }
