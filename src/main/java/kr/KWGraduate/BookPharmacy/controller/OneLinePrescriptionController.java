@@ -27,20 +27,20 @@ public class OneLinePrescriptionController {
 
 
     @GetMapping("/all")
-    public ResponseEntity<List<OneLineResponseDto>> getAllOneLinePrescriptions(@RequestParam(name = "page") int page,
+    public ResponseEntity<Page<OneLineResponseDto>> getAllOneLinePrescriptions(@RequestParam(name = "page") int page,
                                                                                @RequestParam(name = "size") int size) {
         PageRequest pageRequest = PageRequest.of(page, size);
-        List<OneLineResponseDto> result = oneLinePrescriptionService.getAllOneLinePrescriptions(pageRequest);
+        Page<OneLineResponseDto> result = oneLinePrescriptionService.getAllOneLinePrescriptions(pageRequest);
 
         return ResponseEntity.ok(result);
     }
 
     @GetMapping("/my")
-    public ResponseEntity<List<OneLineResponseDto>> getMyOneLinePrescriptions(@RequestParam(name = "page") int page,
+    public ResponseEntity<Page<OneLineResponseDto>> getMyOneLinePrescriptions(@RequestParam(name = "page") int page,
                                                                               @RequestParam(name = "size") int size,
                                                                               @AuthenticationPrincipal UserDetails userDetails) {
         PageRequest pageRequest = PageRequest.of(page, size);
-        List<OneLineResponseDto> result = oneLinePrescriptionService.getMyOneLinePrescriptions((AuthenticationAdapter) userDetails, pageRequest);
+        Page<OneLineResponseDto> result = oneLinePrescriptionService.getMyOneLinePrescriptions((AuthenticationAdapter) userDetails, pageRequest);
 
         return ResponseEntity.ok(result);
     }

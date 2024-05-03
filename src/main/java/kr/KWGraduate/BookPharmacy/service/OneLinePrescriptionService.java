@@ -88,20 +88,20 @@ public class OneLinePrescriptionService {
         return dto;
     }
 
-    public List<OneLineResponseDto> getAllOneLinePrescriptions(Pageable pageable) {
+    public Page<OneLineResponseDto> getAllOneLinePrescriptions(Pageable pageable) {
         Page<OneLinePrescription> pageResult = oneLinePrescriptionRepository.findPagingAll(pageable);
-        List<OneLineResponseDto> dtoList = pageResult.getContent().stream().map(oneLine -> new OneLineResponseDto()
-                .setAllAttr(oneLine.getBook(), oneLine.getClient(), oneLine)).collect(Collectors.toList());
+        Page<OneLineResponseDto> dtoList = pageResult.map(oneLine -> new OneLineResponseDto()
+                .setAllAttr(oneLine.getBook(), oneLine.getClient(), oneLine));
 
         return dtoList;
     }
 
-    public List<OneLineResponseDto> getMyOneLinePrescriptions(AuthenticationAdapter authentication, Pageable pageable) {
+    public Page<OneLineResponseDto> getMyOneLinePrescriptions(AuthenticationAdapter authentication, Pageable pageable) {
         String loginId = authentication.getUsername();
         Page<OneLinePrescription> pageResult = oneLinePrescriptionRepository.findByLoginId(loginId, pageable);
 
-        List<OneLineResponseDto> dtoList = pageResult.getContent().stream().map(oneLine -> new OneLineResponseDto()
-                .setAllAttr(oneLine.getBook(), oneLine.getClient(), oneLine)).collect(Collectors.toList());
+        Page<OneLineResponseDto> dtoList = pageResult.map(oneLine -> new OneLineResponseDto()
+                .setAllAttr(oneLine.getBook(), oneLine.getClient(), oneLine));
 
         return dtoList;
     }
