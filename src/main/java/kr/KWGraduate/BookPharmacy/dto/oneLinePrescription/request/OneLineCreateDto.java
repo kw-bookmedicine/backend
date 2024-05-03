@@ -2,8 +2,10 @@ package kr.KWGraduate.BookPharmacy.dto.oneLinePrescription.request;
 
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@NoArgsConstructor
 public class OneLineCreateDto {
     private String title;
     private String description;

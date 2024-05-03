@@ -5,8 +5,10 @@ import kr.KWGraduate.BookPharmacy.entity.ReadExperience;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@NoArgsConstructor
 public class ReadExperienceResponseDto {
     private String bookTitle;
     private String bookIsbn;
