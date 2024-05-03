@@ -36,16 +36,15 @@ public class SearchService {
     }
 
     /**
-     * 검색어와 paging size를 입력받으면, 검색어를 책이름에 포함하는 책 dto 리스트를 반환 (페이지)
+     * 검색어와 paging size를 입력받으면, 검색어를 책이름에 포함하는 책 dto 페이지를 반환 (페이지)
      */
-    public List<BookDto> searchBookOnPageByTitleContainingSearchWord(String searchWord, Pageable pageable){
+    public Page<BookDto> searchBookOnPageByTitleContainingSearchWord(String searchWord, Pageable pageable){
 
         Page<Book> bookPageList = bookRepository.findPagingByTitleContaining(searchWord, pageable);
 
-        List<Book> bookList = bookPageList.getContent();
-        List<BookDto> bookDtoList = BookDto.toDtoListWithKeywordDto(bookList);
+        Page<BookDto> bookDtoPage = BookDto.toDtoPageWithKeywordDto(bookPageList);
 
-        return bookDtoList;
+        return bookDtoPage;
     }
 
     /**
@@ -62,16 +61,15 @@ public class SearchService {
     }
 
     /**
-     * 검색어와 paging size를 입력받으면, 검색어를 작가명에 포함하는 책 dto 리스트를 반환 (페이지)
+     * 검색어와 paging size를 입력받으면, 검색어를 작가명에 포함하는 책 dto 페이지를 반환 (페이지)
      */
-    public List<BookDto> searchBookOnPageByAuthorContainingSearchWord(String searchWord, Pageable pageable){
+    public Page<BookDto> searchBookOnPageByAuthorContainingSearchWord(String searchWord, Pageable pageable){
 
         Page<Book> bookPageList = bookRepository.findPagingByAuthorContaining(searchWord, pageable);
 
-        List<Book> bookList = bookPageList.getContent();
-        List<BookDto> bookDtoList = BookDto.toDtoListWithKeywordDto(bookList);
+        Page<BookDto> bookDtoPage = BookDto.toDtoPageWithKeywordDto(bookPageList);
 
-        return bookDtoList;
+        return bookDtoPage;
     }
 
     /**
