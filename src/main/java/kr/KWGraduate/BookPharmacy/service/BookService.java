@@ -34,10 +34,9 @@ public class BookService {
     }
 
     public BookDto getBookDetails(String isbn){
-        Optional<Book> optional = bookRepository.findOptionalByIsbn(isbn);
+        Book book = bookRepository.findBookDetailWithKeywordByIsbn(isbn);
 
-        BookDto bookDto = optional.map(book -> new BookDto(book))
-                .orElseGet(() -> BookDto.builder().title("해당 책이 없습니다.").build());
+        BookDto bookDto = BookDto.toDtoWithKeywordDto(book);
 
         return bookDto;
     }

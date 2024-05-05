@@ -9,6 +9,7 @@ import kr.KWGraduate.BookPharmacy.dto.KeywordItemDto;
 import kr.KWGraduate.BookPharmacy.service.BookService;
 import kr.KWGraduate.BookPharmacy.service.SearchService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -57,12 +58,12 @@ public class SearchController {
     @Operation(summary = "[페이지]책제목에 검색어를 포함하는 book 리스트 ?개 요청 <파라미터에서 target을 page로 지정해야함>" +
             " 예시) /api/search/book?title=그림&target=page&page=0&size=20")
     @GetMapping(value = "/book", params = {"title", "target=page"})
-    public ResponseEntity<List<BookDto>> getBookListByTitleOnPage(@RequestParam(name = "title") String searchWord,
+    public ResponseEntity<Page<BookDto>> getBookListByTitleOnPage(@RequestParam(name = "title") String searchWord,
                                                                   @RequestParam(name = "page") int page, @RequestParam(name = "size") int size){
 
         PageRequest pageRequest = PageRequest.of(page, size, Sort.by("count").descending());
 
-        List<BookDto> bookDtoList = searchService.searchBookOnPageByTitleContainingSearchWord(searchWord, pageRequest);
+        Page<BookDto> bookDtoList = searchService.searchBookOnPageByTitleContainingSearchWord(searchWord, pageRequest);
 
         return ResponseEntity.ok(bookDtoList);
     }
@@ -70,12 +71,12 @@ public class SearchController {
     @Operation(summary = "[페이지]작가명에 검색어를 포함하는 book 리스트 ?개 요청 <파라미터에서 target을 page로 지정해야함>" +
             " 예시) /api/search/book?author=남해운&target=page&page=0&size=20")
     @GetMapping(value = "/book", params = {"author", "target=page"})
-    public ResponseEntity<List<BookDto>> getBookListByAuthorOnPage(@RequestParam(name = "author") String searchWord,
+    public ResponseEntity<Page<BookDto>> getBookListByAuthorOnPage(@RequestParam(name = "author") String searchWord,
                                                                    @RequestParam(name = "page") int page, @RequestParam(name = "size") int size){
 
         PageRequest pageRequest = PageRequest.of(page, size, Sort.by("count").descending());
 
-        List<BookDto> bookDtoList = searchService.searchBookOnPageByAuthorContainingSearchWord(searchWord, pageRequest);
+        Page<BookDto> bookDtoList = searchService.searchBookOnPageByAuthorContainingSearchWord(searchWord, pageRequest);
 
         return ResponseEntity.ok(bookDtoList);
     }

@@ -1,5 +1,6 @@
 package kr.KWGraduate.BookPharmacy.service;
 
+import kr.KWGraduate.BookPharmacy.dto.answer.request.AnswerCreateDto;
 import kr.KWGraduate.BookPharmacy.dto.board.request.BoardCreateDto;
 import kr.KWGraduate.BookPharmacy.dto.board.request.BoardModifyDto;
 import kr.KWGraduate.BookPharmacy.dto.board.response.BoardConcernPageDto;
@@ -8,16 +9,13 @@ import kr.KWGraduate.BookPharmacy.dto.board.response.BoardMyPageDto;
 import kr.KWGraduate.BookPharmacy.dto.client.AuthenticationAdapter;
 import kr.KWGraduate.BookPharmacy.entity.Board;
 import kr.KWGraduate.BookPharmacy.entity.Client;
-import kr.KWGraduate.BookPharmacy.enums.Keyword;
-import kr.KWGraduate.BookPharmacy.enums.Status;
+import kr.KWGraduate.BookPharmacy.entity.Keyword;
 import kr.KWGraduate.BookPharmacy.repository.BoardRepository;
 import kr.KWGraduate.BookPharmacy.repository.ClientRepository;
 import kr.KWGraduate.BookPharmacy.repository.PrescriptionRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,6 +29,7 @@ public class BoardService {
     private final BoardRepository boardRepository;
     private final ClientRepository clientRepository;
     private final PrescriptionRepository prescriptionRepository;
+    private final AnswerService answerService;
 
     public List<BoardConcernPageDto> getBoards(Pageable pageable){
         return boardRepository.findAllBoards(pageable).stream()
@@ -39,12 +38,19 @@ public class BoardService {
     }
 
     public BoardDetailDto getBoardDetail(Long boardId) throws Exception {
-        return boardRepository.findById(boardId)
+        BoardDetailDto boardDetailDto = boardRepository.findById(boardId)
                 .map(BoardDetailDto::new)
                 .orElseThrow(Exception::new);
+        boardDetailDto.setAnswerBoardPageDto(answerService.getAnswers(boardId));
+        return boardDetailDto;
     }
     public List<BoardConcernPageDto> getBoards(Pageable pageable, Keyword keyword){
         return boardRepository.findByKeyword(pageable, keyword).stream()
+                .map(BoardConcernPageDto::new)
+                .collect(Collectors.toList());
+    }
+    public List<BoardConcernPageDto> getBoards(Pageable pageable , String searchKeyword){
+        return boardRepository.findByTitleContainingOrDescriptionContaining(pageable, searchKeyword).stream()
                 .map(BoardConcernPageDto::new)
                 .collect(Collectors.toList());
     }
@@ -53,6 +59,7 @@ public class BoardService {
     public Long modifyBoard(Long boardId, BoardModifyDto boardModifyDto) throws Exception {
         Board board = boardRepository.findById(boardId).orElseThrow(Exception::new);
         board.modifyBoard(boardModifyDto.getTitle() , boardModifyDto.getDescription(), boardModifyDto.getKeyword());
+        answerService.updateAnswers(boardModifyDto.getAnswers());
         return boardId;
     }
 
@@ -60,8 +67,9 @@ public class BoardService {
     public Long createBoard(BoardCreateDto boardCreateDto, AuthenticationAdapter authenticationAdapter){
         Client client = getClient(authenticationAdapter);
         Board board = boardCreateDto.toEntity(client);
-
-        return boardRepository.save(board).getId();
+        Long id = boardRepository.save(board).getId();
+        answerService.createAnswer(id,boardCreateDto.getAnswers());
+        return id;
     }
 
     private Client getClient(AuthenticationAdapter authenticationAdapter){
@@ -104,9 +112,5 @@ public class BoardService {
                 .collect(Collectors.toList());
     }
 
-    public List<BoardMyPageDto> getMyBoards(Pageable pageable, Status status , AuthenticationAdapter authenticationAdapter){
-        Slice<Board> boards = boardRepository.findByUsernameAndStatus(pageable, authenticationAdapter.getUsername(), status);
-        return getBoardMyPageDtos(boards);
-    }
 
 }
