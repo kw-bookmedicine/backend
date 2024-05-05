@@ -9,6 +9,9 @@ import lombok.NoArgsConstructor;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Table(indexes = {
+        @Index(name = "read_experience_index", columnList = "book_id, client_id", unique = true) // 중복된 독서경험이 추가되지 않도록 하기 위함
+})
 public class ReadExperience extends BaseTimeEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
