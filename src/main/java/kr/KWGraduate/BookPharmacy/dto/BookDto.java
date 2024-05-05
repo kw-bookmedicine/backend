@@ -4,6 +4,7 @@ import kr.KWGraduate.BookPharmacy.entity.Book;
 import kr.KWGraduate.BookPharmacy.entity.KeywordItem;
 import lombok.Builder;
 import lombok.Data;
+import org.springframework.data.domain.Page;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -96,6 +97,11 @@ public class BookDto {
         return bookDto;
     }
 
+    public static Page<BookDto> toDtoPageWithKeywordDto(Page<Book> bookPageList) {
+        Page<BookDto> bookDtoPage = bookPageList.map(book -> BookDto.toDtoWithKeywordDto(book));
+
+        return bookDtoPage;
+    }
 
 
     private void setKeywordItemDto(List<KeywordItem> keywordItemList){
