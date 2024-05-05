@@ -26,4 +26,8 @@ public class Answer {
         this.answer = answer;
     }
 
+    public void update(String answer){
+        this.answer = answer;
+    }
+
 }
