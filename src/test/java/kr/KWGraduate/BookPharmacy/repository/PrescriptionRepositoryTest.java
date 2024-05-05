@@ -4,12 +4,7 @@ import kr.KWGraduate.BookPharmacy.entity.Board;
 import kr.KWGraduate.BookPharmacy.entity.Book;
 import kr.KWGraduate.BookPharmacy.entity.Client;
 import kr.KWGraduate.BookPharmacy.entity.Prescription;
-<<<<<<< HEAD
-import kr.KWGraduate.BookPharmacy.enums.Keyword;
-import org.assertj.core.api.Assertions;
-=======
 import kr.KWGraduate.BookPharmacy.entity.Keyword;
->>>>>>> origin/develop
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -17,16 +12,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.transaction.annotation.Transactional;
 
-<<<<<<< HEAD
-import java.time.LocalDate;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-=======
-import java.util.List;
-
->>>>>>> origin/develop
 @SpringBootTest
 @Transactional
 class PrescriptionRepositoryTest {
@@ -54,11 +41,7 @@ class PrescriptionRepositoryTest {
                 .title("마음치료")
                 .client(client)
                 .description("asdf")
-<<<<<<< HEAD
-                .keyword(Keyword.Economy)
-=======
                 .keyword(Keyword.Economy_Management)
->>>>>>> origin/develop
                 .build();
 
 
@@ -67,14 +50,6 @@ class PrescriptionRepositoryTest {
                 .title("게시판2")
                 .client(client)
                 .description("asdfㅁㄴㅇㄻㄴㅇㄹ")
-<<<<<<< HEAD
-                .keyword(Keyword.Economy)
-                .build();
-
-
-        boardRepository.save(board1);
-        boardRepository.save(board2);
-=======
                 .keyword(Keyword.Economy_Management)
                 .build();
 
@@ -84,7 +59,6 @@ class PrescriptionRepositoryTest {
         Board save1 = boardRepository.save(board2);
         Long boardId2 = save1.getId();
 
->>>>>>> origin/develop
 
         Prescription prescription1 = Prescription.builder()
                 .board(board1)
@@ -204,12 +178,8 @@ class PrescriptionRepositoryTest {
 //
 
         System.out.println("here");
-<<<<<<< HEAD
-        List<Object[]> objects = prescriptionRepository.countByBoard();
-=======
         List<Object[]> objects = prescriptionRepository.countByBoard(List.of(boardId1, boardId2));
 
->>>>>>> origin/develop
         for(var s : objects){
             System.out.println(s[0] +" "+ s[1]);
         }
