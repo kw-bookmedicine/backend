@@ -3,8 +3,10 @@ package kr.KWGraduate.BookPharmacy.dto.oneLinePrescription.request;
 import kr.KWGraduate.BookPharmacy.entity.Keyword;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@NoArgsConstructor
 public class OneLineUpdateDto {
     private String title;
     private String description;
