@@ -9,7 +9,7 @@ public class BoardKeywordQuestion {
     public static final String healthQues1=
             "나이가 어떻게 되시나요?";
     public static final String healthQues2=
-            "어떤 간강에 대한 고민이신가요?";
+            "어떤 건강에 대한 고민이신가요?";
     public static final String childParentQues1=
             "자녀의 나이가 어떻게 되나요?";
     public static final String childParentQues2=
