@@ -36,7 +36,7 @@ public class BoardController {
 
 
 
-    @GetMapping
+    @GetMapping("/all")
     @Operation(summary = "모든 게시판 조회", description = "무한 스크롤을 위한 size와 page입력 필수")
     public ResponseEntity<List<BoardConcernPageDto>> getBoard(
             @RequestParam("page") int page,
