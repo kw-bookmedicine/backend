@@ -38,8 +38,8 @@ public class BoardController {
     @GetMapping
     @Operation(summary = "모든 게시판 조회", description = "무한 스크롤을 위한 size와 page입력 필수")
     public List<BoardConcernPageDto> getBoard(
-            @RequestParam("size") int size,
-            @RequestParam("page") int page
+            @RequestParam("page") int page,
+            @RequestParam("size") int size
     ){
         PageRequest pageRequest = PageRequest.of(page,size, Sort.by("createdDate"));
         return boardService.getBoards(pageRequest);
@@ -49,9 +49,9 @@ public class BoardController {
     @Operation(summary = "게시판 키워드 별 조회", description = "무한 스크롤을 위한 size와 page입력 필수, 키워드 입력")
     public List<BoardConcernPageDto> getBoard(
             @RequestParam(name = "keyword")Keyword keyword
-            ,@RequestParam(name = "page") int size
-            , @RequestParam(name = "size") int page)
-    {
+            ,@RequestParam("page") int page
+            ,@RequestParam("size") int size
+    ){
         PageRequest pageRequest = PageRequest.of(page,size, Sort.by("createdDate"));
         return boardService.getBoards(pageRequest, keyword);
     }
@@ -60,8 +60,8 @@ public class BoardController {
     @Operation(summary = "검색으로 인한 게시판 조회", description = "무한 스크롤을 위한 size와 page입력")
     public List<BoardConcernPageDto> getBoard(
             @RequestParam("searchKeyword") String searchKeyword,
-            @RequestParam("size") int size,
-            @RequestParam("page") int page
+            @RequestParam("page") int page,
+            @RequestParam("size") int size
     ){
         PageRequest pageRequest = PageRequest.of(page,size, Sort.by("createdDate"));
         return boardService.getBoards(pageRequest,searchKeyword);
@@ -94,8 +94,8 @@ public class BoardController {
     @Operation(summary = "내 게시판 조회", description = "UserDetails는 쿠키정보로 사용자 정보를 가져옴")
     public List<BoardMyPageDto> getBoard(
             @AuthenticationPrincipal UserDetails userDetails,
-            @RequestParam("size") int size,
-            @RequestParam("page") int page
+            @RequestParam("page") int page,
+            @RequestParam("size") int size
     ){
         PageRequest pageRequest = PageRequest.of(page,size, Sort.by("createdDate"));
 

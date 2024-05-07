@@ -27,8 +27,8 @@ public class PrescriptionController {
     @GetMapping
     @Operation(summary = "게시물에 대한 처방전 조회", description = "무한 스크롤 사용으로 인해 page와 size입력")
     public List<PrescriptionBoardPageDto> getPrescription(
-            @RequestParam("size") int size,
             @RequestParam("page") int page,
+            @RequestParam("size") int size,
             @RequestParam("boardId") Long boardId
     ) {
         PageRequest pageRequest = PageRequest.of(page, size, Sort.by("createdDate"));
@@ -36,10 +36,10 @@ public class PrescriptionController {
     }
 
     @GetMapping("/my")
-    @Operation(summary = "게시물에 대한 처방전 조회", description = "무한 스크롤 사용으로 인해 page와 size입력")
+    @Operation(summary = "나의 처방전 조회", description = "무한 스크롤 사용으로 인해 page와 size입력")
     public List<PrescriptionMyPageDto> getPrescription(
-            @RequestParam("size") int size,
             @RequestParam("page") int page,
+            @RequestParam("size") int size,
             @AuthenticationPrincipal UserDetails userDetails
     ) {
         PageRequest pageRequest = PageRequest.of(page, size, Sort.by("createdDate"));
