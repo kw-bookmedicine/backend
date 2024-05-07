@@ -48,24 +48,24 @@ public class BoardController {
 
     @GetMapping("/keyword")
     @Operation(summary = "게시판 키워드 별 조회", description = "무한 스크롤을 위한 size와 page입력 필수, 키워드 입력")
-    public ResponseEntity<List<BoardConcernPageDto>> getBoard(
-            @RequestParam(name = "keyword")Keyword keyword
+    public ResponseEntity<List<BoardConcernPageDto>> getBoardWithKeyword(
+            @RequestParam(name = "keyword")String koreanKeyword
             ,@RequestParam("page") int page
             ,@RequestParam("size") int size
     ){
         PageRequest pageRequest = PageRequest.of(page,size, Sort.by("createdDate"));
-        return ResponseEntity.ok(boardService.getBoards(pageRequest, keyword));
+        return ResponseEntity.ok(boardService.getBoardsWithKeyword(pageRequest, koreanKeyword));
     }
 
     @GetMapping("/search")
     @Operation(summary = "검색으로 인한 게시판 조회", description = "무한 스크롤을 위한 size와 page입력")
-    public ResponseEntity<List<BoardConcernPageDto>> getBoard(
+    public ResponseEntity<List<BoardConcernPageDto>> getBoardWithSearch(
             @RequestParam("searchKeyword") String searchKeyword,
             @RequestParam("page") int page,
             @RequestParam("size") int size
     ){
         PageRequest pageRequest = PageRequest.of(page,size, Sort.by("createdDate"));
-        return ResponseEntity.ok(boardService.getBoards(pageRequest,searchKeyword));
+        return ResponseEntity.ok(boardService.getBoardsWithSearch(pageRequest,searchKeyword));
     }
     @GetMapping("/{boardId}")
     @Operation(summary = "특정 게시판 상세조회", description = "boardId 입력")
