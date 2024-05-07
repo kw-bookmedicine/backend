@@ -264,7 +264,7 @@ class PrescriptionServiceTest {
                 .title("이하정")
                 .description("보고싶어")
                 .boardId(boardId)
-                .bookId(1L)
+                .isbn("9788974560775")
                 .build();
         Long createId = prescriptionService.createPrescription(createDto, userDetails);
 
@@ -273,7 +273,7 @@ class PrescriptionServiceTest {
         PrescriptionModifyDto modifyDto = PrescriptionModifyDto.builder()
                 .title("수정")
                 .description("이하정 생일 축하해")
-                .bookId(2L)
+                .isbn("9788974560775")
                 .build();
 
         Long modifyId = prescriptionService.modifyPrescription(createId, modifyDto);
