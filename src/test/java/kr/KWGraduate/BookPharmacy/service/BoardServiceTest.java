@@ -266,7 +266,7 @@ class BoardServiceTest {
 
     @Test
     void test2(){
-        for (BoardConcernPageDto board : boardService.getBoards(pageRequest, Keyword.Economy_Management)) {
+        for (BoardConcernPageDto board : boardService.getBoardsWithKeyword(pageRequest, "경제/경영")) {
             System.out.println(board);
         }
 
@@ -313,7 +313,7 @@ class BoardServiceTest {
         BoardCreateDto board = BoardCreateDto.builder()
                 .title("게시판")
                 .description("설명")
-                .keyword(Keyword.Economy_Management)
+                .koreanKeyword("경제/경영")
                 .build();
 
         Long boardId = boardService.createBoard(board, userDetails);
@@ -323,7 +323,7 @@ class BoardServiceTest {
         BoardModifyDto modifyDto = BoardModifyDto.builder()
                 .title("수정")
                 .description("이하정 수정")
-                .keyword(Keyword.Employment_Career)
+                .koreanKeyword("취업")
                 .build();
         Long boardId2 = boardService.modifyBoard(boardId, modifyDto);
 
