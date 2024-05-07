@@ -15,18 +15,18 @@ import java.util.List;
 public class BoardCreateDto {
     private String title;
     private String description;
-    private Keyword keyword;
+    private String koreanKeyword;
     private List<AnswerCreateDto> answers;
 
     @Builder
-    public BoardCreateDto(String title, String description, Keyword keyword, List<AnswerCreateDto> answerCreateDtos){
+    public BoardCreateDto(String title, String description, String koreanKeyword, List<AnswerCreateDto> answerCreateDtos){
         this.title = title;
         this.description = description;
-        this.keyword = keyword;
+        this.koreanKeyword = koreanKeyword;
         this.answers = answerCreateDtos;
     }
 
-    public Board toEntity(Client client){
+    public Board toEntity(Client client,Keyword keyword){
         return Board.builder()
                 .description(description)
                 .title(title)
