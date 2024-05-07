@@ -22,6 +22,7 @@ public class KeywordBiMapService {
         keywordMap.put(Keyword.Employment_Career, "취업");
         keywordMap.put(Keyword.Society, "사회");
         keywordMap.put(Keyword.Hobbies, "취미");
+        keywordMap.put(Keyword.ETC,"기타");
     }
     public Keyword getKeyword(String koreanKeyword){
         return keywordMap.inverse().get(koreanKeyword);
