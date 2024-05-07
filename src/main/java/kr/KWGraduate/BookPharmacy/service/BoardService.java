@@ -45,13 +45,12 @@ public class BoardService {
         boardDetailDto.setAnswerBoardPageDto(answerService.getAnswers(boardId));
         return boardDetailDto;
     }
-    public List<BoardConcernPageDto> getBoardsWithKeyword(Pageable pageable, String koreanKeyword){
-        Keyword keyword = keywordBiMapService.getKeyword(koreanKeyword);
+    public List<BoardConcernPageDto> getBoards(Pageable pageable, Keyword keyword){
         return boardRepository.findByKeyword(pageable, keyword).stream()
                 .map(BoardConcernPageDto::new)
                 .collect(Collectors.toList());
     }
-    public List<BoardConcernPageDto> getBoardsWithSearch(Pageable pageable , String searchKeyword){
+    public List<BoardConcernPageDto> getBoards(Pageable pageable , String searchKeyword){
         return boardRepository.findByTitleContainingOrDescriptionContaining(pageable, searchKeyword).stream()
                 .map(BoardConcernPageDto::new)
                 .collect(Collectors.toList());
@@ -60,9 +59,8 @@ public class BoardService {
     @Transactional
     public Long modifyBoard(Long boardId, BoardModifyDto boardModifyDto) throws Exception {
         Board board = boardRepository.findById(boardId).orElseThrow(Exception::new);
-        Keyword keyword = keywordBiMapService.getKeyword(boardModifyDto.getKoreanKeyword());
 
-        board.modifyBoard(boardModifyDto.getTitle() , boardModifyDto.getDescription(), keyword);
+        board.modifyBoard(boardModifyDto.getTitle() , boardModifyDto.getDescription(), boardModifyDto.getKeyword());
         answerService.updateAnswers(boardModifyDto.getAnswers());
         return boardId;
     }
@@ -70,9 +68,8 @@ public class BoardService {
     @Transactional
     public Long createBoard(BoardCreateDto boardCreateDto, AuthenticationAdapter authenticationAdapter){
         Client client = getClient(authenticationAdapter);
-        Keyword keyword = keywordBiMapService.getKeyword(boardCreateDto.getKoreanKeyword());
 
-        Board board = boardCreateDto.toEntity(client,keyword);
+        Board board = boardCreateDto.toEntity(client);
         Long id = boardRepository.save(board).getId();
         answerService.createAnswer(id,boardCreateDto.getAnswers());
         return id;

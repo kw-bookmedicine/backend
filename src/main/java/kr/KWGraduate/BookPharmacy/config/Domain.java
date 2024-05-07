@@ -14,9 +14,9 @@ public enum Domain {
         this.domain = domain;
     }
     public String getPresentAddress(){
-        return FrontServer.address;
+        return LocalHttp.address;
     }
     public String getPresentDomain(){
-        return FrontServer.domain;
+        return LocalHttp.domain;
     }
 }

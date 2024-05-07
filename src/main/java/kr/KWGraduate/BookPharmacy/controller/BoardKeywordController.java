@@ -3,6 +3,7 @@ package kr.KWGraduate.BookPharmacy.controller;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import kr.KWGraduate.BookPharmacy.dto.boardkeyword.BoardQuestionAndDistractorDto;
+import kr.KWGraduate.BookPharmacy.entity.Keyword;
 import kr.KWGraduate.BookPharmacy.service.BoardKeywordService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -28,7 +29,7 @@ public class BoardKeywordController {
 
     @GetMapping("/distractor/{keyword}")
     @Operation(summary = "키워드에 따른 질문 조회",description = "키워드가 인자로 들어감")
-    public ResponseEntity<List<BoardQuestionAndDistractorDto>> getDistractors(@PathVariable("keyword")String koreanKeyword){
-        return ResponseEntity.ok(boardKeywordService.getQuestionAndDistractor(koreanKeyword));
+    public ResponseEntity<List<BoardQuestionAndDistractorDto>> getDistractors(@PathVariable("keyword") Keyword keyword){
+        return ResponseEntity.ok(boardKeywordService.getQuestionAndDistractor(keyword));
     }
 }

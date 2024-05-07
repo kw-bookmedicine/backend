@@ -11,13 +11,13 @@ import lombok.NoArgsConstructor;
 public class BoardModifyDto {
     private String title;
     private String description;
-    private String koreanKeyword;
+    private Keyword keyword;
     private AnswerUpdateDto answers;
     @Builder
-    public BoardModifyDto(String title, String description, String koreanKeyword,AnswerUpdateDto answerUpdateDto){
+    public BoardModifyDto(String title, String description, Keyword keyword,AnswerUpdateDto answerUpdateDto){
         this.title = title;
         this.description = description;
-        this.koreanKeyword = koreanKeyword;
+        this.keyword = keyword;
         this.answers = answerUpdateDto;
     }
 }
