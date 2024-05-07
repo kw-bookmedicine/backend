@@ -11,6 +11,7 @@ import kr.KWGraduate.BookPharmacy.service.PrescriptionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
@@ -26,41 +27,44 @@ public class PrescriptionController {
 
     @GetMapping
     @Operation(summary = "게시물에 대한 처방전 조회", description = "무한 스크롤 사용으로 인해 page와 size입력")
-    public List<PrescriptionBoardPageDto> getPrescription(
+    public ResponseEntity<List<PrescriptionBoardPageDto>> getPrescription(
             @RequestParam("page") int page,
             @RequestParam("size") int size,
             @RequestParam("boardId") Long boardId
     ) {
         PageRequest pageRequest = PageRequest.of(page, size, Sort.by("createdDate"));
-        return prescriptionService.getPrescriptions(pageRequest, boardId);
+        return ResponseEntity.ok(prescriptionService.getPrescriptions(pageRequest, boardId));
     }
 
     @GetMapping("/my")
     @Operation(summary = "나의 처방전 조회", description = "무한 스크롤 사용으로 인해 page와 size입력")
-    public List<PrescriptionMyPageDto> getPrescription(
+    public ResponseEntity<List<PrescriptionMyPageDto>> getPrescription(
             @RequestParam("page") int page,
             @RequestParam("size") int size,
             @AuthenticationPrincipal UserDetails userDetails
     ) {
         PageRequest pageRequest = PageRequest.of(page, size, Sort.by("createdDate"));
-        return prescriptionService.getPrescriptions(pageRequest, (AuthenticationAdapter) userDetails);
+        return ResponseEntity.ok(prescriptionService.getPrescriptions(pageRequest, (AuthenticationAdapter) userDetails));
     }
 
 
     @PostMapping
     @Operation(summary = "처방전 생성")
-    public void createPrescription(@RequestBody PrescriptionCreateDto prescriptionCreateDto, @AuthenticationPrincipal UserDetails userDetails) {
+    public ResponseEntity<String> createPrescription(@RequestBody PrescriptionCreateDto prescriptionCreateDto, @AuthenticationPrincipal UserDetails userDetails) {
         prescriptionService.createPrescription(prescriptionCreateDto, (AuthenticationAdapter) userDetails);
+        return ResponseEntity.ok("success");
     }
 
     @PutMapping("/{prescriptionId}")
     @Operation(summary = "처방전 수정")
-    public void modifyPrescription(@PathVariable("prescriptionId") Long prescriptionId,@RequestBody PrescriptionModifyDto prescriptionModifyDto){
+    public ResponseEntity<String> modifyPrescription(@PathVariable("prescriptionId") Long prescriptionId,@RequestBody PrescriptionModifyDto prescriptionModifyDto){
         prescriptionService.modifyPrescription(prescriptionId,prescriptionModifyDto);
+        return ResponseEntity.ok("success");
     }
     @DeleteMapping("/{prescriptionId}")
     @Operation(summary = "처방전 삭제")
-    public void deletePrescription(@PathVariable("prescriptionId") Long prescriptionId){
+    public ResponseEntity<String> deletePrescription(@PathVariable("prescriptionId") Long prescriptionId){
         prescriptionService.deletePrescription(prescriptionId);
+        return ResponseEntity.ok("success");
     }
 }
