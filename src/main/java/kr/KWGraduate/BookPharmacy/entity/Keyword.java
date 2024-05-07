@@ -54,8 +54,8 @@ public enum Keyword {
             QuesAndDis.of(societyQues1, societyDistractor1),
             QuesAndDis.of(societyQues2, societyDistractor2)
     )),
-    Hobbies(List.of(QuesAndDis.of(hobbyQues1, hobbyDistractor1)));
-
+    Hobbies(List.of(QuesAndDis.of(hobbyQues1, hobbyDistractor1))),
+    ETC(List.of());
     private final List<QuesAndDis> quesAndDis;
 
     private final List<String> commonQuestions
