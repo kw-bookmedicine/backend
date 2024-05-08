@@ -68,7 +68,6 @@ public class BoardService {
     @Transactional
     public Long createBoard(BoardCreateDto boardCreateDto, AuthenticationAdapter authenticationAdapter){
         Client client = getClient(authenticationAdapter);
-
         Board board = boardCreateDto.toEntity(client);
         Long id = boardRepository.save(board).getId();
         answerService.createAnswer(id,boardCreateDto.getAnswers());
