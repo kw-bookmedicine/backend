@@ -72,4 +72,13 @@ public class ClientService {
         String username = authenticationAdapter.getUsername();
         clientRepository.deleteByLoginId(username);
     }
+    public boolean isExistId(String username){
+        return clientRepository.existsByLoginId(username);
+    }
+    public boolean isExistNickname(String nickname){
+        return clientRepository.existsByNickname(nickname);
+    }
+    public boolean isExistEmail(String email){
+        return clientRepository.existsByEmail(email);
+    }
 }
