@@ -75,6 +75,12 @@ public class ReadExperienceService {
         return readExperienceRepository.save(readExperience);
     }
 
+    public ReadExperience createReadExperience(Client client, Book book) {
+        ReadExperience readExperience = ReadExperience.builder().book(book).client(client).build();
+
+        return readExperienceRepository.save(readExperience);
+    }
+
     /**
      * 독서 경험을 페이징 하여 조회하는 서비스
      * */

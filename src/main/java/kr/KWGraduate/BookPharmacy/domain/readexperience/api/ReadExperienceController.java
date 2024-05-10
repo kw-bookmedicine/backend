@@ -42,13 +42,4 @@ public class ReadExperienceController {
 
         return ResponseEntity.ok().build();
     }
-
-    @Operation(summary = "독서경험을 단건으로 추가할때 요청")
-    @PostMapping("/new")
-    public ResponseEntity<Void> createReadExperiences(@RequestBody ReadExperienceCreateDto createDto,
-                                                @AuthenticationPrincipal UserDetails userDetails) {
-        readExperienceService.createReadExperience(createDto, (AuthenticationAdapter) userDetails);
-
-        return ResponseEntity.ok().build();
-    }
 }
