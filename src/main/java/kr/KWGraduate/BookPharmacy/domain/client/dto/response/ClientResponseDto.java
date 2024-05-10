@@ -16,9 +16,11 @@ public class ClientResponseDto {
     private Client.Gender gender;
     private Client.Occupation occupation;
     private LocalDate birth;
+    private Integer passwordLength;
+    private String description;
 
     @Builder
-    public ClientResponseDto(String loginId,String name, String nickname, String email, Client.Gender gender, Client.Occupation occupation, LocalDate birth) {
+    public ClientResponseDto(String loginId,String name, String nickname, String email, Client.Gender gender, Client.Occupation occupation, LocalDate birth, Integer passwordLength, String description) {
         this.loginId = loginId;
         this.name = name;
         this.nickname = nickname;
@@ -26,6 +28,8 @@ public class ClientResponseDto {
         this.gender = gender;
         this.occupation = occupation;
         this.birth = birth;
+        this.passwordLength = passwordLength;
+        this.description = description;
     }
     public static ClientResponseDto toDto(Client client){
         return ClientResponseDto.builder()
@@ -36,6 +40,8 @@ public class ClientResponseDto {
                 .gender(client.getGender())
                 .occupation(client.getOccupation())
                 .birth(client.getBirth())
+                .passwordLength(client.getPasswordLength())
+                .description(client.getDescription())
                 .build();
     }
 }
