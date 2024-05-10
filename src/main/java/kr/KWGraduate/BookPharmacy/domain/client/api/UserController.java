@@ -7,8 +7,11 @@ import kr.KWGraduate.BookPharmacy.domain.client.dto.request.ClientLoginDto;
 import kr.KWGraduate.BookPharmacy.domain.client.dto.response.ClientResponseDto;
 import kr.KWGraduate.BookPharmacy.domain.client.dto.request.ClientUpdateDto;
 import kr.KWGraduate.BookPharmacy.domain.client.service.ClientService;
+import kr.KWGraduate.BookPharmacy.global.security.common.dto.AuthenticationAdapter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.annotation.Validated;
@@ -41,21 +44,23 @@ public class UserController {
 
     @Operation(summary = "회원정보 수정" , description = "password, 닉네임, 직업 수정")
     @PutMapping("/client")
-    public ResponseEntity<String> update(@RequestBody ClientUpdateDto clientUpdateDto){
-        clientService.updateClient(clientUpdateDto);
+    public ResponseEntity<String> update(
+            @RequestBody ClientUpdateDto clientUpdateDto,
+            @AuthenticationPrincipal UserDetails userDetails){
+        clientService.updateClient(clientUpdateDto,(AuthenticationAdapter) userDetails);
         return ResponseEntity.ok("success");
     }
 
     @Operation(summary = "본인의 회원정보 가져오기",description = "회원의 모든 정보 가져옴")
     @GetMapping("/client")
-    public ResponseEntity<ClientResponseDto> getClient(){
-        return ResponseEntity.ok(clientService.getClient());
+    public ResponseEntity<ClientResponseDto> getClient(@AuthenticationPrincipal UserDetails userDetails){
+        return ResponseEntity.ok(clientService.getClient((AuthenticationAdapter) userDetails));
     }
 
     @Operation(summary = "회원정보 탈퇴", description = "회원 탈퇴")
     @DeleteMapping("/client")
-    public ResponseEntity<String> cancellation(){
-        clientService.cancellation();
+    public ResponseEntity<String> cancellation(@AuthenticationPrincipal UserDetails userDetails){
+        clientService.cancellation((AuthenticationAdapter) userDetails);
         return ResponseEntity.ok("success");
     }
 
