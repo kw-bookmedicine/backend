@@ -1,10 +1,9 @@
 package kr.KWGraduate.BookPharmacy.domain.client.exception;
 
-import kr.KWGraduate.BookPharmacy.global.common.error.ErrorResult;
-import kr.KWGraduate.BookPharmacy.global.common.error.AllException;
+import kr.KWGraduate.BookPharmacy.global.common.error.ErrorCode;
+import kr.KWGraduate.BookPharmacy.global.common.error.ErrorResponse;
+import kr.KWGraduate.BookPharmacy.global.common.error.BusinessException;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
-import org.springframework.http.ProblemDetail;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -12,43 +11,31 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class UserExceptionController {
     @ExceptionHandler
-    public ResponseEntity<ErrorResult> handleNotExistIdException(NoExistIdException ex){
-        ErrorResult errorResult = new ErrorResult("NO Id", ex.getErrorMessage());
-        return new ResponseEntity<>(errorResult,HttpStatus.BAD_REQUEST);
+    public ResponseEntity<ErrorResponse> handleNoExistIdException(NoExistIdException ex){
+        ErrorResponse errorResponse = new ErrorResponse(ex.getErrorCode().getCode(), ex.getMessage());
+        return new ResponseEntity<>(errorResponse,HttpStatus.valueOf(ErrorCode.RESOURCE_NOT_FOUND.getStatus()));
     }
 
     @ExceptionHandler
-    public ResponseEntity<ErrorResult> handleIsNotSamePasswordException(IsNotSamePasswordException ex){
-        ErrorResult errorResult = new ErrorResult("Password Not Same", ex.getErrorMessage());
-        return new ResponseEntity<>(errorResult,HttpStatus.BAD_REQUEST);
+    public ResponseEntity<ErrorResponse> handleIsNotSamePasswordException(IsNotSamePasswordException ex){
+        ErrorResponse errorResponse = new ErrorResponse(ex.getErrorCode().getCode(), ex.getMessage());
+        return new ResponseEntity<>(errorResponse,HttpStatus.valueOf(ErrorCode.ALREADY_EXIST_RESOURCE.getStatus()));
     }
 
     @ExceptionHandler
-    public ResponseEntity<ErrorResult> handleAlreadyExistIdException(ExistIdException ex){
-        ErrorResult errorResult = new ErrorResult("there is already same Id", ex.getErrorMessage());
-        return new ResponseEntity<>(errorResult,HttpStatus.BAD_REQUEST);
+    public ResponseEntity<ErrorResponse> handleAlreadyExistIdException(ExistIdException ex){
+        ErrorResponse errorResponse = new ErrorResponse(ex.getErrorCode().getCode(), ex.getMessage());
+        return new ResponseEntity<>(errorResponse,HttpStatus.valueOf(ErrorCode.ALREADY_EXIST_RESOURCE.getStatus()));
     }
     @ExceptionHandler
-    public ResponseEntity<ErrorResult> handleAlreadyExistEmailException(ExistEmailException ex){
-        ErrorResult errorResult = new ErrorResult("there is already same email", ex.getErrorMessage());
-        return new ResponseEntity<>(errorResult,HttpStatus.BAD_REQUEST);
+    public ResponseEntity<ErrorResponse> handleAlreadyExistEmailException(ExistEmailException ex){
+        ErrorResponse errorResponse = new ErrorResponse(ex.getErrorCode().getCode(), ex.getMessage());
+        return new ResponseEntity<>(errorResponse,HttpStatus.valueOf(ErrorCode.ALREADY_EXIST_RESOURCE.getStatus()));
     }
     @ExceptionHandler
-    public ResponseEntity<ErrorResult> handleAlreadyExistIdException(ExistNicknameException ex){
-        ErrorResult errorResult = new ErrorResult("there is already same nickname", ex.getErrorMessage());
-        return new ResponseEntity<>(errorResult,HttpStatus.BAD_REQUEST);
-    }
-
-    @ExceptionHandler
-    public ResponseEntity<ErrorResult> handleException(AllException ex){
-        ErrorResult errorResult = new ErrorResult("error occur", ex.getErrorMessage());
-        return new ResponseEntity<>(errorResult,HttpStatus.BAD_REQUEST);
-    }
-
-    @ExceptionHandler
-    public ResponseEntity<ErrorResult> handleException(Exception ex){
-        ErrorResult errorResult = new ErrorResult("error occur", ex.getMessage());
-        return new ResponseEntity<>(errorResult,HttpStatus.INTERNAL_SERVER_ERROR);
+    public ResponseEntity<ErrorResponse> handleAlreadyExistIdException(ExistNicknameException ex){
+        ErrorResponse errorResponse = new ErrorResponse(ex.getErrorCode().getCode(), ex.getMessage());
+        return new ResponseEntity<>(errorResponse,HttpStatus.valueOf(ErrorCode.ALREADY_EXIST_RESOURCE.getStatus()));
     }
 }
 

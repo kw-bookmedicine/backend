@@ -1,12 +1,8 @@
 package kr.KWGraduate.BookPharmacy.global.common.error;
 
-import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.ResponseStatus;
+public class ResourceNotFoundException extends BusinessException {
 
-@ResponseStatus(HttpStatus.NOT_FOUND)
-public class ResourceNotFoundException extends AllException {
-
-    public ResourceNotFoundException(String errorMessage) {
-        super(errorMessage);
+    public ResourceNotFoundException(String message) {
+        super(message, ErrorCode.RESOURCE_NOT_FOUND);
     }
 }

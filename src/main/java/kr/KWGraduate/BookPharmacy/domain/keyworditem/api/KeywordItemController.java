@@ -28,10 +28,9 @@ public class KeywordItemController {
     }
 
     @GetMapping("/client")
-    @Operation(summary = "클라이언트의 키워드 요청", description = "해당 클라이언트에 대한 키워드들을 요청 <br>" +
-            "요청 예) /api/keyword/client?id=1")
-    public ResponseEntity<List<KeywordItemDto>> getClientKeyword(@RequestParam(name = "nickname") Long id){
-        return ResponseEntity.ok(keywordItemService.getClientKeywords(id));
+    @Operation(summary = "클라이언트의 키워드 요청", description = "해당 클라이언트에 대한 키워드들을 요청")
+    public ResponseEntity<List<KeywordItemDto>> getClientKeyword(@RequestParam(name = "loginId") String loginId){
+        return ResponseEntity.ok(keywordItemService.getClientKeywords(loginId));
     }
 
 }
