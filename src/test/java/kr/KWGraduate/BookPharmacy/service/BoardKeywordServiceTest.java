@@ -1,7 +1,8 @@
 package kr.KWGraduate.BookPharmacy.service;
 
-import kr.KWGraduate.BookPharmacy.dto.boardkeyword.BoardQuestionAndDistractorDto;
-import kr.KWGraduate.BookPharmacy.entity.Keyword;
+import kr.KWGraduate.BookPharmacy.domain.keyword.domain.Keyword;
+import kr.KWGraduate.BookPharmacy.domain.keyword.dto.response.BoardQuestionAndDistractorDto;
+import kr.KWGraduate.BookPharmacy.domain.keyword.service.BoardKeywordService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,7 +46,7 @@ class BoardKeywordServiceTest {
                 .map(BoardQuestionAndDistractorDto::new)
                 .collect(Collectors.toList());
 
-        List<BoardQuestionAndDistractorDto> questionAndDistractor = boardKeywordService.getQuestionAndDistractor(Keyword.Economy_Management);
+        List<BoardQuestionAndDistractorDto> questionAndDistractor = boardKeywordService.getQuestionAndDistractor("경제/경영");
 
         Assertions.assertIterableEquals(expectedList,questionAndDistractor);
         System.out.println(expectedList);

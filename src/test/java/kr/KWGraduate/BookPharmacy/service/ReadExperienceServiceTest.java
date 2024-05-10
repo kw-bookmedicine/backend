@@ -2,16 +2,17 @@ package kr.KWGraduate.BookPharmacy.service;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
-import kr.KWGraduate.BookPharmacy.dto.client.ClientDetails;
-import kr.KWGraduate.BookPharmacy.dto.readExperience.request.ReadExperienceCreateDto;
-import kr.KWGraduate.BookPharmacy.dto.readExperience.request.ReadExperienceUpdateRequestDto;
-import kr.KWGraduate.BookPharmacy.dto.readExperience.response.ReadExperienceResponseDto;
-import kr.KWGraduate.BookPharmacy.entity.Book;
-import kr.KWGraduate.BookPharmacy.entity.Client;
-import kr.KWGraduate.BookPharmacy.entity.ReadExperience;
-import kr.KWGraduate.BookPharmacy.repository.BookRepository;
-import kr.KWGraduate.BookPharmacy.repository.ClientRepository;
-import kr.KWGraduate.BookPharmacy.repository.ReadExperienceRepository;
+import kr.KWGraduate.BookPharmacy.domain.book.domain.Book;
+import kr.KWGraduate.BookPharmacy.domain.book.repository.BookRepository;
+import kr.KWGraduate.BookPharmacy.domain.client.domain.Client;
+import kr.KWGraduate.BookPharmacy.domain.client.repository.ClientRepository;
+import kr.KWGraduate.BookPharmacy.domain.readexperience.domain.ReadExperience;
+import kr.KWGraduate.BookPharmacy.domain.readexperience.dto.request.ReadExperienceCreateDto;
+import kr.KWGraduate.BookPharmacy.domain.readexperience.dto.request.ReadExperienceUpdateRequestDto;
+import kr.KWGraduate.BookPharmacy.domain.readexperience.dto.response.ReadExperienceResponseDto;
+import kr.KWGraduate.BookPharmacy.domain.readexperience.repository.ReadExperienceRepository;
+import kr.KWGraduate.BookPharmacy.domain.readexperience.service.ReadExperienceService;
+import kr.KWGraduate.BookPharmacy.global.security.auth.dto.ClientDetails;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +33,6 @@ class ReadExperienceServiceTest {
     @Autowired ClientRepository clientRepository;
     @Autowired BookRepository bookRepository;
     @Autowired ReadExperienceRepository readExperienceRepository;
-
     @Autowired ReadExperienceService readExperienceService;
 
     @PersistenceContext EntityManager em;

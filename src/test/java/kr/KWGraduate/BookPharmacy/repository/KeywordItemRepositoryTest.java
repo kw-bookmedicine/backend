@@ -1,8 +1,13 @@
 package kr.KWGraduate.BookPharmacy.repository;
 
-import kr.KWGraduate.BookPharmacy.entity.*;
-import kr.KWGraduate.BookPharmacy.service.BookService;
-import kr.KWGraduate.BookPharmacy.service.ClientService;
+import kr.KWGraduate.BookPharmacy.domain.book.domain.Book;
+import kr.KWGraduate.BookPharmacy.domain.book.repository.BookRepository;
+import kr.KWGraduate.BookPharmacy.domain.client.domain.Client;
+import kr.KWGraduate.BookPharmacy.domain.client.repository.ClientRepository;
+import kr.KWGraduate.BookPharmacy.domain.keyworditem.domain.BookKeyword;
+import kr.KWGraduate.BookPharmacy.domain.keyworditem.domain.ClientKeyword;
+import kr.KWGraduate.BookPharmacy.domain.keyworditem.domain.KeywordItem;
+import kr.KWGraduate.BookPharmacy.domain.keyworditem.repository.KeywordItemRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.aop.scope.ScopedProxyUtils;

@@ -1,6 +1,7 @@
 package kr.KWGraduate.BookPharmacy.repository.redis;
 
-import kr.KWGraduate.BookPharmacy.entity.redis.RefreshToken;
+import kr.KWGraduate.BookPharmacy.global.infra.redis.RefreshToken;
+import kr.KWGraduate.BookPharmacy.global.infra.redis.RefreshTokenRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

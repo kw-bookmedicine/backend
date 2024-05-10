@@ -1,14 +1,15 @@
 package kr.KWGraduate.BookPharmacy.service;
 
-import kr.KWGraduate.BookPharmacy.dto.answer.request.AnswerCreateDto;
-import kr.KWGraduate.BookPharmacy.dto.answer.request.AnswerUpdateDto;
-import kr.KWGraduate.BookPharmacy.dto.answer.request.AnswerUpdateIndividualDto;
-import kr.KWGraduate.BookPharmacy.dto.answer.response.AnswerBoardPageDto;
-import kr.KWGraduate.BookPharmacy.entity.Board;
-import kr.KWGraduate.BookPharmacy.entity.Client;
-import kr.KWGraduate.BookPharmacy.entity.Keyword;
-import kr.KWGraduate.BookPharmacy.repository.BoardRepository;
-import kr.KWGraduate.BookPharmacy.repository.ClientRepository;
+import kr.KWGraduate.BookPharmacy.domain.answer.dto.request.AnswerCreateDto;
+import kr.KWGraduate.BookPharmacy.domain.answer.dto.request.AnswerUpdateDto;
+import kr.KWGraduate.BookPharmacy.domain.answer.dto.request.AnswerUpdateIndividualDto;
+import kr.KWGraduate.BookPharmacy.domain.answer.dto.response.AnswerBoardPageDto;
+import kr.KWGraduate.BookPharmacy.domain.answer.service.AnswerService;
+import kr.KWGraduate.BookPharmacy.domain.board.domain.Board;
+import kr.KWGraduate.BookPharmacy.domain.board.repository.BoardRepository;
+import kr.KWGraduate.BookPharmacy.domain.client.domain.Client;
+import kr.KWGraduate.BookPharmacy.domain.client.repository.ClientRepository;
+import kr.KWGraduate.BookPharmacy.domain.keyword.domain.Keyword;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

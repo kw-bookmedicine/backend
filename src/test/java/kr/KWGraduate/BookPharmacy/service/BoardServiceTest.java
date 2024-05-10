@@ -1,18 +1,19 @@
 package kr.KWGraduate.BookPharmacy.service;
 
-import kr.KWGraduate.BookPharmacy.dto.board.request.BoardCreateDto;
-import kr.KWGraduate.BookPharmacy.dto.board.request.BoardModifyDto;
-import kr.KWGraduate.BookPharmacy.dto.board.response.BoardConcernPageDto;
-import kr.KWGraduate.BookPharmacy.dto.board.response.BoardDetailDto;
-import kr.KWGraduate.BookPharmacy.dto.board.response.BoardMyPageDto;
-import kr.KWGraduate.BookPharmacy.dto.client.ClientDetails;
-import kr.KWGraduate.BookPharmacy.entity.Board;
-import kr.KWGraduate.BookPharmacy.entity.Client;
-import kr.KWGraduate.BookPharmacy.entity.Prescription;
-import kr.KWGraduate.BookPharmacy.entity.Keyword;
-import kr.KWGraduate.BookPharmacy.repository.BoardRepository;
-import kr.KWGraduate.BookPharmacy.repository.ClientRepository;
-import kr.KWGraduate.BookPharmacy.repository.PrescriptionRepository;
+import kr.KWGraduate.BookPharmacy.domain.board.domain.Board;
+import kr.KWGraduate.BookPharmacy.domain.board.dto.request.BoardCreateDto;
+import kr.KWGraduate.BookPharmacy.domain.board.dto.request.BoardModifyDto;
+import kr.KWGraduate.BookPharmacy.domain.board.dto.response.BoardConcernPageDto;
+import kr.KWGraduate.BookPharmacy.domain.board.dto.response.BoardDetailDto;
+import kr.KWGraduate.BookPharmacy.domain.board.dto.response.BoardMyPageDto;
+import kr.KWGraduate.BookPharmacy.domain.board.repository.BoardRepository;
+import kr.KWGraduate.BookPharmacy.domain.board.service.BoardService;
+import kr.KWGraduate.BookPharmacy.domain.client.domain.Client;
+import kr.KWGraduate.BookPharmacy.domain.client.repository.ClientRepository;
+import kr.KWGraduate.BookPharmacy.domain.keyword.domain.Keyword;
+import kr.KWGraduate.BookPharmacy.domain.prescription.domain.Prescription;
+import kr.KWGraduate.BookPharmacy.domain.prescription.repository.PrescriptionRepository;
+import kr.KWGraduate.BookPharmacy.global.security.auth.dto.ClientDetails;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -266,7 +267,7 @@ class BoardServiceTest {
 
     @Test
     void test2(){
-        for (BoardConcernPageDto board : boardService.getBoardsWithKeyword(pageRequest, "경제/경영")) {
+        for (BoardConcernPageDto board : boardService.getBoards(pageRequest, "경제/경영")) {
             System.out.println(board);
         }
 
@@ -313,7 +314,7 @@ class BoardServiceTest {
         BoardCreateDto board = BoardCreateDto.builder()
                 .title("게시판")
                 .description("설명")
-                .koreanKeyword("경제/경영")
+                .keyword(Keyword.Economy_Management)
                 .build();
 
         Long boardId = boardService.createBoard(board, userDetails);
@@ -323,7 +324,7 @@ class BoardServiceTest {
         BoardModifyDto modifyDto = BoardModifyDto.builder()
                 .title("수정")
                 .description("이하정 수정")
-                .koreanKeyword("취업")
+                .keyword(Keyword.Employment_Career)
                 .build();
         Long boardId2 = boardService.modifyBoard(boardId, modifyDto);
 

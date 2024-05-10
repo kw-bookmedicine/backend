@@ -1,12 +1,10 @@
 package kr.KWGraduate.BookPharmacy.service;
 
-import kr.KWGraduate.BookPharmacy.dto.client.ClientJoinDto;
-import kr.KWGraduate.BookPharmacy.dto.client.ClientLoginDto;
-import kr.KWGraduate.BookPharmacy.dto.client.ClientResponseDto;
-import kr.KWGraduate.BookPharmacy.entity.Client;
-import kr.KWGraduate.BookPharmacy.exception.status.ExistEmailException;
-import kr.KWGraduate.BookPharmacy.exception.status.IsNotSamePasswordException;
-import kr.KWGraduate.BookPharmacy.exception.status.NoExistIdException;
+import kr.KWGraduate.BookPharmacy.domain.client.domain.Client;
+import kr.KWGraduate.BookPharmacy.domain.client.dto.request.ClientJoinDto;
+import kr.KWGraduate.BookPharmacy.domain.client.dto.response.ClientResponseDto;
+import kr.KWGraduate.BookPharmacy.domain.client.exception.ExistEmailException;
+import kr.KWGraduate.BookPharmacy.domain.client.service.ClientService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

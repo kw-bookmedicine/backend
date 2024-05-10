@@ -1,5 +1,6 @@
 package kr.KWGraduate.BookPharmacy.entity;
 
+import kr.KWGraduate.BookPharmacy.domain.client.domain.Client;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
