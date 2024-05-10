@@ -13,7 +13,7 @@ public class KeywordBiMapService {
         keywordMap.put(Keyword.Health,"건강");
         keywordMap.put(Keyword.Economy_Management,"경제/경영");
         keywordMap.put(Keyword.Relationships_Communication, "관계/소통");
-        keywordMap.put(Keyword.Fiction_Essays, "소셜/에세이");
+        keywordMap.put(Keyword.Fiction_Essays, "소설/에세이");
         keywordMap.put(Keyword.Children_Parenting, "자녀/양육");
         keywordMap.put(Keyword.Philosophy, "철학");
         keywordMap.put(Keyword.History, "역사");
