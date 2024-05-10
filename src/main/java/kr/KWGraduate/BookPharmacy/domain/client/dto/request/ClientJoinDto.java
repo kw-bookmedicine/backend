@@ -6,10 +6,12 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
+
 @Data
 @NoArgsConstructor
 @NotNull
-
 public class ClientJoinDto {
 
     private String username;
@@ -19,9 +21,10 @@ public class ClientJoinDto {
     private String email;
     private Client.Gender gender;
     private Client.Occupation occupation;
+    private LocalDate birth;
 
     @Builder
-    public ClientJoinDto(String username, String password, String name, String nickname, String email, Client.Gender gender, Client.Occupation occupation) {
+    public ClientJoinDto(String username, String password, String name, String nickname, String email, Client.Gender gender, Client.Occupation occupation,LocalDate birth) {
         this.username = username;
         this.password = password;
         this.name = name;
@@ -29,8 +32,9 @@ public class ClientJoinDto {
         this.email = email;
         this.gender = gender;
         this.occupation = occupation;
+        this.birth = birth;
     }
-    public Client toEntity(){
+    public Client toEntity(int passwordLength){
         return Client.builder()
                 .loginId(username)
                 .password(password)
@@ -39,18 +43,11 @@ public class ClientJoinDto {
                 .email(email)
                 .gender(gender)
                 .occupation(occupation)
+                .birth(birth)
                 .role("ROLE_USER")
+                .passwordLength(passwordLength)
+                .description("안녕하세요! 책을 좋아하는 "+nickname+"입니다")
                 .build();
     }
-    public static ClientJoinDto toDto(Client client){
-        return ClientJoinDto.builder()
-                .username(client.getLoginId())
-                .password(client.getPassword())
-                .name(client.getName())
-                .nickname(client.getNickname())
-                .email(client.getEmail())
-                .gender(client.getGender())
-                .occupation(client.getOccupation())
-                .build();
-    }
+
 }
