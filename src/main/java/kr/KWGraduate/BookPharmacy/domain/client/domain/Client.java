@@ -32,6 +32,8 @@ public class Client extends BaseTimeEntity {
     private String email;
     private LocalDate birth;
     private String role;
+    private Integer passwordLength;
+    private String description;
 
     @Enumerated(EnumType.STRING)
     private Gender gender;
@@ -59,7 +61,7 @@ public class Client extends BaseTimeEntity {
      * 유저 생성(id와 닉네임에 대한 중복확인이 끝났다고 가정)
     * */
     @Builder
-    public Client(Long id, String loginId, String password, String name, LocalDate birth, String nickname, String email, Gender gender, Occupation occupation, String role) {
+    public Client(Long id, String loginId, String password, String name, LocalDate birth, String nickname, String email, Gender gender, Occupation occupation, String role, Integer passwordLength, String description) {
 
         this.id = id;
         this.loginId = loginId;
@@ -71,11 +73,14 @@ public class Client extends BaseTimeEntity {
         this.gender = gender;
         this.occupation = occupation;
         this.role = role;
+        this.passwordLength = passwordLength;
+        this.description = description;
 
     }
 
     public void setPassword(String password) {
         this.password = password;
+        this.passwordLength = password.length();
     }
 
     public void setNickname(String nickname) {
@@ -85,6 +90,7 @@ public class Client extends BaseTimeEntity {
     public void setOccupation(Occupation occupation) {
         this.occupation = occupation;
     }
+    public void setDescription(String description) {this.description = description;}
 
     //비즈니스 로직 추가
     public boolean isEqualPassword(String password){
