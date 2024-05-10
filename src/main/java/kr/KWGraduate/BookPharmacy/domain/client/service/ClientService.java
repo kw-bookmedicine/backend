@@ -30,8 +30,9 @@ public class ClientService {
 
     @Transactional
     public void signUp(ClientJoinDto clientJoinDto) throws BusinessException {
+        int passwordLength = clientJoinDto.getPassword().length();
         clientJoinDto.setPassword(bCryptPasswordEncoder.encode(clientJoinDto.getPassword()));
-        Client client = clientJoinDto.toEntity();
+        Client client = clientJoinDto.toEntity(passwordLength);
         validateDuplicateClient(client);
 
         clientRepository.save(client);
@@ -50,8 +51,8 @@ public class ClientService {
         }
     }
     @Transactional
-    public void updateClient(ClientUpdateDto clientUpdateDto){
-        String username = getUsername();
+    public void updateClient(ClientUpdateDto clientUpdateDto, AuthenticationAdapter authenticationAdapter){
+        String username = authenticationAdapter.getUsername();
 
         Client client = clientRepository.findByLoginId(username).get();
         clientUpdateDto.setPassword((bCryptPasswordEncoder.encode(clientUpdateDto.getPassword())));
@@ -59,41 +60,16 @@ public class ClientService {
         client.update(clientUpdateDto);
 
     }
-    public ClientResponseDto getClient(){
-        String username = getUsername();
+    public ClientResponseDto getClient(AuthenticationAdapter authenticationAdapter){
+        String username = authenticationAdapter.getUsername();
 
         Client client = clientRepository.findByLoginId(username).get();
         return ClientResponseDto.toDto(client);
     }
 
     @Transactional
-    public void cancellation(){
-        String username = getUsername();
+    public void cancellation(AuthenticationAdapter authenticationAdapter){
+        String username = authenticationAdapter.getUsername();
         clientRepository.deleteByLoginId(username);
-    }
-    @Transactional
-    public void removeClient(Long id){
-        clientRepository.deleteById(id);
-    }
-
-    public ClientResponseDto findById(String id){
-        return clientRepository.findById(id)
-                .map(ClientResponseDto::toDto)
-                .orElseThrow(() -> new NoExistIdException(id));
-    }
-    public List<ClientResponseDto> findAll(){
-        return clientRepository.findAll().stream()
-                .map(ClientResponseDto::toDto)
-                .collect(Collectors.toList());
-    }
-
-    public Long getClientsCount(){
-        return clientRepository.count();
-    }
-
-    private String getUsername() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        AuthenticationAdapter principal = (AuthenticationAdapter)authentication.getPrincipal();
-        return principal.getUsername();
     }
 }
