@@ -42,6 +42,23 @@ public class UserController {
         return ResponseEntity.ok("success");
     }
 
+    @Operation(summary = "아이디 중복확인")
+    @PostMapping("/username")
+    public ResponseEntity<Boolean> isExistUsername(@RequestParam("username") String username){
+        return ResponseEntity.ok(clientService.isExistId(username));
+    }
+    @Operation(summary = "이메일 중복확인")
+    @PostMapping("/email")
+    public ResponseEntity<Boolean> isExistEmail(@RequestParam("email") String email){
+        return ResponseEntity.ok(clientService.isExistEmail(email));
+    }
+
+    @Operation(summary = "닉네임 중복확인")
+    @PostMapping("/nickname")
+    public ResponseEntity<Boolean> isExistNickname(@RequestParam("nickname") String nickname) {
+        return ResponseEntity.ok(clientService.isExistNickname(nickname));
+    }
+
     @Operation(summary = "회원정보 수정" , description = "password, 닉네임, 직업 수정")
     @PutMapping("/client")
     public ResponseEntity<String> update(
