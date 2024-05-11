@@ -10,7 +10,7 @@ import kr.KWGraduate.BookPharmacy.domain.client.dto.response.ClientResponseDto;
 import kr.KWGraduate.BookPharmacy.domain.client.dto.request.ClientUpdateDto;
 import kr.KWGraduate.BookPharmacy.domain.client.domain.Client;
 import kr.KWGraduate.BookPharmacy.domain.client.repository.ClientRepository;
-import kr.KWGraduate.BookPharmacy.global.common.error.AllException;
+import kr.KWGraduate.BookPharmacy.global.common.error.BusinessException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -29,7 +29,7 @@ public class ClientService {
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Transactional
-    public void signUp(ClientJoinDto clientJoinDto) throws AllException {
+    public void signUp(ClientJoinDto clientJoinDto) throws BusinessException {
         clientJoinDto.setPassword(bCryptPasswordEncoder.encode(clientJoinDto.getPassword()));
         Client client = clientJoinDto.toEntity();
         validateDuplicateClient(client);
@@ -40,13 +40,13 @@ public class ClientService {
     private void validateDuplicateClient(Client client) {
 
         if(clientRepository.existsByLoginId(client.getLoginId())){
-            throw new ExistIdException("이미 id가 존재합니다.");
+            throw new ExistIdException(client.getLoginId());
         }
         if(clientRepository.existsByNickname(client.getNickname())){
-            throw new ExistNicknameException("이미 존재하는 닉네임입니다.");
+            throw new ExistNicknameException(client.getNickname());
         }
         if(clientRepository.existsByEmail(client.getEmail())){
-            throw new ExistEmailException("이미 존재하는 이메일입니다.");
+            throw new ExistEmailException(client.getEmail());
         }
     }
     @Transactional
@@ -79,7 +79,7 @@ public class ClientService {
     public ClientResponseDto findById(String id){
         return clientRepository.findById(id)
                 .map(ClientResponseDto::toDto)
-                .orElseThrow(() -> new NoExistIdException("id 없음"));
+                .orElseThrow(() -> new NoExistIdException(id));
     }
     public List<ClientResponseDto> findAll(){
         return clientRepository.findAll().stream()

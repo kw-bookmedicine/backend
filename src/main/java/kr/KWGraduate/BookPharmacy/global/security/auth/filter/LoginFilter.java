@@ -3,13 +3,13 @@ package kr.KWGraduate.BookPharmacy.global.security.auth.filter;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import kr.KWGraduate.BookPharmacy.global.common.error.ErrorCode;
 import kr.KWGraduate.BookPharmacy.global.security.auth.dto.ClientDetails;
 import kr.KWGraduate.BookPharmacy.domain.client.dto.request.ClientLoginDto;
 import kr.KWGraduate.BookPharmacy.global.security.common.dto.TokenDto;
-import kr.KWGraduate.BookPharmacy.global.common.error.AllException;
+import kr.KWGraduate.BookPharmacy.global.common.error.BusinessException;
 import kr.KWGraduate.BookPharmacy.global.security.common.util.JWTUtil;
 import kr.KWGraduate.BookPharmacy.global.infra.redis.RefreshTokenService;
 import org.springframework.http.HttpHeaders;
@@ -67,12 +67,7 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
         try {
             return objectMapper.readValue(StreamUtils.copyToString(request.getInputStream(), StandardCharsets.UTF_8), ClientLoginDto.class);
         } catch (IOException e) {
-            throw new AllException("convert fail") {
-                @Override
-                public String getErrorMessage() {
-                    return super.getErrorMessage();
-                }
-            };
+            throw new BusinessException("convert fail", ErrorCode.INTERNAL_SERVER_ERROR);
         }
     }
 

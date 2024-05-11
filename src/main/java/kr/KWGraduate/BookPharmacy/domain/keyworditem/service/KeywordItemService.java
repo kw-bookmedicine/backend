@@ -1,11 +1,15 @@
 package kr.KWGraduate.BookPharmacy.domain.keyworditem.service;
 
+import kr.KWGraduate.BookPharmacy.domain.book.exception.BookResourceNotFoundException;
+import kr.KWGraduate.BookPharmacy.domain.client.domain.Client;
+import kr.KWGraduate.BookPharmacy.domain.client.exception.NoExistIdException;
 import kr.KWGraduate.BookPharmacy.domain.keyworditem.dto.response.KeywordItemDto;
 import kr.KWGraduate.BookPharmacy.domain.keyworditem.domain.KeywordItem;
-import kr.KWGraduate.BookPharmacy.global.common.error.AllException;
+import kr.KWGraduate.BookPharmacy.global.common.error.BusinessException;
 import kr.KWGraduate.BookPharmacy.domain.book.repository.BookRepository;
 import kr.KWGraduate.BookPharmacy.domain.client.repository.ClientRepository;
 import kr.KWGraduate.BookPharmacy.domain.keyworditem.repository.KeywordItemRepository;
+import kr.KWGraduate.BookPharmacy.global.common.error.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,12 +26,7 @@ public class KeywordItemService {
 
     public List<KeywordItemDto> getBookKeywords(String isbn){
         bookRepository.findOptionalByIsbn(isbn)
-                .orElseThrow(() -> new AllException("해당 isbn의 책이 존재하지 않습니다") {
-                    @Override
-                    public String getErrorMessage() {
-                        return super.getErrorMessage();
-                    }
-                });
+                .orElseThrow(() -> new BookResourceNotFoundException(isbn));
 
         List<KeywordItem> keywordItemList = keywordItemRepository.findByIsbn(isbn);
 
@@ -35,15 +34,10 @@ public class KeywordItemService {
         return keywordItemDtoList;
     }
 
-    public List<KeywordItemDto> getClientKeywords(Long id){
-        clientRepository.findById(id)
-                .orElseThrow(() -> new AllException("해당 id의 유저가 없습니다.") {
-                    @Override
-                    public String getErrorMessage() {
-                        return super.getErrorMessage();
-                    }
-                });
-        List<KeywordItem> keywordItemList = keywordItemRepository.findByClientId(id);
+    public List<KeywordItemDto> getClientKeywords(String loginId){
+        Client client = clientRepository.findByLoginId(loginId)
+                .orElseThrow(() -> new NoExistIdException(loginId));
+        List<KeywordItem> keywordItemList = keywordItemRepository.findByClientId(client.getId());
 
         List<KeywordItemDto> keywordItemDtoList = KeywordItemDto.toDtoList(keywordItemList);
 

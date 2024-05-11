@@ -19,8 +19,8 @@ public class BoardKeywordService {
                 .map(keywordBiMapService::getKoreanKeyword)
                 .collect(Collectors.toList());
     }
-    public List<BoardQuestionAndDistractorDto> getQuestionAndDistractor(String koreanKeyword){
-        return keywordBiMapService.getKeyword(koreanKeyword).getQuesAndDis().stream()
+    public List<BoardQuestionAndDistractorDto> getQuestionAndDistractor(Keyword keyword){
+        return keyword.getQuesAndDis().stream()
                 .map(BoardQuestionAndDistractorDto::new)
                 .collect(Collectors.toList());
     }
