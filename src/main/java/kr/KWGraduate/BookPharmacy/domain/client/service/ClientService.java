@@ -3,23 +3,17 @@ package kr.KWGraduate.BookPharmacy.domain.client.service;
 import kr.KWGraduate.BookPharmacy.domain.client.exception.ExistEmailException;
 import kr.KWGraduate.BookPharmacy.domain.client.exception.ExistIdException;
 import kr.KWGraduate.BookPharmacy.domain.client.exception.ExistNicknameException;
-import kr.KWGraduate.BookPharmacy.domain.client.exception.NoExistIdException;
 import kr.KWGraduate.BookPharmacy.global.security.common.dto.AuthenticationAdapter;
 import kr.KWGraduate.BookPharmacy.domain.client.dto.request.ClientJoinDto;
-import kr.KWGraduate.BookPharmacy.domain.client.dto.response.ClientResponseDto;
+import kr.KWGraduate.BookPharmacy.domain.client.dto.response.ClientMypageDto;
 import kr.KWGraduate.BookPharmacy.domain.client.dto.request.ClientUpdateDto;
 import kr.KWGraduate.BookPharmacy.domain.client.domain.Client;
 import kr.KWGraduate.BookPharmacy.domain.client.repository.ClientRepository;
 import kr.KWGraduate.BookPharmacy.global.common.error.BusinessException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -73,11 +67,11 @@ public class ClientService {
         client.setNickname(nickname);
     }
 
-    public ClientResponseDto getClient(AuthenticationAdapter authenticationAdapter){
+    public ClientMypageDto getClient(AuthenticationAdapter authenticationAdapter){
         String username = authenticationAdapter.getUsername();
 
         Client client = clientRepository.findByLoginId(username).get();
-        return ClientResponseDto.toDto(client);
+        return ClientMypageDto.toDto(client);
     }
 
     @Transactional

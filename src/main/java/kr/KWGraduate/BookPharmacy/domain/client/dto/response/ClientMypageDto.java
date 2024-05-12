@@ -7,7 +7,7 @@ import lombok.Data;
 import java.time.LocalDate;
 
 @Data
-public class ClientResponseDto {
+public class ClientMypageDto {
 
     private String loginId;
     private String name;
@@ -20,7 +20,7 @@ public class ClientResponseDto {
     private String description;
 
     @Builder
-    public ClientResponseDto(String loginId,String name, String nickname, String email, Client.Gender gender, Client.Occupation occupation, LocalDate birth, Integer passwordLength, String description) {
+    public ClientMypageDto(String loginId, String name, String nickname, String email, Client.Gender gender, Client.Occupation occupation, LocalDate birth, Integer passwordLength, String description) {
         this.loginId = loginId;
         this.name = name;
         this.nickname = nickname;
@@ -31,8 +31,8 @@ public class ClientResponseDto {
         this.passwordLength = passwordLength;
         this.description = description;
     }
-    public static ClientResponseDto toDto(Client client){
-        return ClientResponseDto.builder()
+    public static ClientMypageDto toDto(Client client){
+        return ClientMypageDto.builder()
                 .loginId(client.getLoginId())
                 .name(client.getName())
                 .nickname(client.getNickname())

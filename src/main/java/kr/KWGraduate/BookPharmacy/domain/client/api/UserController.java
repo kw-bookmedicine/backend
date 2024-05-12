@@ -4,7 +4,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import kr.KWGraduate.BookPharmacy.domain.client.dto.request.ClientJoinDto;
 import kr.KWGraduate.BookPharmacy.domain.client.dto.request.ClientLoginDto;
-import kr.KWGraduate.BookPharmacy.domain.client.dto.response.ClientResponseDto;
+import kr.KWGraduate.BookPharmacy.domain.client.dto.response.ClientMypageDto;
 import kr.KWGraduate.BookPharmacy.domain.client.dto.request.ClientUpdateDto;
 import kr.KWGraduate.BookPharmacy.domain.client.service.ClientService;
 import kr.KWGraduate.BookPharmacy.global.security.common.dto.AuthenticationAdapter;
@@ -12,9 +12,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -88,7 +85,7 @@ public class UserController {
 
     @Operation(summary = "본인의 회원정보 가져오기",description = "회원의 모든 정보 가져옴")
     @GetMapping("/client")
-    public ResponseEntity<ClientResponseDto> getClient(@AuthenticationPrincipal UserDetails userDetails){
+    public ResponseEntity<ClientMypageDto> getClient(@AuthenticationPrincipal UserDetails userDetails){
         return ResponseEntity.ok(clientService.getClient((AuthenticationAdapter) userDetails));
     }
 
