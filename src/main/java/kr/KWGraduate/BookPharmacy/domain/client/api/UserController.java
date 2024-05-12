@@ -59,12 +59,30 @@ public class UserController {
         return ResponseEntity.ok(clientService.isExistNickname(nickname));
     }
 
-    @Operation(summary = "회원정보 수정" , description = "password, 닉네임, 직업 수정")
+    @Operation(summary = "자기소개와 직업정보 수정")
     @PutMapping("/client")
     public ResponseEntity<String> update(
             @RequestBody ClientUpdateDto clientUpdateDto,
             @AuthenticationPrincipal UserDetails userDetails){
         clientService.updateClient(clientUpdateDto,(AuthenticationAdapter) userDetails);
+        return ResponseEntity.ok("success");
+    }
+    @Operation(summary = "비밀번호 수정")
+    @PutMapping("/client/password")
+    public ResponseEntity<String> updatePassword(
+            @RequestParam("password") String password,
+            @AuthenticationPrincipal UserDetails userDetails
+    ){
+        clientService.updatePassword(password,(AuthenticationAdapter) userDetails);
+        return ResponseEntity.ok("success");
+    }
+    @Operation(summary = "닉네임 수정")
+    @PutMapping("/client/nickname")
+    public ResponseEntity<String> updateNickname(
+            @RequestParam("nickname") String nickname,
+            @AuthenticationPrincipal UserDetails userDetails
+    ){
+        clientService.updateNickname(nickname,(AuthenticationAdapter) userDetails);
         return ResponseEntity.ok("success");
     }
 
