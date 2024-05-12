@@ -55,11 +55,24 @@ public class ClientService {
         String username = authenticationAdapter.getUsername();
 
         Client client = clientRepository.findByLoginId(username).get();
-        clientUpdateDto.setPassword((bCryptPasswordEncoder.encode(clientUpdateDto.getPassword())));
-
+        //clientUpdateDto.setPassword((bCryptPasswordEncoder.encode(clientUpdateDto.getPassword())));
         client.update(clientUpdateDto);
-
     }
+    @Transactional
+    public void updatePassword(String password,AuthenticationAdapter authenticationAdapter){
+        String username = authenticationAdapter.getUsername();
+        Client client = clientRepository.findByLoginId(username).get();
+        String encodingPassword = bCryptPasswordEncoder.encode(password);
+        client.setPassword(encodingPassword);
+    }
+
+    @Transactional
+    public void updateNickname(String nickname, AuthenticationAdapter authenticationAdapter) {
+        String username = authenticationAdapter.getUsername();
+        Client client = clientRepository.findByLoginId(username).get();
+        client.setNickname(nickname);
+    }
+
     public ClientResponseDto getClient(AuthenticationAdapter authenticationAdapter){
         String username = authenticationAdapter.getUsername();
 
