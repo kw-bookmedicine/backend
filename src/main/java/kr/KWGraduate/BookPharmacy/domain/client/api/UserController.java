@@ -4,6 +4,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import kr.KWGraduate.BookPharmacy.domain.client.dto.request.ClientJoinDto;
 import kr.KWGraduate.BookPharmacy.domain.client.dto.request.ClientLoginDto;
+import kr.KWGraduate.BookPharmacy.domain.client.dto.response.ClientMainPageDto;
 import kr.KWGraduate.BookPharmacy.domain.client.dto.response.ClientMypageDto;
 import kr.KWGraduate.BookPharmacy.domain.client.dto.request.ClientUpdateDto;
 import kr.KWGraduate.BookPharmacy.domain.client.service.ClientService;
@@ -83,10 +84,16 @@ public class UserController {
         return ResponseEntity.ok("success");
     }
 
-    @Operation(summary = "본인의 회원정보 가져오기",description = "회원의 모든 정보 가져옴")
+    @Operation(summary = "마이페이지의 회원정보 가져오기",description = "회원의 모든 정보 가져옴")
     @GetMapping("/client")
     public ResponseEntity<ClientMypageDto> getClient(@AuthenticationPrincipal UserDetails userDetails){
         return ResponseEntity.ok(clientService.getClient((AuthenticationAdapter) userDetails));
+    }
+
+    @Operation(summary = "메인페이지의 회원 정보 가져오기")
+    @GetMapping("/client/main")
+    public ResponseEntity<ClientMainPageDto> getMainPageClient(@AuthenticationPrincipal UserDetails userDetails) {
+        return ResponseEntity.ok(clientService.getMainPageClient((AuthenticationAdapter) userDetails));
     }
 
     @Operation(summary = "회원정보 탈퇴", description = "회원 탈퇴")

@@ -1,5 +1,6 @@
 package kr.KWGraduate.BookPharmacy.domain.client.service;
 
+import kr.KWGraduate.BookPharmacy.domain.client.dto.response.ClientMainPageDto;
 import kr.KWGraduate.BookPharmacy.domain.client.exception.ExistEmailException;
 import kr.KWGraduate.BookPharmacy.domain.client.exception.ExistIdException;
 import kr.KWGraduate.BookPharmacy.domain.client.exception.ExistNicknameException;
@@ -67,6 +68,12 @@ public class ClientService {
         client.setNickname(nickname);
     }
 
+    public ClientMainPageDto getMainPageClient(AuthenticationAdapter authenticationAdapter) {
+        String username = authenticationAdapter.getUsername();
+        Client client = clientRepository.findByLoginId(username).get();
+
+        return new ClientMainPageDto(client.getNickname());
+    }
     public ClientMypageDto getClient(AuthenticationAdapter authenticationAdapter){
         String username = authenticationAdapter.getUsername();
 
