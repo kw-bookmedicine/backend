@@ -49,12 +49,21 @@ public class Client extends BaseTimeEntity {
     }
 
     public enum Occupation {
-        STUDENT, //학생
-        OFFICE_WORKER, //직장인
-        SOLE_PROPRIETORSHIP, //자영업자
-        FREELANCER, // 프리랜서
-        UNEMPLOYED // 무직
+        STUDENT("학생"), //학생
+        OFFICE_WORKER("직장인"), //직장인
+        SOLE_PROPRIETORSHIP("자영업자"), //자영업자
+        FREELANCER("프리랜서"), // 프리랜서
+        UNEMPLOYED("무직") // 무직
         ;
+
+        private String koreanOccupation;
+        Occupation(String koreanOccupation){
+            this.koreanOccupation = koreanOccupation;
+        }
+
+        public String getKoreanOccupation(){
+            return this.koreanOccupation;
+        }
     }
 
     /**
@@ -92,9 +101,9 @@ public class Client extends BaseTimeEntity {
     }
     public void setDescription(String description) {this.description = description;}
 
-    public void update(ClientUpdateDto clientUpdateDto){
-        setOccupation(clientUpdateDto.getOccupation());
-        setDescription(clientUpdateDto.getDescription());
+    public void update(Occupation occupation, String description){
+        setOccupation(occupation);
+        setDescription(description);
     }
 
 }

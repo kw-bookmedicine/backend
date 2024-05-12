@@ -7,6 +7,6 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 public class ClientUpdateDto {
-    Client.Occupation occupation;
+    String occupation;
     String description;
 }

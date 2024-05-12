@@ -20,11 +20,11 @@ public class ClientJoinDto {
     private String nickname;
     private String email;
     private Client.Gender gender;
-    private Client.Occupation occupation;
+    private String occupation;
     private LocalDate birth;
 
     @Builder
-    public ClientJoinDto(String username, String password, String name, String nickname, String email, Client.Gender gender, Client.Occupation occupation,LocalDate birth) {
+    public ClientJoinDto(String username, String password, String name, String nickname, String email, Client.Gender gender, String occupation,LocalDate birth) {
         this.username = username;
         this.password = password;
         this.name = name;
@@ -34,7 +34,7 @@ public class ClientJoinDto {
         this.occupation = occupation;
         this.birth = birth;
     }
-    public Client toEntity(int passwordLength){
+    public Client toEntity(int passwordLength, Client.Occupation occupation){
         return Client.builder()
                 .loginId(username)
                 .password(password)

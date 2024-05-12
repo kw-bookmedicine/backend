@@ -14,34 +14,22 @@ public class ClientMypageDto {
     private String nickname;
     private String email;
     private Client.Gender gender;
-    private Client.Occupation occupation;
+    private String occupation;
     private LocalDate birth;
     private Integer passwordLength;
     private String description;
 
     @Builder
-    public ClientMypageDto(String loginId, String name, String nickname, String email, Client.Gender gender, Client.Occupation occupation, LocalDate birth, Integer passwordLength, String description) {
-        this.loginId = loginId;
-        this.name = name;
-        this.nickname = nickname;
-        this.email = email;
-        this.gender = gender;
-        this.occupation = occupation;
+    public ClientMypageDto(Client client) {
+        this.loginId = client.getLoginId();
+        this.name = client.getName();
+        this.nickname = client.getNickname();
+        this.email = client.getEmail();
+        this.gender = client.getGender();
+        this.occupation = client.getOccupation().getKoreanOccupation();
         this.birth = birth;
         this.passwordLength = passwordLength;
         this.description = description;
     }
-    public static ClientMypageDto toDto(Client client){
-        return ClientMypageDto.builder()
-                .loginId(client.getLoginId())
-                .name(client.getName())
-                .nickname(client.getNickname())
-                .email(client.getEmail())
-                .gender(client.getGender())
-                .occupation(client.getOccupation())
-                .birth(client.getBirth())
-                .passwordLength(client.getPasswordLength())
-                .description(client.getDescription())
-                .build();
-    }
+
 }

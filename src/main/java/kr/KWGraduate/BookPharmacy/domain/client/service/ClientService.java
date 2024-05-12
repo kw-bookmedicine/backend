@@ -22,12 +22,15 @@ import org.springframework.transaction.annotation.Transactional;
 public class ClientService {
     private final ClientRepository clientRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final ClientOccupationMapService clientOccupationMapService;
 
     @Transactional
     public void signUp(ClientJoinDto clientJoinDto) throws BusinessException {
         int passwordLength = clientJoinDto.getPassword().length();
         clientJoinDto.setPassword(bCryptPasswordEncoder.encode(clientJoinDto.getPassword()));
-        Client client = clientJoinDto.toEntity(passwordLength);
+
+        Client.Occupation occupation = clientOccupationMapService.getValue(clientJoinDto.getOccupation());
+        Client client = clientJoinDto.toEntity(passwordLength,occupation);
         validateDuplicateClient(client);
 
         clientRepository.save(client);
@@ -48,10 +51,10 @@ public class ClientService {
     @Transactional
     public void updateClient(ClientUpdateDto clientUpdateDto, AuthenticationAdapter authenticationAdapter){
         String username = authenticationAdapter.getUsername();
-
         Client client = clientRepository.findByLoginId(username).get();
-        //clientUpdateDto.setPassword((bCryptPasswordEncoder.encode(clientUpdateDto.getPassword())));
-        client.update(clientUpdateDto);
+
+        Client.Occupation occupation = clientOccupationMapService.getValue(clientUpdateDto.getOccupation());
+        client.update(occupation,clientUpdateDto.getDescription());
     }
     @Transactional
     public void updatePassword(String password,AuthenticationAdapter authenticationAdapter){
@@ -77,8 +80,8 @@ public class ClientService {
     public ClientMypageDto getClient(AuthenticationAdapter authenticationAdapter){
         String username = authenticationAdapter.getUsername();
 
-        Client client = clientRepository.findByLoginId(username).get();
-        return ClientMypageDto.toDto(client);
+        return clientRepository.findByLoginId(username)
+                .map(ClientMypageDto::new).get();
     }
 
     @Transactional
