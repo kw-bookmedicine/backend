@@ -92,28 +92,9 @@ public class Client extends BaseTimeEntity {
     }
     public void setDescription(String description) {this.description = description;}
 
-    //비즈니스 로직 추가
-    public boolean isEqualPassword(String password){
-        if (this.password.equals(password)) {
-            return true;
-        }
-        else{
-            return false;
-        }
-    }
-    public boolean isEqualName(String name){
-        if (this.name.equals(name)) {
-            return true;
-        }
-        else{
-            return false;
-        }
-    }
-
     public void update(ClientUpdateDto clientUpdateDto){
-        this.setPassword(clientUpdateDto.getPassword());
-        this.setNickname(clientUpdateDto.getNickname());
-        this.setOccupation(clientUpdateDto.getOccupation());
+        setOccupation(clientUpdateDto.getOccupation());
+        setDescription(clientUpdateDto.getDescription());
     }
 
 }
