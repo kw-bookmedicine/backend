@@ -1,5 +1,6 @@
 package kr.KWGraduate.BookPharmacy.entity.redis;
 
+import kr.KWGraduate.BookPharmacy.global.infra.redis.RefreshToken;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

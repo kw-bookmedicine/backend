@@ -325,7 +325,6 @@ class BoardServiceTest {
                 .title("수정")
                 .description("이하정 수정")
                 .keyword(Keyword.Employment_Career)
-
                 .build();
         Long boardId2 = boardService.modifyBoard(boardId, modifyDto);
 

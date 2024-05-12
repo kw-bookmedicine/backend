@@ -3,6 +3,7 @@ package kr.KWGraduate.BookPharmacy.domain.onelineprescription.service;
 import kr.KWGraduate.BookPharmacy.domain.onelineprescription.dto.request.OneLineCreateDto;
 import kr.KWGraduate.BookPharmacy.domain.onelineprescription.dto.request.OneLineUpdateDto;
 import kr.KWGraduate.BookPharmacy.domain.onelineprescription.dto.response.OneLineResponseDto;
+import kr.KWGraduate.BookPharmacy.domain.readexperience.service.ReadExperienceService;
 import kr.KWGraduate.BookPharmacy.global.security.common.dto.AuthenticationAdapter;
 import kr.KWGraduate.BookPharmacy.domain.book.domain.Book;
 import kr.KWGraduate.BookPharmacy.domain.client.domain.Client;
@@ -25,6 +26,7 @@ public class OneLinePrescriptionService {
     private final OneLinePrescriptionRepository oneLinePrescriptionRepository;
     private final BookRepository bookRepository;
     private final ClientRepository clientRepository;
+    private final ReadExperienceService readExperienceService;
 
     @Transactional
     public OneLinePrescription createOneLinePrescription(OneLineCreateDto oneLineCreateDto, AuthenticationAdapter authentication) {
@@ -43,9 +45,12 @@ public class OneLinePrescriptionService {
                 .keyword(keyword)
                 .build();
 
-        oneLinePrescription.setClientAndBook(client, book);
+        readExperienceService.createReadExperience(client, book);
 
-        return oneLinePrescriptionRepository.save(oneLinePrescription);
+        oneLinePrescription.setClientAndBook(client, book);
+        OneLinePrescription savedResult = oneLinePrescriptionRepository.save(oneLinePrescription);
+
+        return savedResult;
     }
 
     @Transactional

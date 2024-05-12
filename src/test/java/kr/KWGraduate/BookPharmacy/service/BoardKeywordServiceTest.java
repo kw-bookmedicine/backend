@@ -46,7 +46,7 @@ class BoardKeywordServiceTest {
                 .map(BoardQuestionAndDistractorDto::new)
                 .collect(Collectors.toList());
 
-        List<BoardQuestionAndDistractorDto> questionAndDistractor = boardKeywordService.getQuestionAndDistractor(Keyword.Economy_Management);
+        List<BoardQuestionAndDistractorDto> questionAndDistractor = boardKeywordService.getQuestionAndDistractor("경제/경영");
 
         Assertions.assertIterableEquals(expectedList,questionAndDistractor);
         System.out.println(expectedList);

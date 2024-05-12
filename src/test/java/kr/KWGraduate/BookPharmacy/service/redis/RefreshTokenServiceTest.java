@@ -1,7 +1,8 @@
 package kr.KWGraduate.BookPharmacy.service.redis;
 
-import kr.KWGraduate.BookPharmacy.dto.token.TokenDto;
-import kr.KWGraduate.BookPharmacy.entity.redis.RefreshToken;
+import kr.KWGraduate.BookPharmacy.global.infra.redis.RefreshToken;
+import kr.KWGraduate.BookPharmacy.global.infra.redis.RefreshTokenService;
+import kr.KWGraduate.BookPharmacy.global.security.common.dto.TokenDto;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

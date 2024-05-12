@@ -2,7 +2,8 @@ package kr.KWGraduate.BookPharmacy.repository;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
-import kr.KWGraduate.BookPharmacy.entity.Categories;
+import kr.KWGraduate.BookPharmacy.domain.category.domain.Categories;
+import kr.KWGraduate.BookPharmacy.domain.category.repository.CategoryRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
