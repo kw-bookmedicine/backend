@@ -13,14 +13,14 @@ import lombok.NoArgsConstructor;
 public class PrescriptionCreateDto {
     private String title;
     private String description;
-    private String bookIsbn;
+    private String isbn;
     private Long boardId;
 
     @Builder
-    public PrescriptionCreateDto(String title, String description, Long boardId, String bookIsbn){
+    public PrescriptionCreateDto(String title, String description, Long boardId, String isbn){
         this.title = title;
         this.description = description;
-        this.bookIsbn = bookIsbn;
+        this.isbn = isbn;
         this.boardId = boardId;
     }
 

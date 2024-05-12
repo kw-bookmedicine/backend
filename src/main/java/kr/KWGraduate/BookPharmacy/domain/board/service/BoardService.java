@@ -6,6 +6,7 @@ import kr.KWGraduate.BookPharmacy.domain.board.dto.request.BoardModifyDto;
 import kr.KWGraduate.BookPharmacy.domain.board.dto.response.BoardConcernPageDto;
 import kr.KWGraduate.BookPharmacy.domain.board.dto.response.BoardDetailDto;
 import kr.KWGraduate.BookPharmacy.domain.board.dto.response.BoardMyPageDto;
+import kr.KWGraduate.BookPharmacy.domain.keyword.service.KeywordBiMapService;
 import kr.KWGraduate.BookPharmacy.global.security.common.dto.AuthenticationAdapter;
 import kr.KWGraduate.BookPharmacy.domain.board.domain.Board;
 import kr.KWGraduate.BookPharmacy.domain.client.domain.Client;
@@ -30,6 +31,7 @@ public class BoardService {
     private final ClientRepository clientRepository;
     private final PrescriptionRepository prescriptionRepository;
     private final AnswerService answerService;
+    private final KeywordBiMapService keywordBiMapService;
 
     public List<BoardConcernPageDto> getBoards(Pageable pageable){
         return boardRepository.findAllBoards(pageable).stream()
