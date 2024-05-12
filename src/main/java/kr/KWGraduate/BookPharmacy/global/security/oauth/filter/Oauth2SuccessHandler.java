@@ -49,7 +49,7 @@ public class Oauth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         response.addHeader(HttpHeaders.SET_COOKIE, Refresh.createCookie(token.getRefreshToken()));
 
         response.getWriter().write("success");
-        response.sendRedirect(FrontServer.getPresentAddress());
+        response.sendRedirect("https://www.bookpharmacy.store/signup/2");
     }
 
 
