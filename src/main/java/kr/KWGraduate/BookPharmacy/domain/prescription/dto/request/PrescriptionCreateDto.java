@@ -17,7 +17,8 @@ public class PrescriptionCreateDto {
     private Long boardId;
 
     @Builder
-    public PrescriptionCreateDto(String title, String description, Long boardId, String isbn){    this.title = title;
+    public PrescriptionCreateDto(String title, String description, Long boardId, String isbn){
+        this.title = title;
         this.description = description;
         this.isbn = isbn;
         this.boardId = boardId;

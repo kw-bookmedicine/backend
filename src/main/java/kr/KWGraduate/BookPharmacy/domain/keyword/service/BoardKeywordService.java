@@ -23,6 +23,7 @@ public class BoardKeywordService {
                 .collect(Collectors.toList());
     }
     public List<BoardQuestionAndDistractorDto> getQuestionAndDistractor(Keyword keyword){
+
         if(keyword == Common){
             //예외처리
         }
@@ -32,6 +33,7 @@ public class BoardKeywordService {
     }
 
     private static List<BoardQuestionAndDistractorDto> convertList(Keyword keyword) {
+
         return keyword.getQuesAndDis().stream()
                 .map(BoardQuestionAndDistractorDto::new)
                 .collect(Collectors.toList());

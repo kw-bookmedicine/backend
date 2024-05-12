@@ -19,6 +19,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -44,6 +45,7 @@ public class BoardController {
 
     @GetMapping("/keyword")
     @Operation(summary = "게시판 키워드 별 조회", description = "무한 스크롤을 위한 size와 page입력 필수, 키워드 입력")
+
     public ResponseEntity<List<BoardConcernPageDto>> getBoard(
             @RequestParam(name = "keyword")Keyword keyword
             ,@RequestParam("page") int page
@@ -76,7 +78,7 @@ public class BoardController {
         return ResponseEntity.ok("success");
     }
 
-    @PostMapping
+    @PostMapping("/new")
     @Operation(summary = "게시판 생성", description = "UserDetails는 쿠키정보로 사용자 정보를 가져옴")
     public ResponseEntity<String> createBoard(@AuthenticationPrincipal UserDetails userDetails, @RequestBody BoardCreateDto boardCreateDto){
         boardService.createBoard(boardCreateDto, (AuthenticationAdapter) userDetails);
@@ -89,7 +91,6 @@ public class BoardController {
         boardService.deleteBoard(boardId);
         return ResponseEntity.ok("success");
     }
-
     @GetMapping("/my")
     @Operation(summary = "내 게시판 조회", description = "UserDetails는 쿠키정보로 사용자 정보를 가져옴")
     public ResponseEntity<List<BoardMyPageDto>> getBoard(

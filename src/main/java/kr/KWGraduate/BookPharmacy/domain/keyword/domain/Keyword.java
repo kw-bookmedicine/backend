@@ -59,6 +59,7 @@ public enum Keyword {
             QuesAndDis.of(commonQue1,commonDistractor1),
             QuesAndDis.of(commonQue2,commonDistractor2)
     ));
+
     private final List<QuesAndDis> quesAndDis;
 
 
