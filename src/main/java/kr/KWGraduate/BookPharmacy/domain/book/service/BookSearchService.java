@@ -69,6 +69,17 @@ public class BookSearchService {
     }
 
     /**
+     * paging size keywordName을 입력받으면, 키워드를 포함하는 책 dto 페이지를 반환
+     */
+    public Page<BookDto> searchBookByKeyword(String keywordName, Pageable pageable) {
+        Page<Book> bookPageList = bookRepository.findPagingByKeyword(keywordName, pageable);
+
+        Page<BookDto> bookDtoPage = BookDto.toDtoPageWithKeywordDto(bookPageList);
+
+        return bookDtoPage;
+    }
+
+    /**
      * 검색어와 paging size, 그리고 keywordList를 입력받으면, 검색어를 책이름 또는 작가명에 포함하는 책 중 키워드를 포함하는 책 dto 페이지를 반환
      */
     public Page<BookDto> searchBookBySearchAndKeyword(String searchWord, List<String> keywordList, Pageable pageable) {

@@ -72,6 +72,18 @@ public class BookSearchController {
         return ResponseEntity.ok(bookDtoList);
     }
 
+    @Operation(summary = "해당 keyword를 포함하고 있는 책 리스트를 ?개 요청")
+    @GetMapping("/keyword")
+    public ResponseEntity<Page<BookDto>> getBookListByKeyword(@RequestParam(name = "name") String keywordName,
+                                                                   @RequestParam(name = "page") int page, @RequestParam(name = "size") int size){
+
+        PageRequest pageRequest = PageRequest.of(page, size);
+
+        Page<BookDto> bookDtoList = bookSearchService.searchBookByKeyword(keywordName, pageRequest);
+
+        return ResponseEntity.ok(bookDtoList);
+    }
+
     @Operation(summary = "검색어와 함께 키워드를 조회할때 사용함")
     @PostMapping()
     public ResponseEntity<Page<BookDto>> getBookListBySearchAndKeyword(@RequestBody BookSearchRequestDto dto,
