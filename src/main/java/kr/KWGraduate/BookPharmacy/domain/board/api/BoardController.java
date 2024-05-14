@@ -13,6 +13,7 @@ import kr.KWGraduate.BookPharmacy.domain.board.service.BoardService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -44,11 +45,12 @@ public class BoardController {
 
     @GetMapping("/keyword")
     @Operation(summary = "게시판 키워드 별 조회", description = "무한 스크롤을 위한 size와 page입력 필수, 키워드 입력")
-    public ResponseEntity<List<BoardConcernPageDto>> getBoardWithKeyword(
+
+    public ResponseEntity<List<BoardConcernPageDto>> getBoard(
             @RequestParam(name = "keyword")Keyword keyword
             ,@RequestParam("page") int page
-            ,@RequestParam("size") int size
-    ){
+            ,@RequestParam("size") int size)
+    {
         PageRequest pageRequest = PageRequest.of(page,size, Sort.by("createdDate"));
         return ResponseEntity.ok(boardService.getBoards(pageRequest, keyword));
     }
