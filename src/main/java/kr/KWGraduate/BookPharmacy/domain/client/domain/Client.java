@@ -87,9 +87,9 @@ public class Client extends BaseTimeEntity {
 
     }
 
-    public void setPassword(String password) {
+    public void setPassword(String password, Integer passwordLength) {
         this.password = password;
-        this.passwordLength = password.length();
+        this.passwordLength = passwordLength;
     }
 
     public void setNickname(String nickname) {
