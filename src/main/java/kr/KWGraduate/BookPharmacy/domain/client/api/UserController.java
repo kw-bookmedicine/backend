@@ -40,18 +40,18 @@ public class UserController {
         return ResponseEntity.ok("success");
     }
 
-    @Operation(summary = "아이디 중복확인")
+    @Operation(summary = "아이디 중복확인", description = "true이면 사용가능한 아이디, false이면 중복인 경우")
     @PostMapping("/username")
     public ResponseEntity<Boolean> isExistUsername(@RequestParam("username") String username){
         return ResponseEntity.ok(clientService.isExistId(username));
     }
-    @Operation(summary = "이메일 중복확인")
+    @Operation(summary = "이메일 중복확인", description = "true이면 사용가능한 이메일, false이면 중복인 경우")
     @PostMapping("/email")
     public ResponseEntity<Boolean> isExistEmail(@RequestParam("email") String email){
         return ResponseEntity.ok(clientService.isExistEmail(email));
     }
 
-    @Operation(summary = "닉네임 중복확인")
+    @Operation(summary = "닉네임 중복확인", description = "true이면 사용가능한 닉네임, false이면 중복인 경우")
     @PostMapping("/nickname")
     public ResponseEntity<Boolean> isExistNickname(@RequestParam("nickname") String nickname) {
         return ResponseEntity.ok(clientService.isExistNickname(nickname));
