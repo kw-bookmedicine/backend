@@ -47,5 +47,10 @@ public class BoardKeywordQuestion {
     public static final String hobbyQues1=
             "관심 있는 취미 분야를 골라주세요";
 
+    public static final String commonQue1 =
+            "해당 고민에 대한 배경지식이 어느정도 있으신가요?";
+
+    public static final String commonQue2 =
+            "해당 고민에 대한 책을 읽어 보신 적 있으신가요?";
 
 }

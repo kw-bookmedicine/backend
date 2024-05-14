@@ -1,9 +1,12 @@
 package kr.KWGraduate.BookPharmacy.repository;
 
-import kr.KWGraduate.BookPharmacy.entity.Book;
-import kr.KWGraduate.BookPharmacy.entity.Client;
-import kr.KWGraduate.BookPharmacy.entity.Keyword;
-import kr.KWGraduate.BookPharmacy.entity.OneLinePrescription;
+import kr.KWGraduate.BookPharmacy.domain.book.domain.Book;
+import kr.KWGraduate.BookPharmacy.domain.book.repository.BookRepository;
+import kr.KWGraduate.BookPharmacy.domain.client.domain.Client;
+import kr.KWGraduate.BookPharmacy.domain.client.repository.ClientRepository;
+import kr.KWGraduate.BookPharmacy.domain.keyword.domain.Keyword;
+import kr.KWGraduate.BookPharmacy.domain.onelineprescription.domain.OneLinePrescription;
+import kr.KWGraduate.BookPharmacy.domain.onelineprescription.repository.OneLinePrescriptionRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

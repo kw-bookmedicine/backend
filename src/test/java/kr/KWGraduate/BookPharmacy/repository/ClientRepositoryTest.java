@@ -1,7 +1,8 @@
 package kr.KWGraduate.BookPharmacy.repository;
 
 import jakarta.persistence.EntityManager;
-import kr.KWGraduate.BookPharmacy.entity.Client;
+import kr.KWGraduate.BookPharmacy.domain.client.domain.Client;
+import kr.KWGraduate.BookPharmacy.domain.client.repository.ClientRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,9 +23,6 @@ class ClientRepositoryTest {
 
     @Autowired
     ClientRepository clientRepository;
-
-    @Autowired
-    EntityManager em;
 
     @Test
     public void integratedTest(){

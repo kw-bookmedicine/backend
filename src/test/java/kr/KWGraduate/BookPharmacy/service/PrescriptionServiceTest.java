@@ -1,19 +1,21 @@
 package kr.KWGraduate.BookPharmacy.service;
 
-import kr.KWGraduate.BookPharmacy.dto.client.ClientDetails;
-import kr.KWGraduate.BookPharmacy.dto.prescription.request.PrescriptionCreateDto;
-import kr.KWGraduate.BookPharmacy.dto.prescription.request.PrescriptionModifyDto;
-import kr.KWGraduate.BookPharmacy.dto.prescription.response.PrescriptionBoardPageDto;
-import kr.KWGraduate.BookPharmacy.dto.prescription.response.PrescriptionMyPageDto;
-import kr.KWGraduate.BookPharmacy.entity.Board;
-import kr.KWGraduate.BookPharmacy.entity.Book;
-import kr.KWGraduate.BookPharmacy.entity.Client;
-import kr.KWGraduate.BookPharmacy.entity.Prescription;
-import kr.KWGraduate.BookPharmacy.entity.Keyword;
-import kr.KWGraduate.BookPharmacy.repository.BoardRepository;
-import kr.KWGraduate.BookPharmacy.repository.BookRepository;
-import kr.KWGraduate.BookPharmacy.repository.ClientRepository;
-import kr.KWGraduate.BookPharmacy.repository.PrescriptionRepository;
+
+import kr.KWGraduate.BookPharmacy.domain.board.domain.Board;
+import kr.KWGraduate.BookPharmacy.domain.board.repository.BoardRepository;
+import kr.KWGraduate.BookPharmacy.domain.book.domain.Book;
+import kr.KWGraduate.BookPharmacy.domain.book.repository.BookRepository;
+import kr.KWGraduate.BookPharmacy.domain.client.domain.Client;
+import kr.KWGraduate.BookPharmacy.domain.client.repository.ClientRepository;
+import kr.KWGraduate.BookPharmacy.domain.keyword.domain.Keyword;
+import kr.KWGraduate.BookPharmacy.domain.prescription.domain.Prescription;
+import kr.KWGraduate.BookPharmacy.domain.prescription.dto.request.PrescriptionCreateDto;
+import kr.KWGraduate.BookPharmacy.domain.prescription.dto.request.PrescriptionModifyDto;
+import kr.KWGraduate.BookPharmacy.domain.prescription.dto.response.PrescriptionBoardPageDto;
+import kr.KWGraduate.BookPharmacy.domain.prescription.dto.response.PrescriptionMyPageDto;
+import kr.KWGraduate.BookPharmacy.domain.prescription.repository.PrescriptionRepository;
+import kr.KWGraduate.BookPharmacy.domain.prescription.service.PrescriptionService;
+import kr.KWGraduate.BookPharmacy.global.security.auth.dto.ClientDetails;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -264,7 +266,7 @@ class PrescriptionServiceTest {
                 .title("이하정")
                 .description("보고싶어")
                 .boardId(boardId)
-                .isbn("9788974560775")
+                .bookIsbn("9788974560775")
                 .build();
         Long createId = prescriptionService.createPrescription(createDto, userDetails);
 
@@ -273,7 +275,7 @@ class PrescriptionServiceTest {
         PrescriptionModifyDto modifyDto = PrescriptionModifyDto.builder()
                 .title("수정")
                 .description("이하정 생일 축하해")
-                .isbn("9788974560775")
+                .bookIsbn("9788974560775")
                 .build();
 
         Long modifyId = prescriptionService.modifyPrescription(createId, modifyDto);

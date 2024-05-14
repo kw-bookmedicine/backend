@@ -199,4 +199,19 @@ public class QuestionDistractor {
                     ,"기타"
             );
 
+    public static final List<String> commonDistractor1 =
+            List.of(
+                    "완전 모른다",
+                    "모른다",
+                    "보통이다",
+                    "알고 있다",
+                    "자세히 알고 있다"
+            );
+
+    public static final List<String> commonDistractor2 =
+            List.of(
+                    "2권 미만",
+                    "2권 이상 6권 미만",
+                    "6권 이상"
+            );
 }

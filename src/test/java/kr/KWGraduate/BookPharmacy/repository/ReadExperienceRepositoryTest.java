@@ -1,8 +1,11 @@
 package kr.KWGraduate.BookPharmacy.repository;
 
-import kr.KWGraduate.BookPharmacy.entity.Book;
-import kr.KWGraduate.BookPharmacy.entity.Client;
-import kr.KWGraduate.BookPharmacy.entity.ReadExperience;
+import kr.KWGraduate.BookPharmacy.domain.book.domain.Book;
+import kr.KWGraduate.BookPharmacy.domain.book.repository.BookRepository;
+import kr.KWGraduate.BookPharmacy.domain.client.domain.Client;
+import kr.KWGraduate.BookPharmacy.domain.client.repository.ClientRepository;
+import kr.KWGraduate.BookPharmacy.domain.readexperience.domain.ReadExperience;
+import kr.KWGraduate.BookPharmacy.domain.readexperience.repository.ReadExperienceRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
