@@ -19,7 +19,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/search/keyword")
-@Tag(name="키워드 검색 Api")
+@Tag(name="키워드 검색 api")
 public class KeywordItemSearchController {
 
     private final KeywordItemSearchService keywordItemSearchService;

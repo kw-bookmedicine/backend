@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-@Tag(name = "Client")
+@Tag(name = "유저 관련 api")
 public class UserController {
     private final ClientService clientService;
 
@@ -40,25 +40,25 @@ public class UserController {
         return ResponseEntity.ok("success");
     }
 
-    @Operation(summary = "아이디 중복확인", description = "true이면 사용가능한 아이디, false이면 중복인 경우")
-    @PostMapping("/username")
+    @Operation(summary = "아이디 중복확인", description = "false이면 사용가능한 아이디, true이면 중복")
+    @GetMapping("/duplicate/username")
     public ResponseEntity<Boolean> isExistUsername(@RequestParam("username") String username){
         return ResponseEntity.ok(clientService.isExistId(username));
     }
-    @Operation(summary = "이메일 중복확인", description = "true이면 사용가능한 이메일, false이면 중복인 경우")
-    @PostMapping("/email")
+    @Operation(summary = "이메일 중복확인", description = "false이면 사용가능한 아이디, true이면 중복")
+    @GetMapping("/duplicate/email")
     public ResponseEntity<Boolean> isExistEmail(@RequestParam("email") String email){
         return ResponseEntity.ok(clientService.isExistEmail(email));
     }
 
-    @Operation(summary = "닉네임 중복확인", description = "true이면 사용가능한 닉네임, false이면 중복인 경우")
-    @PostMapping("/nickname")
+    @Operation(summary = "닉네임 중복확인", description = "false이면 사용가능한 아이디, true이면 중복")
+    @GetMapping("/duplicate/nickname")
     public ResponseEntity<Boolean> isExistNickname(@RequestParam("nickname") String nickname) {
         return ResponseEntity.ok(clientService.isExistNickname(nickname));
     }
 
     @Operation(summary = "자기소개와 직업정보 수정")
-    @PutMapping("/client")
+    @PutMapping("/client/info")
     public ResponseEntity<String> update(
             @RequestBody ClientUpdateDto clientUpdateDto,
             @AuthenticationPrincipal UserDetails userDetails){
@@ -68,7 +68,7 @@ public class UserController {
     @Operation(summary = "비밀번호 수정")
     @PutMapping("/client/password")
     public ResponseEntity<String> updatePassword(
-            @RequestParam("password") String password,
+            @RequestBody String password,
             @AuthenticationPrincipal UserDetails userDetails
     ){
         clientService.updatePassword(password,(AuthenticationAdapter) userDetails);
