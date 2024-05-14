@@ -61,7 +61,7 @@ public class ClientService {
         String username = authenticationAdapter.getUsername();
         Client client = clientRepository.findByLoginId(username).get();
         String encodingPassword = bCryptPasswordEncoder.encode(password);
-        client.setPassword(encodingPassword);
+        client.setPassword(encodingPassword,password.length());
     }
 
     @Transactional
