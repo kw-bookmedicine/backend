@@ -1,4 +1,4 @@
-package kr.KWGraduate.BookPharmacy.domain.book.dto.request;
+package kr.KWGraduate.BookPharmacy.domain.book.dto.response;
 
 import kr.KWGraduate.BookPharmacy.domain.book.domain.Book;
 import lombok.Builder;
@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Data
-public class BookSearchDto {
+public class BookSearchResponseDto {
     private String title;
     private String author; // 저자명
     private String publishingHouse; // 출판사명
@@ -17,7 +17,7 @@ public class BookSearchDto {
     private String imageUrl; // 이미지 url
 
     @Builder
-    public BookSearchDto(String title, String author, String publishingHouse, String publishYear, String isbn, String imageUrl) {
+    public BookSearchResponseDto(String title, String author, String publishingHouse, String publishYear, String isbn, String imageUrl) {
         this.title = title;
         this.author = author;
         this.publishingHouse = publishingHouse;
@@ -26,7 +26,7 @@ public class BookSearchDto {
         this.imageUrl = imageUrl;
     }
 
-    public BookSearchDto(Book book) {
+    public BookSearchResponseDto(Book book) {
         this.title = book.getTitle();
         this.author = book.getAuthor();
         this.publishingHouse = book.getPublishingHouse();
@@ -38,8 +38,8 @@ public class BookSearchDto {
     /**
      * Book리스트를 BookSearchDto리스트로 변환하는 함수
      * */
-    public static List<BookSearchDto> toDtoList(List<Book> bookList) {
-        List<BookSearchDto> bookSearhDtoList = bookList.stream().map(book -> new BookSearchDto(book))
+    public static List<BookSearchResponseDto> toDtoList(List<Book> bookList) {
+        List<BookSearchResponseDto> bookSearhDtoList = bookList.stream().map(book -> new BookSearchResponseDto(book))
                 .collect(Collectors.toList());
         return bookSearhDtoList;
     }
