@@ -4,14 +4,15 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import kr.KWGraduate.BookPharmacy.domain.client.dto.request.ClientJoinDto;
 import kr.KWGraduate.BookPharmacy.domain.client.dto.request.ClientLoginDto;
-import kr.KWGraduate.BookPharmacy.domain.client.dto.response.ClientResponseDto;
+import kr.KWGraduate.BookPharmacy.domain.client.dto.response.ClientMainPageDto;
+import kr.KWGraduate.BookPharmacy.domain.client.dto.response.ClientMypageDto;
 import kr.KWGraduate.BookPharmacy.domain.client.dto.request.ClientUpdateDto;
 import kr.KWGraduate.BookPharmacy.domain.client.service.ClientService;
+import kr.KWGraduate.BookPharmacy.global.security.common.dto.AuthenticationAdapter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
-import org.springframework.validation.annotation.Validated;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -39,23 +40,66 @@ public class UserController {
         return ResponseEntity.ok("success");
     }
 
-    @Operation(summary = "회원정보 수정" , description = "password, 닉네임, 직업 수정")
+    @Operation(summary = "아이디 중복확인", description = "true이면 사용가능한 아이디, false이면 중복인 경우")
+    @PostMapping("/username")
+    public ResponseEntity<Boolean> isExistUsername(@RequestParam("username") String username){
+        return ResponseEntity.ok(clientService.isExistId(username));
+    }
+    @Operation(summary = "이메일 중복확인", description = "true이면 사용가능한 이메일, false이면 중복인 경우")
+    @PostMapping("/email")
+    public ResponseEntity<Boolean> isExistEmail(@RequestParam("email") String email){
+        return ResponseEntity.ok(clientService.isExistEmail(email));
+    }
+
+    @Operation(summary = "닉네임 중복확인", description = "true이면 사용가능한 닉네임, false이면 중복인 경우")
+    @PostMapping("/nickname")
+    public ResponseEntity<Boolean> isExistNickname(@RequestParam("nickname") String nickname) {
+        return ResponseEntity.ok(clientService.isExistNickname(nickname));
+    }
+
+    @Operation(summary = "자기소개와 직업정보 수정")
     @PutMapping("/client")
-    public ResponseEntity<String> update(@RequestBody ClientUpdateDto clientUpdateDto){
-        clientService.updateClient(clientUpdateDto);
+    public ResponseEntity<String> update(
+            @RequestBody ClientUpdateDto clientUpdateDto,
+            @AuthenticationPrincipal UserDetails userDetails){
+        clientService.updateClient(clientUpdateDto,(AuthenticationAdapter) userDetails);
+        return ResponseEntity.ok("success");
+    }
+    @Operation(summary = "비밀번호 수정")
+    @PutMapping("/client/password")
+    public ResponseEntity<String> updatePassword(
+            @RequestParam("password") String password,
+            @AuthenticationPrincipal UserDetails userDetails
+    ){
+        clientService.updatePassword(password,(AuthenticationAdapter) userDetails);
+        return ResponseEntity.ok("success");
+    }
+    @Operation(summary = "닉네임 수정")
+    @PutMapping("/client/nickname")
+    public ResponseEntity<String> updateNickname(
+            @RequestParam("nickname") String nickname,
+            @AuthenticationPrincipal UserDetails userDetails
+    ){
+        clientService.updateNickname(nickname,(AuthenticationAdapter) userDetails);
         return ResponseEntity.ok("success");
     }
 
-    @Operation(summary = "본인의 회원정보 가져오기",description = "회원의 모든 정보 가져옴")
+    @Operation(summary = "마이페이지의 회원정보 가져오기",description = "회원의 모든 정보 가져옴")
     @GetMapping("/client")
-    public ResponseEntity<ClientResponseDto> getClient(){
-        return ResponseEntity.ok(clientService.getClient());
+    public ResponseEntity<ClientMypageDto> getClient(@AuthenticationPrincipal UserDetails userDetails){
+        return ResponseEntity.ok(clientService.getClient((AuthenticationAdapter) userDetails));
+    }
+
+    @Operation(summary = "메인페이지의 회원 정보 가져오기")
+    @GetMapping("/client/main")
+    public ResponseEntity<ClientMainPageDto> getMainPageClient(@AuthenticationPrincipal UserDetails userDetails) {
+        return ResponseEntity.ok(clientService.getMainPageClient((AuthenticationAdapter) userDetails));
     }
 
     @Operation(summary = "회원정보 탈퇴", description = "회원 탈퇴")
     @DeleteMapping("/client")
-    public ResponseEntity<String> cancellation(){
-        clientService.cancellation();
+    public ResponseEntity<String> cancellation(@AuthenticationPrincipal UserDetails userDetails){
+        clientService.cancellation((AuthenticationAdapter) userDetails);
         return ResponseEntity.ok("success");
     }
 

@@ -1,25 +1,20 @@
 package kr.KWGraduate.BookPharmacy.domain.client.service;
 
+import kr.KWGraduate.BookPharmacy.domain.client.dto.response.ClientMainPageDto;
 import kr.KWGraduate.BookPharmacy.domain.client.exception.ExistEmailException;
 import kr.KWGraduate.BookPharmacy.domain.client.exception.ExistIdException;
 import kr.KWGraduate.BookPharmacy.domain.client.exception.ExistNicknameException;
-import kr.KWGraduate.BookPharmacy.domain.client.exception.NoExistIdException;
 import kr.KWGraduate.BookPharmacy.global.security.common.dto.AuthenticationAdapter;
 import kr.KWGraduate.BookPharmacy.domain.client.dto.request.ClientJoinDto;
-import kr.KWGraduate.BookPharmacy.domain.client.dto.response.ClientResponseDto;
+import kr.KWGraduate.BookPharmacy.domain.client.dto.response.ClientMypageDto;
 import kr.KWGraduate.BookPharmacy.domain.client.dto.request.ClientUpdateDto;
 import kr.KWGraduate.BookPharmacy.domain.client.domain.Client;
 import kr.KWGraduate.BookPharmacy.domain.client.repository.ClientRepository;
 import kr.KWGraduate.BookPharmacy.global.common.error.BusinessException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -27,11 +22,15 @@ import java.util.stream.Collectors;
 public class ClientService {
     private final ClientRepository clientRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final ClientOccupationMapService clientOccupationMapService;
 
     @Transactional
     public void signUp(ClientJoinDto clientJoinDto) throws BusinessException {
+        int passwordLength = clientJoinDto.getPassword().length();
         clientJoinDto.setPassword(bCryptPasswordEncoder.encode(clientJoinDto.getPassword()));
-        Client client = clientJoinDto.toEntity();
+
+        Client.Occupation occupation = clientOccupationMapService.getValue(clientJoinDto.getOccupation());
+        Client client = clientJoinDto.toEntity(passwordLength,occupation);
         validateDuplicateClient(client);
 
         clientRepository.save(client);
@@ -50,50 +49,53 @@ public class ClientService {
         }
     }
     @Transactional
-    public void updateClient(ClientUpdateDto clientUpdateDto){
-        String username = getUsername();
-
+    public void updateClient(ClientUpdateDto clientUpdateDto, AuthenticationAdapter authenticationAdapter){
+        String username = authenticationAdapter.getUsername();
         Client client = clientRepository.findByLoginId(username).get();
-        clientUpdateDto.setPassword((bCryptPasswordEncoder.encode(clientUpdateDto.getPassword())));
 
-        client.update(clientUpdateDto);
-
+        Client.Occupation occupation = clientOccupationMapService.getValue(clientUpdateDto.getOccupation());
+        client.update(occupation,clientUpdateDto.getDescription());
     }
-    public ClientResponseDto getClient(){
-        String username = getUsername();
-
+    @Transactional
+    public void updatePassword(String password,AuthenticationAdapter authenticationAdapter){
+        String username = authenticationAdapter.getUsername();
         Client client = clientRepository.findByLoginId(username).get();
-        return ClientResponseDto.toDto(client);
+        String encodingPassword = bCryptPasswordEncoder.encode(password);
+        client.setPassword(encodingPassword,password.length());
     }
 
     @Transactional
-    public void cancellation(){
-        String username = getUsername();
+    public void updateNickname(String nickname, AuthenticationAdapter authenticationAdapter) {
+        String username = authenticationAdapter.getUsername();
+        Client client = clientRepository.findByLoginId(username).get();
+        client.setNickname(nickname);
+    }
+
+    public ClientMainPageDto getMainPageClient(AuthenticationAdapter authenticationAdapter) {
+        String username = authenticationAdapter.getUsername();
+        Client client = clientRepository.findByLoginId(username).get();
+
+        return new ClientMainPageDto(client.getNickname());
+    }
+    public ClientMypageDto getClient(AuthenticationAdapter authenticationAdapter){
+        String username = authenticationAdapter.getUsername();
+
+        return clientRepository.findByLoginId(username)
+                .map(ClientMypageDto::new).get();
+    }
+
+    @Transactional
+    public void cancellation(AuthenticationAdapter authenticationAdapter){
+        String username = authenticationAdapter.getUsername();
         clientRepository.deleteByLoginId(username);
     }
-    @Transactional
-    public void removeClient(Long id){
-        clientRepository.deleteById(id);
+    public boolean isExistId(String username){
+        return clientRepository.existsByLoginId(username);
     }
-
-    public ClientResponseDto findById(String id){
-        return clientRepository.findById(id)
-                .map(ClientResponseDto::toDto)
-                .orElseThrow(() -> new NoExistIdException(id));
+    public boolean isExistNickname(String nickname){
+        return clientRepository.existsByNickname(nickname);
     }
-    public List<ClientResponseDto> findAll(){
-        return clientRepository.findAll().stream()
-                .map(ClientResponseDto::toDto)
-                .collect(Collectors.toList());
-    }
-
-    public Long getClientsCount(){
-        return clientRepository.count();
-    }
-
-    private String getUsername() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        AuthenticationAdapter principal = (AuthenticationAdapter)authentication.getPrincipal();
-        return principal.getUsername();
+    public boolean isExistEmail(String email){
+        return clientRepository.existsByEmail(email);
     }
 }
