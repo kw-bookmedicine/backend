@@ -40,8 +40,6 @@ public class OneLinePrescriptionService {
 
         readExperienceService.createReadExperience(client, book);
 
-        readExperienceService.createReadExperience(client, book);
-
         oneLinePrescription.setClientAndBook(client, book);
         OneLinePrescription savedResult = oneLinePrescriptionRepository.save(oneLinePrescription);
 

@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -14,7 +15,7 @@ import java.util.List;
 public class BoardDetailDto {
     private Long boardId;
     private String nickname;
-    private LocalDateTime createdDate;
+    private LocalDate createdDate;
     private String title;
     private String description;
     private List<AnswerBoardPageDto> answers;
@@ -23,7 +24,7 @@ public class BoardDetailDto {
     public BoardDetailDto(Board board){
         this.boardId = board.getId();
         this.nickname = board.getClient().getNickname();
-        this.createdDate = board.getCreatedDate();
+        this.createdDate = board.getCreatedDate().toLocalDate();
         this.title = board.getTitle();
         this.description = board.getDescription();
     }

@@ -7,6 +7,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
+
 @Data
 @NoArgsConstructor
 public class OneLineResponseDto {
@@ -18,6 +20,7 @@ public class OneLineResponseDto {
     private String bookAuthor;
     private String bookImageUrl;
     private String clientNickname;
+    private LocalDate createdDate;
 
     @Builder
     public OneLineResponseDto(Long id, String title, String description, String bookTitle, String bookIsbn, String bookAuthor, String bookImageUrl) {
@@ -57,6 +60,7 @@ public class OneLineResponseDto {
         this.id = oneLinePrescription.getId();
         this.title = oneLinePrescription.getTitle();
         this.description = oneLinePrescription.getDescription();
+        this.createdDate = oneLinePrescription.getCreatedDate().toLocalDate();
 
         return this;
     }

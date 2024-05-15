@@ -39,7 +39,7 @@ public class BoardController {
             @RequestParam("page") int page,
             @RequestParam("size") int size
     ){
-        PageRequest pageRequest = PageRequest.of(page,size, Sort.by("createdDate"));
+        PageRequest pageRequest = PageRequest.of(page,size, Sort.by("createdDate").descending());
         return ResponseEntity.ok(boardService.getBoards(pageRequest));
     }
 
@@ -51,7 +51,7 @@ public class BoardController {
             ,@RequestParam("page") int page
             ,@RequestParam("size") int size)
     {
-        PageRequest pageRequest = PageRequest.of(page,size, Sort.by("createdDate"));
+        PageRequest pageRequest = PageRequest.of(page,size, Sort.by("createdDate").descending());
         return ResponseEntity.ok(boardService.getBoards(pageRequest, keyword));
     }
 
@@ -62,7 +62,7 @@ public class BoardController {
             @RequestParam("page") int page,
             @RequestParam("size") int size
     ){
-        PageRequest pageRequest = PageRequest.of(page,size, Sort.by("createdDate"));
+        PageRequest pageRequest = PageRequest.of(page,size, Sort.by("createdDate").descending());
         return ResponseEntity.ok(boardService.getBoards(pageRequest,searchKeyword));
     }
     @GetMapping("/{boardId}")
@@ -98,7 +98,7 @@ public class BoardController {
             @RequestParam("page") int page,
             @RequestParam("size") int size
     ){
-        PageRequest pageRequest = PageRequest.of(page,size, Sort.by("createdDate"));
+        PageRequest pageRequest = PageRequest.of(page,size, Sort.by("createdDate").descending());
 
         return ResponseEntity.ok(boardService.getMyBoards(pageRequest, (AuthenticationAdapter) userDetails));
     }
