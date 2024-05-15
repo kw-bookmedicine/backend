@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Data
@@ -13,7 +14,7 @@ import java.time.LocalDateTime;
 public class BoardMyPageDto {
     private Long boardId;
     private String title;
-    private LocalDateTime createdDate;
+    private LocalDate createdDate;
     private Keyword keyword;
     private Long prescriptionCount;
 
@@ -21,7 +22,7 @@ public class BoardMyPageDto {
     public BoardMyPageDto(Board board, Long count){
         boardId = board.getId();
         title = board.getTitle();
-        createdDate = board.getCreatedDate();
+        createdDate = board.getCreatedDate().toLocalDate();
         keyword = board.getKeyword();
         prescriptionCount = count;
     }

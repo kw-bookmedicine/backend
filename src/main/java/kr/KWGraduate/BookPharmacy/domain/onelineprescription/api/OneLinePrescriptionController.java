@@ -10,6 +10,7 @@ import kr.KWGraduate.BookPharmacy.domain.onelineprescription.service.OneLinePres
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -27,7 +28,7 @@ public class OneLinePrescriptionController {
     @GetMapping("/all")
     public ResponseEntity<Page<OneLineResponseDto>> getAllOneLinePrescriptions(@RequestParam(name = "page") int page,
                                                                                @RequestParam(name = "size") int size) {
-        PageRequest pageRequest = PageRequest.of(page, size);
+        PageRequest pageRequest = PageRequest.of(page, size, Sort.by("createdDate").descending());
         Page<OneLineResponseDto> result = oneLinePrescriptionService.getAllOneLinePrescriptions(pageRequest);
 
         return ResponseEntity.ok(result);
@@ -38,7 +39,7 @@ public class OneLinePrescriptionController {
     public ResponseEntity<Page<OneLineResponseDto>> getMyOneLinePrescriptions(@RequestParam(name = "page") int page,
                                                                               @RequestParam(name = "size") int size,
                                                                               @AuthenticationPrincipal UserDetails userDetails) {
-        PageRequest pageRequest = PageRequest.of(page, size);
+        PageRequest pageRequest = PageRequest.of(page, size, Sort.by("createdDate").descending());
         Page<OneLineResponseDto> result = oneLinePrescriptionService.getMyOneLinePrescriptions((AuthenticationAdapter) userDetails, pageRequest);
 
         return ResponseEntity.ok(result);

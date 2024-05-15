@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Data
@@ -13,7 +14,7 @@ public class PrescriptionMyPageDto {
     private Long id;
     private String title;
     private String description;
-    private LocalDateTime createdDate;
+    private LocalDate createdDate;
     private String nickname;
     private String book_title;
     private String author; // 저자명
@@ -26,7 +27,7 @@ public class PrescriptionMyPageDto {
         this.id = prescription.getId();
         this.title = prescription.getTitle();
         this.description = prescription.getDescription();
-        this.createdDate = prescription.getCreatedDate();
+        this.createdDate = prescription.getCreatedDate().toLocalDate();
         this.nickname = prescription.getClient().getNickname();
         this.book_title = prescription.getBook().getTitle();
         this.author = prescription.getBook().getAuthor();
