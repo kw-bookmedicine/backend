@@ -36,14 +36,7 @@ public class OneLinePrescriptionService {
         String isbn = oneLineCreateDto.getBookIsbn();
         Book book = bookRepository.findOptionalByIsbn(isbn).get();
 
-        // 추후 Mapper 클래스에서 enum값을 가져오도록 수정해야함 (일단은 경제경영으로 설정)
-        Keyword keyword = Keyword.Economy_Management;
-
-        OneLinePrescription oneLinePrescription = OneLinePrescription.builder()
-                .title(oneLineCreateDto.getTitle())
-                .description(oneLineCreateDto.getDescription())
-                .keyword(keyword)
-                .build();
+        OneLinePrescription oneLinePrescription = oneLineCreateDto.toEntity(book);
 
         readExperienceService.createReadExperience(client, book);
 
@@ -56,7 +49,6 @@ public class OneLinePrescriptionService {
     @Transactional
     public void updateOneLinePrescription(Long oneLinePrescriptionId, OneLineUpdateDto oneLineUpdateDto, AuthenticationAdapter authentication) {
         String loginId = authentication.getUsername();
-        Client client = clientRepository.findByLoginId(loginId).get();
 
         String bookIsbn = oneLineUpdateDto.getBookIsbn();
         Book book = bookRepository.findOptionalByIsbn(bookIsbn).get();
@@ -107,13 +99,4 @@ public class OneLinePrescriptionService {
 
         return dtoList;
     }
-
-//    Keyword 매핑 서비스 병합 후 작성
-//    public Page<OneLineResponseDto> getOneLinePrescriptionsByKeyword(Pageable pageable, String keyword){
-//
-//    }
-
-//    public List<OneLinePrescription> getOneLinePrescriptionByKeyword(String keyword) {
-//
-//    }
 }
