@@ -81,6 +81,9 @@ public class BoardService {
 
     @Transactional
     public void deleteBoard(Long boardId){
+        prescriptionRepository.deleteByBoardId(boardId);
+        answerService.deleteAnswers(boardId);
+
         boardRepository.deleteById(boardId);
     }
 
