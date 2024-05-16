@@ -26,10 +26,10 @@ class ClientRepositoryTest {
 
     @Test
     public void integratedTest(){
-        Client cli1 = new Client(1L,"123","4321","ha", LocalDate.now(),"spqjf", "lsh@naver", Client.Gender.F, Client.Occupation.UNEMPLOYED,"ROLE_USER");
+        Client cli1 = new Client(1L,"123","4321","ha", LocalDate.now(),"spqjf", "lsh@naver", Client.Gender.F, Client.Occupation.UNEMPLOYED,"ROLE_USER",6,"sdfs");
         Client saveClient1 = clientRepository.save(cli1);
 
-        Client cli2 = new Client(2L,"124","4321","sim",LocalDate.now(),"sdfsdgs", "lsh2@naver", Client.Gender.F, Client.Occupation.UNEMPLOYED,"ROLE_USER");
+        Client cli2 = new Client(2L,"124","4321","sim",LocalDate.now(),"sdfsdgs", "lsh2@naver", Client.Gender.F, Client.Occupation.UNEMPLOYED,"ROLE_USER",6,"sdfs");
         Client saveClient2 = clientRepository.save(cli2);
 
 
@@ -57,10 +57,9 @@ class ClientRepositoryTest {
 
     @Test
     public void findByEmailAndNickname(){
-        Client cli1 = new Client(1L,"123","4321","ha", LocalDate.now(),"spqjf", "lsh@naver", Client.Gender.F, Client.Occupation.UNEMPLOYED,"ROLE_USER");
+        Client cli1 = new Client(1L,"123","4321","ha", LocalDate.now(),"spqjf", "lsh@naver", Client.Gender.F, Client.Occupation.UNEMPLOYED,"ROLE_USER",6,"sdfs");
 
-        Client cli2 = new Client(2L,"124","4321","sim",LocalDate.now(),"sdfsdgs", "lsh2@naver", Client.Gender.F, Client.Occupation.UNEMPLOYED,"ROLE_USER");
-
+        Client cli2 = new Client(2L,"124","4321","sim",LocalDate.now(),"sdfsdgs", "lsh2@naver", Client.Gender.F, Client.Occupation.UNEMPLOYED,"ROLE_USER",6,"sdfs");
         clientRepository.save(cli1);
         clientRepository.save(cli2);
 
