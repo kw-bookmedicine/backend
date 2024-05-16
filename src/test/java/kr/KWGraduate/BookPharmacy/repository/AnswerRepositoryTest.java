@@ -7,6 +7,7 @@ import kr.KWGraduate.BookPharmacy.domain.board.repository.BoardRepository;
 import kr.KWGraduate.BookPharmacy.domain.client.domain.Client;
 import kr.KWGraduate.BookPharmacy.domain.client.repository.ClientRepository;
 import kr.KWGraduate.BookPharmacy.domain.keyword.domain.Keyword;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -106,6 +107,19 @@ class AnswerRepositoryTest {
         for (Answer answer : answerRepository.findByKeyword(Keyword.Economy_Management)) {
             System.out.println(answer);
         }
+
+    }
+
+    @Test
+    void test3(){
+        for (Answer answer : answerRepository.findByBoardId(171L)) {
+            System.out.println(answer);
+        }
+
+
+        answerRepository.deleteByBoardId(171L);
+        Assertions.assertThat(answerRepository.findByBoardId(171L).size()).isEqualTo(0);
+
 
     }
 }
