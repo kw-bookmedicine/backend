@@ -59,5 +59,8 @@ public class AnswerService {
                 .map(AnswerBoardPageDto::new)
                 .collect(Collectors.toList());
     }
+    public void deleteAnswers(Long boardId){
+        answerRepository.deleteByBoardId(boardId);
+    }
 
 }
