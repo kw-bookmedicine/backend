@@ -2,11 +2,9 @@ package kr.KWGraduate.BookPharmacy.domain.client.api;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import kr.KWGraduate.BookPharmacy.domain.client.dto.request.ClientJoinDto;
-import kr.KWGraduate.BookPharmacy.domain.client.dto.request.ClientLoginDto;
+import kr.KWGraduate.BookPharmacy.domain.client.dto.request.*;
 import kr.KWGraduate.BookPharmacy.domain.client.dto.response.ClientMainPageDto;
 import kr.KWGraduate.BookPharmacy.domain.client.dto.response.ClientMypageDto;
-import kr.KWGraduate.BookPharmacy.domain.client.dto.request.ClientUpdateDto;
 import kr.KWGraduate.BookPharmacy.domain.client.service.ClientService;
 import kr.KWGraduate.BookPharmacy.global.security.common.dto.AuthenticationAdapter;
 import lombok.RequiredArgsConstructor;
@@ -68,19 +66,19 @@ public class UserController {
     @Operation(summary = "비밀번호 수정")
     @PutMapping("/client/password")
     public ResponseEntity<String> updatePassword(
-            @RequestBody String password,
+            @RequestBody ClientPasswordUpdateDto clientPasswordUpdateDto,
             @AuthenticationPrincipal UserDetails userDetails
     ){
-        clientService.updatePassword(password,(AuthenticationAdapter) userDetails);
+        clientService.updatePassword(clientPasswordUpdateDto,(AuthenticationAdapter) userDetails);
         return ResponseEntity.ok("success");
     }
     @Operation(summary = "닉네임 수정")
     @PutMapping("/client/nickname")
     public ResponseEntity<String> updateNickname(
-            @RequestParam("nickname") String nickname,
+            @RequestBody ClientNicknameDto clientNicknameDto,
             @AuthenticationPrincipal UserDetails userDetails
     ){
-        clientService.updateNickname(nickname,(AuthenticationAdapter) userDetails);
+        clientService.updateNickname(clientNicknameDto,(AuthenticationAdapter) userDetails);
         return ResponseEntity.ok("success");
     }
 

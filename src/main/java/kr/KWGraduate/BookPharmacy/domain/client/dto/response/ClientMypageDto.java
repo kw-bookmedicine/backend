@@ -27,9 +27,9 @@ public class ClientMypageDto {
         this.email = client.getEmail();
         this.gender = client.getGender();
         this.occupation = client.getOccupation().getKoreanOccupation();
-        this.birth = birth;
-        this.passwordLength = passwordLength;
-        this.description = description;
+        this.birth = client.getBirth();
+        this.passwordLength = client.getPasswordLength();
+        this.description = client.getDescription();
     }
 
 }

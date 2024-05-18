@@ -9,6 +9,7 @@ import kr.KWGraduate.BookPharmacy.domain.client.repository.ClientRepository;
 import kr.KWGraduate.BookPharmacy.domain.keyword.domain.Keyword;
 import kr.KWGraduate.BookPharmacy.domain.prescription.domain.Prescription;
 import kr.KWGraduate.BookPharmacy.domain.prescription.repository.PrescriptionRepository;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -17,6 +18,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @SpringBootTest
 @Transactional
@@ -33,6 +35,18 @@ class PrescriptionRepositoryTest {
 
     @Autowired
     BoardRepository boardRepository;
+
+    @Test
+    void test1(){
+        PageRequest pageRequest = PageRequest.of(0,3);
+        for (Prescription prescription : prescriptionRepository.findByBoardId(pageRequest, 206L)) {
+            System.out.println(prescription);
+        }
+
+        prescriptionRepository.deleteByBoardId(206L);
+        Assertions.assertThat((int) prescriptionRepository.findByBoardId(pageRequest, 206L).stream().count()).isEqualTo(0);
+
+    }
 
     @Test
     void test(){

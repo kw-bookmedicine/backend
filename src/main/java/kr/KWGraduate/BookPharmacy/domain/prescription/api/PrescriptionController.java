@@ -55,6 +55,13 @@ public class PrescriptionController {
         return ResponseEntity.ok("success");
     }
 
+    @GetMapping("/{prescriptionId}")
+    @Operation(summary = "처방전 상세 조회")
+    public ResponseEntity<PrescriptionBoardPageDto> getPrescription(@PathVariable("prescriptionId") Long prescriptionId) {
+        PrescriptionBoardPageDto dto = prescriptionService.getPrescription(prescriptionId);
+        return ResponseEntity.ok(dto);
+    }
+
     @PutMapping("/{prescriptionId}")
     @Operation(summary = "처방전 수정")
     public ResponseEntity<String> modifyPrescription(@PathVariable("prescriptionId") Long prescriptionId,@RequestBody PrescriptionModifyDto prescriptionModifyDto){
