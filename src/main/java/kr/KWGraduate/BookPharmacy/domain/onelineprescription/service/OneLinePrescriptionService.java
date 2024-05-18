@@ -90,6 +90,22 @@ public class OneLinePrescriptionService {
         return dtoList;
     }
 
+    public Page<OneLineResponseDto> getOneLinePrescriptionsByKeyword(Keyword keyword, Pageable pageable) {
+        Page<OneLinePrescription> pageResult = oneLinePrescriptionRepository.findByKeyword(keyword, pageable);
+        Page<OneLineResponseDto> dtoList = pageResult.map(oneLine -> new OneLineResponseDto()
+                .setAllAttr(oneLine.getBook(), oneLine.getClient(), oneLine));
+
+        return dtoList;
+    }
+
+    public Page<OneLineResponseDto> getOneLinePrescriptionsBySearch(String searchWord, Pageable pageable) {
+        Page<OneLinePrescription> pageResult = oneLinePrescriptionRepository.findByTitleContainingOrDescriptionContaining(searchWord, pageable);
+        Page<OneLineResponseDto> dtoList = pageResult.map(oneLine -> new OneLineResponseDto()
+                .setAllAttr(oneLine.getBook(), oneLine.getClient(), oneLine));
+
+        return dtoList;
+    }
+
     public Page<OneLineResponseDto> getMyOneLinePrescriptions(AuthenticationAdapter authentication, Pageable pageable) {
         String loginId = authentication.getUsername();
         Page<OneLinePrescription> pageResult = oneLinePrescriptionRepository.findByLoginId(loginId, pageable);
