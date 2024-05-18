@@ -41,6 +41,13 @@ public class PrescriptionService {
                 .collect(Collectors.toList());
     }
 
+    public PrescriptionBoardPageDto getPrescription(Long prescriptionId) {
+        Prescription prescription = prescriptionRepository.findById(prescriptionId).get();
+        PrescriptionBoardPageDto dto = PrescriptionBoardPageDto.builder().prescription(prescription).build();
+
+        return dto;
+    }
+
     @Transactional
     public Long createPrescription(PrescriptionCreateDto prescriptionCreateDto, AuthenticationAdapter authentication){
         Client client = clientRepository.findByLoginId(authentication.getUsername()).get();
