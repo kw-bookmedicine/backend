@@ -3,6 +3,8 @@ package kr.KWGraduate.BookPharmacy.domain.answer.domain;
 import jakarta.persistence.*;
 import kr.KWGraduate.BookPharmacy.domain.board.domain.Board;
 import lombok.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -16,6 +18,7 @@ public class Answer {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "board_id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Board board;
 
     private String answer;

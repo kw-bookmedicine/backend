@@ -6,6 +6,8 @@ import kr.KWGraduate.BookPharmacy.domain.book.domain.Book;
 import kr.KWGraduate.BookPharmacy.global.common.BaseTimeEntity;
 import kr.KWGraduate.BookPharmacy.domain.client.domain.Client;
 import lombok.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -29,6 +31,7 @@ public class Prescription extends BaseTimeEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "board_id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Board board;
 
     private String title;

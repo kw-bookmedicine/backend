@@ -3,6 +3,7 @@ package kr.KWGraduate.BookPharmacy.domain.answer.repository;
 import kr.KWGraduate.BookPharmacy.domain.answer.domain.Answer;
 import kr.KWGraduate.BookPharmacy.domain.keyword.domain.Keyword;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
@@ -14,4 +15,5 @@ public interface AnswerRepository extends JpaRepository<Answer, Long> {
 
     @Query("select a from Answer a join fetch a.board b where b.keyword = :keyword")
     List<Answer> findByKeyword(@Param("keyword") Keyword keyword);
+
 }
