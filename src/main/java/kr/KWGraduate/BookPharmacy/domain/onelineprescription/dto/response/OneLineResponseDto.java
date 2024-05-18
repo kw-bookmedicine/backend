@@ -19,11 +19,14 @@ public class OneLineResponseDto {
     private String bookIsbn;
     private String bookAuthor;
     private String bookImageUrl;
+    private String bookPublishYear;
+    private String bookPublishingHouse;
     private String clientNickname;
     private LocalDate createdDate;
 
     @Builder
-    public OneLineResponseDto(Long id, String title, String description, String bookTitle, String bookIsbn, String bookAuthor, String bookImageUrl) {
+    public OneLineResponseDto(Long id, String title, String description, String bookTitle, String bookIsbn, String bookAuthor, String bookImageUrl,
+                              String bookPublishYear, String bookPublishingHouse) {
         this.id = id;
         this.title = title;
         this.description = description;
@@ -31,6 +34,8 @@ public class OneLineResponseDto {
         this.bookIsbn = bookIsbn;
         this.bookAuthor = bookAuthor;
         this.bookImageUrl = bookImageUrl;
+        this.bookPublishYear = bookPublishYear;
+        this.bookPublishingHouse = bookPublishingHouse;
     }
 
     public OneLineResponseDto setAllAttr(Book book, Client client, OneLinePrescription oneLinePrescription) {
@@ -46,6 +51,8 @@ public class OneLineResponseDto {
         this.bookIsbn = book.getIsbn();
         this.bookAuthor = book.getAuthor();
         this.bookImageUrl = book.getImageUrl();
+        this.bookPublishYear = book.getPublishYear();
+        this.bookPublishingHouse = book.getPublishingHouse();
 
         return this;
     }
