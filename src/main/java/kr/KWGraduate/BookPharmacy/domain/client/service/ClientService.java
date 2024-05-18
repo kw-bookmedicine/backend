@@ -1,5 +1,7 @@
 package kr.KWGraduate.BookPharmacy.domain.client.service;
 
+import kr.KWGraduate.BookPharmacy.domain.client.dto.request.ClientNicknameDto;
+import kr.KWGraduate.BookPharmacy.domain.client.dto.request.ClientPasswordUpdateDto;
 import kr.KWGraduate.BookPharmacy.domain.client.dto.response.ClientMainPageDto;
 import kr.KWGraduate.BookPharmacy.domain.client.exception.ExistEmailException;
 import kr.KWGraduate.BookPharmacy.domain.client.exception.ExistIdException;
@@ -57,16 +59,20 @@ public class ClientService {
         client.update(occupation,clientUpdateDto.getDescription());
     }
     @Transactional
-    public void updatePassword(String password,AuthenticationAdapter authenticationAdapter){
+    public void updatePassword(ClientPasswordUpdateDto clientPasswordUpdateDto, AuthenticationAdapter authenticationAdapter){
         String username = authenticationAdapter.getUsername();
+        String password = clientPasswordUpdateDto.getPassword();
+
         Client client = clientRepository.findByLoginId(username).get();
         String encodingPassword = bCryptPasswordEncoder.encode(password);
         client.setPassword(encodingPassword,password.length());
     }
 
     @Transactional
-    public void updateNickname(String nickname, AuthenticationAdapter authenticationAdapter) {
+    public void updateNickname(ClientNicknameDto clientNicknameDto, AuthenticationAdapter authenticationAdapter) {
         String username = authenticationAdapter.getUsername();
+        String nickname = clientNicknameDto.getNickname();
+
         Client client = clientRepository.findByLoginId(username).get();
         client.setNickname(nickname);
     }
