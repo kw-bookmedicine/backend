@@ -27,9 +27,9 @@ public class BoardKeywordService {
         if(keyword == Common){
             //예외처리
         }
-        List<BoardQuestionAndDistractorDto> commonList = convertList(Common);
-        commonList.addAll(convertList(keyword));
-        return commonList;
+        List<BoardQuestionAndDistractorDto> keywordList = convertList(keyword);
+        keywordList.addAll(convertList(Common));
+        return keywordList;
     }
 
     private static List<BoardQuestionAndDistractorDto> convertList(Keyword keyword) {
