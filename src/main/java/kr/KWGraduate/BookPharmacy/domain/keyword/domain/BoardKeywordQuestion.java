@@ -47,6 +47,6 @@ public class BoardKeywordQuestion {
             "해당 고민에 대한 배경지식이 어느정도 있으신가요?";
 
     public static final String commonQue2 =
-            "한달의 몇권의 책을 읽으시나요?";
+            "한달에 몇권의 책을 읽으시나요?";
 
 }
