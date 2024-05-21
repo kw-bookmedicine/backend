@@ -43,7 +43,7 @@ class PrescriptionRepositoryTest {
             System.out.println(prescription);
         }
 
-        prescriptionRepository.deleteByBoardId(206L);
+        prescriptionRepository.deleteById(206L);
         Assertions.assertThat((int) prescriptionRepository.findByBoardId(pageRequest, 206L).stream().count()).isEqualTo(0);
 
     }

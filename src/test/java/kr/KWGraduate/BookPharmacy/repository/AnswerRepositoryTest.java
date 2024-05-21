@@ -117,7 +117,7 @@ class AnswerRepositoryTest {
         }
 
 
-        answerRepository.deleteByBoardId(171L);
+        answerRepository.deleteById(171L);
         Assertions.assertThat(answerRepository.findByBoardId(171L).size()).isEqualTo(0);
 
 

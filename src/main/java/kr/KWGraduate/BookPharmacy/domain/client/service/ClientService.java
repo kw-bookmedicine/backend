@@ -6,6 +6,8 @@ import kr.KWGraduate.BookPharmacy.domain.client.dto.response.ClientMainPageDto;
 import kr.KWGraduate.BookPharmacy.domain.client.exception.ExistEmailException;
 import kr.KWGraduate.BookPharmacy.domain.client.exception.ExistIdException;
 import kr.KWGraduate.BookPharmacy.domain.client.exception.ExistNicknameException;
+import kr.KWGraduate.BookPharmacy.domain.interest.repository.InterestRepository;
+import kr.KWGraduate.BookPharmacy.domain.interest.service.InterestService;
 import kr.KWGraduate.BookPharmacy.global.security.common.dto.AuthenticationAdapter;
 import kr.KWGraduate.BookPharmacy.domain.client.dto.request.ClientJoinDto;
 import kr.KWGraduate.BookPharmacy.domain.client.dto.response.ClientMypageDto;
@@ -25,6 +27,7 @@ public class ClientService {
     private final ClientRepository clientRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final ClientOccupationMapService clientOccupationMapService;
+    private final InterestService interestService;
 
     @Transactional
     public void signUp(ClientJoinDto clientJoinDto) throws BusinessException {
@@ -35,7 +38,8 @@ public class ClientService {
         Client client = clientJoinDto.toEntity(passwordLength,occupation);
         validateDuplicateClient(client);
 
-        clientRepository.save(client);
+        Client savedClient = clientRepository.save(client);
+        interestService.updateInterest(clientJoinDto.getInterestList(), savedClient);
     }
 
     private void validateDuplicateClient(Client client) {
