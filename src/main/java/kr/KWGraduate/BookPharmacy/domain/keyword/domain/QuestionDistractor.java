@@ -5,12 +5,6 @@ import java.util.List;
 public class QuestionDistractor {
     public static final List<String> economyManagementDistractor1 =
             List.of(
-                    "경제 기초 용어나 개념을 잘 모른다",
-                    "일반적인 경제 지표 및 정책을 이해할 수 있다",
-                    "경제 현상과 정책에 대해 깊게 이해할 수 있다"
-            );
-    public static final List<String> economyManagementDistractor2 =
-            List.of(
                     "경제상식",
                     "경제/경영이론",
                     "경제현상",
@@ -114,12 +108,6 @@ public class QuestionDistractor {
             );
     public static final List<String> philosophyDistractor1 =
             List.of(
-                    "잘 모른다",
-                    "중요한 철학적 개념이나 철학자 몇 명에 대해 알고 있다",
-                    "다양한 철학적 이론과 철학자들에 대해 관심이 많다"
-            );
-    public static final List<String> philosophyDistractor2 =
-            List.of(
                     "플라톤",
                     "아리스토텔레스",
                     "데카르트",
@@ -211,7 +199,7 @@ public class QuestionDistractor {
     public static final List<String> commonDistractor2 =
             List.of(
                     "2권 미만",
-                    "2권 이상 6권 미만",
-                    "6권 이상"
+                    "2권 이상 5권 미만",
+                    "5권 이상"
             );
 }
