@@ -37,7 +37,7 @@ public enum Keyword {
             QuesAndDis.of(fictionQues2, fictionDistractor2)
     )),
     Philosophy(List.of(
-            QuesAndDis.of(philosophyQues1, fictionDistractor1)
+            QuesAndDis.of(philosophyQues1, philosophyDistractor1)
     )),
     History(List.of(
             QuesAndDis.of(historyQues1, historyDistractor1),
