@@ -12,6 +12,7 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -26,8 +27,9 @@ class ClientServiceTest {
     @Test
     public void join(){
 
-        ClientJoinDto cli1 = new ClientJoinDto("123","4321","ha","bob","spqjf", Client.Gender.F, "무직", LocalDate.now());
-        ClientJoinDto cli2 = new ClientJoinDto("124","4321","sim","sdfs","sdfsdgs", Client.Gender.F, "무직",LocalDate.now());
+        List<String> interestList = List.of("영어", "독일어", "북아프리카");
+        ClientJoinDto cli1 = new ClientJoinDto("123","4321","ha","bob","spqjf", Client.Gender.F, "무직", LocalDate.now(), interestList);
+        ClientJoinDto cli2 = new ClientJoinDto("124","4321","sim","sdfs","sdfsdgs", Client.Gender.F, "무직",LocalDate.now(), interestList);
 
         clientService.signUp(cli1);
 
@@ -40,8 +42,9 @@ class ClientServiceTest {
 
     @Test
     public void joinFail(){
-        ClientJoinDto cli1 = new ClientJoinDto("123","4321","ha","bob","spqjf", Client.Gender.F, "무직", LocalDate.now());
-        ClientJoinDto cli2 = new ClientJoinDto("124","4321","sim","sdfs","sdfsdgs", Client.Gender.F, "무직",LocalDate.now());
+        List<String> interestList = List.of("영어", "독일어", "북아프리카");
+        ClientJoinDto cli1 = new ClientJoinDto("123","4321","ha","bob","spqjf", Client.Gender.F, "무직", LocalDate.now(), interestList);
+        ClientJoinDto cli2 = new ClientJoinDto("124","4321","sim","sdfs","sdfsdgs", Client.Gender.F, "무직",LocalDate.now(), interestList);
 
         clientService.signUp(cli1);
 
@@ -50,8 +53,9 @@ class ClientServiceTest {
     @Test
     public void basicCRUD(){
         //코드 수정해야힘
-        ClientJoinDto cli1 = new ClientJoinDto("123","4321","ha","bob","spqjf", Client.Gender.F, "무직", LocalDate.now());
-        ClientJoinDto cli2 = new ClientJoinDto("124","4321","sim","sdfs","sdfsdgs", Client.Gender.F, "무직",LocalDate.now());
+        List<String> interestList = List.of("영어", "독일어", "북아프리카");
+        ClientJoinDto cli1 = new ClientJoinDto("123","4321","ha","bob","spqjf", Client.Gender.F, "무직", LocalDate.now(), interestList);
+        ClientJoinDto cli2 = new ClientJoinDto("124","4321","sim","sdfs","sdfsdgs", Client.Gender.F, "무직",LocalDate.now(), interestList);
 
         clientService.signUp(cli1);
         clientService.signUp(cli2);
