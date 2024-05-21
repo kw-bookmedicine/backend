@@ -11,8 +11,7 @@ import static kr.KWGraduate.BookPharmacy.domain.keyword.domain.QuestionDistracto
 public enum Keyword {
 
     Economy_Management(List.of(
-            QuesAndDis.of(economyManagementQues1, economyManagementDistractor1),
-            QuesAndDis.of(economyManagementQues2, economyManagementDistractor2)
+            QuesAndDis.of(economyManagementQues1, economyManagementDistractor1)
     )),
     Health(List.of(
             QuesAndDis.of(healthQues1, healthDistractor1),
@@ -38,8 +37,7 @@ public enum Keyword {
             QuesAndDis.of(fictionQues2, fictionDistractor2)
     )),
     Philosophy(List.of(
-            QuesAndDis.of(philosophyQues1, fictionDistractor1),
-            QuesAndDis.of(philosophyQues2, fictionDistractor2)
+            QuesAndDis.of(philosophyQues1, fictionDistractor1)
     )),
     History(List.of(
             QuesAndDis.of(historyQues1, historyDistractor1),
