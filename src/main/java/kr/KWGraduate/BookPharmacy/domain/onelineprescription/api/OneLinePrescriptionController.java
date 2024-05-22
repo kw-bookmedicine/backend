@@ -93,21 +93,21 @@ public class OneLinePrescriptionController {
 
     @Operation(summary = "한줄처방을 수정할때 요청")
     @PutMapping("/{prescriptionId}")
-    public ResponseEntity<Void> updateOneLinePrescription(@PathVariable(value = "prescriptionId") Long prescriptionId,
+    public ResponseEntity<String> updateOneLinePrescription(@PathVariable(value = "prescriptionId") Long prescriptionId,
                                                           @RequestBody OneLineUpdateDto oneLineUpdateDto,
                                                     @AuthenticationPrincipal UserDetails userDetails) {
         oneLinePrescriptionService.updateOneLinePrescription(prescriptionId, oneLineUpdateDto, (AuthenticationAdapter) userDetails);
 
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok("success");
     }
 
     @Operation(summary = "한줄처방을 삭제할 때 요청")
     @DeleteMapping("/{prescriptionId}")
-    public ResponseEntity<Void> deleteOneLinePrescription(@PathVariable(value = "prescriptionId") Long prescriptionId,
+    public ResponseEntity<String> deleteOneLinePrescription(@PathVariable(value = "prescriptionId") Long prescriptionId,
                                                     @AuthenticationPrincipal UserDetails userDetails) {
         oneLinePrescriptionService.deleteOneLinePrescription(prescriptionId, (AuthenticationAdapter) userDetails);
 
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok("success");
     }
 
 }
