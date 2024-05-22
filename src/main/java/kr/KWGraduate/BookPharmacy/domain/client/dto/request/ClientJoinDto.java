@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -22,9 +23,10 @@ public class ClientJoinDto {
     private Client.Gender gender;
     private String occupation;
     private LocalDate birth;
+    private List<String> interestList;
 
     @Builder
-    public ClientJoinDto(String username, String password, String name, String nickname, String email, Client.Gender gender, String occupation,LocalDate birth) {
+    public ClientJoinDto(String username, String password, String name, String nickname, String email, Client.Gender gender, String occupation,LocalDate birth, List<String> interestList) {
         this.username = username;
         this.password = password;
         this.name = name;
@@ -33,6 +35,7 @@ public class ClientJoinDto {
         this.gender = gender;
         this.occupation = occupation;
         this.birth = birth;
+        this.interestList = interestList;
     }
     public Client toEntity(int passwordLength, Client.Occupation occupation){
         return Client.builder()

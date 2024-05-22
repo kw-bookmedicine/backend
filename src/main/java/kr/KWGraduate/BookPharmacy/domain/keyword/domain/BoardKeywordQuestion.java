@@ -2,8 +2,6 @@ package kr.KWGraduate.BookPharmacy.domain.keyword.domain;
 
 public class BoardKeywordQuestion {
     public static final String economyManagementQues1 =
-            "경제에 대해 얼마나 알고 계신가요?";
-    public static final String economyManagementQues2 =
             "구체적으로 어떤 것과 관련이 있나요?";
 
     public static final String healthQues1=
@@ -29,8 +27,6 @@ public class BoardKeywordQuestion {
     public static final String fictionQues2=
             "어떤 장르를 원하시나요?";
     public static final String philosophyQues1=
-            "철학에 대해서 얼마나 알고 계신가요?";
-    public static final String philosophyQues2=
             "관심가는 철학자가 있을까요?";
     public static final String historyQues1=
             "어떤 역사에 관심이 많으신가요?";
@@ -51,6 +47,6 @@ public class BoardKeywordQuestion {
             "해당 고민에 대한 배경지식이 어느정도 있으신가요?";
 
     public static final String commonQue2 =
-            "해당 고민에 대한 책을 읽어 보신 적 있으신가요?";
+            "한달에 몇권의 책을 읽으시나요?";
 
 }
