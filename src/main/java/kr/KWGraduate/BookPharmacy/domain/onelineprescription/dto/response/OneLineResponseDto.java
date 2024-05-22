@@ -2,6 +2,7 @@ package kr.KWGraduate.BookPharmacy.domain.onelineprescription.dto.response;
 
 import kr.KWGraduate.BookPharmacy.domain.book.domain.Book;
 import kr.KWGraduate.BookPharmacy.domain.client.domain.Client;
+import kr.KWGraduate.BookPharmacy.domain.keyword.domain.Keyword;
 import kr.KWGraduate.BookPharmacy.domain.onelineprescription.domain.OneLinePrescription;
 import lombok.Builder;
 import lombok.Data;
@@ -15,6 +16,7 @@ public class OneLineResponseDto {
     private Long id;
     private String title;
     private String description;
+    private Keyword keyword;
     private String bookTitle;
     private String bookIsbn;
     private String bookAuthor;
@@ -25,11 +27,12 @@ public class OneLineResponseDto {
     private LocalDate createdDate;
 
     @Builder
-    public OneLineResponseDto(Long id, String title, String description, String bookTitle, String bookIsbn, String bookAuthor, String bookImageUrl,
+    public OneLineResponseDto(Long id, String title, String description, Keyword keyword, String bookTitle, String bookIsbn, String bookAuthor, String bookImageUrl,
                               String bookPublishYear, String bookPublishingHouse) {
         this.id = id;
         this.title = title;
         this.description = description;
+        this.keyword = keyword;
         this.bookTitle = bookTitle;
         this.bookIsbn = bookIsbn;
         this.bookAuthor = bookAuthor;
@@ -67,6 +70,7 @@ public class OneLineResponseDto {
         this.id = oneLinePrescription.getId();
         this.title = oneLinePrescription.getTitle();
         this.description = oneLinePrescription.getDescription();
+        this.keyword = oneLinePrescription.getKeyword();
         this.createdDate = oneLinePrescription.getCreatedDate().toLocalDate();
 
         return this;

@@ -57,6 +57,7 @@ public class OneLinePrescriptionService {
 
         oneLinePrescription.setTitle(oneLineUpdateDto.getTitle());
         oneLinePrescription.setDescription(oneLineUpdateDto.getDescription());
+        oneLinePrescription.setKeyword(oneLineUpdateDto.getKeyword());
         oneLinePrescription.setBook(book);
 
         oneLinePrescriptionRepository.flush();
