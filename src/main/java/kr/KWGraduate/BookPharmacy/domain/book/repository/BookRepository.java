@@ -80,7 +80,7 @@ public interface BookRepository extends JpaRepository<Book, Long> {
     List<Book> findAllByIsbnIn(List<String> isbn);
 
 
-    @Query("select b from Book b join fetch b.bookKeywords bk join fetch bk.keywordItem where b.isbn = :isbn")
+    @Query("select b from Book b left join fetch b.bookKeywords bk left join fetch bk.keywordItem where b.isbn = :isbn")
     Book findBookDetailWithKeywordByIsbn(String isbn);
 
     /**
