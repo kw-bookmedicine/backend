@@ -6,6 +6,7 @@ import kr.KWGraduate.BookPharmacy.domain.keyword.domain.Keyword;
 import kr.KWGraduate.BookPharmacy.global.common.BaseTimeEntity;
 import kr.KWGraduate.BookPharmacy.domain.client.domain.Client;
 import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
 
 @Entity
 @Getter
@@ -37,6 +38,12 @@ public class OneLinePrescription extends BaseTimeEntity {
     @Enumerated(EnumType.STRING)
     private Keyword keyword;
 
+    @ColumnDefault("0")
+    private int likeCount;
+
+    @ColumnDefault("0")
+    private int helpfulCount;
+
     @Builder
     public OneLinePrescription(Client client, Book book, String title, String description, Keyword keyword) {
         this.client = client;
@@ -64,4 +71,8 @@ public class OneLinePrescription extends BaseTimeEntity {
     }
 
     public void setKeyword(Keyword keyword) { this.keyword = keyword; }
+
+    public void setLikeCount(int likeCount) { this.likeCount = likeCount; }
+
+    public void setHelpfulCount(int helpfulCount) { this.helpfulCount = helpfulCount; }
 }
