@@ -7,6 +7,7 @@ import kr.KWGraduate.BookPharmacy.domain.board.dto.response.BoardConcernPageDto;
 import kr.KWGraduate.BookPharmacy.domain.board.dto.response.BoardDetailDto;
 import kr.KWGraduate.BookPharmacy.domain.board.dto.response.BoardMyPageDto;
 import kr.KWGraduate.BookPharmacy.domain.keyword.service.KeywordBiMapService;
+import kr.KWGraduate.BookPharmacy.domain.onelineprescription.dto.response.OneLineResponseDto;
 import kr.KWGraduate.BookPharmacy.global.security.common.dto.AuthenticationAdapter;
 import kr.KWGraduate.BookPharmacy.domain.board.domain.Board;
 import kr.KWGraduate.BookPharmacy.domain.client.domain.Client;
@@ -15,6 +16,7 @@ import kr.KWGraduate.BookPharmacy.domain.board.repository.BoardRepository;
 import kr.KWGraduate.BookPharmacy.domain.client.repository.ClientRepository;
 import kr.KWGraduate.BookPharmacy.domain.prescription.repository.PrescriptionRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
@@ -33,10 +35,11 @@ public class BoardService {
     private final AnswerService answerService;
     private final KeywordBiMapService keywordBiMapService;
 
-    public List<BoardConcernPageDto> getBoards(Pageable pageable){
-        return boardRepository.findAllBoards(pageable).stream()
-                .map(BoardConcernPageDto::new)
-                .collect(Collectors.toList());
+    public Page<BoardConcernPageDto> getBoards(Pageable pageable){
+        Page<Board> pageResult = boardRepository.findAllBoards(pageable);
+        Page<BoardConcernPageDto> dtoList = pageResult.map(board -> new BoardConcernPageDto(board));
+
+        return dtoList;
     }
 
     public BoardDetailDto getBoardDetail(Long boardId) throws Exception {
@@ -46,15 +49,18 @@ public class BoardService {
         boardDetailDto.setAnswerBoardPageDto(answerService.getAnswers(boardId));
         return boardDetailDto;
     }
-    public List<BoardConcernPageDto> getBoards(Pageable pageable, Keyword keyword){
-        return boardRepository.findByKeyword(pageable, keyword).stream()
-                .map(BoardConcernPageDto::new)
-                .collect(Collectors.toList());
+    public Page<BoardConcernPageDto> getBoards(Pageable pageable, Keyword keyword){
+        Page<Board> pageResult = boardRepository.findByKeyword(pageable, keyword);
+        Page<BoardConcernPageDto> dtoList = pageResult.map(board -> new BoardConcernPageDto(board));
+
+        return dtoList;
     }
-    public List<BoardConcernPageDto> getBoards(Pageable pageable , String searchKeyword){
-        return boardRepository.findByTitleContainingOrDescriptionContaining(pageable, searchKeyword).stream()
-                .map(BoardConcernPageDto::new)
-                .collect(Collectors.toList());
+    public Page<BoardConcernPageDto> getBoards(Pageable pageable , String searchKeyword){
+        Page<Board> pageResult = boardRepository.findByTitleContainingOrDescriptionContaining(pageable, searchKeyword);
+
+        Page<BoardConcernPageDto> dtoList = pageResult.map(board -> new BoardConcernPageDto(board));
+
+        return dtoList;
     }
 
     @Transactional
@@ -85,14 +91,14 @@ public class BoardService {
         boardRepository.deleteById(boardId);
     }
 
-    public List<BoardMyPageDto> getMyBoards(Pageable pageable, AuthenticationAdapter authenticationAdapter){
-        Slice<Board> boards = boardRepository.findByUsername(pageable, authenticationAdapter.getUsername());
+    public Page<BoardMyPageDto> getMyBoards(Pageable pageable, AuthenticationAdapter authenticationAdapter){
+        Page<Board> boards = boardRepository.findByUsername(pageable, authenticationAdapter.getUsername());
 
         return getBoardMyPageDtos(boards);
 
     }
 
-    private List<BoardMyPageDto> getBoardMyPageDtos(Slice<Board> boards) {
+    private Page<BoardMyPageDto> getBoardMyPageDtos(Page<Board> boards) {
         List<Long> boardIds = new ArrayList<>();
 
         for(Board b : boards){
@@ -107,13 +113,10 @@ public class BoardService {
             map.put(boardId , count);
         }
 
-        return boards.stream()
-                .map((board) -> {
+        return boards.map((board) -> {
                     Long count = map.getOrDefault(board.getId(),0L);
                     return new BoardMyPageDto(board, count);
-                })
-                .collect(Collectors.toList());
+                });
     }
-
 
 }
