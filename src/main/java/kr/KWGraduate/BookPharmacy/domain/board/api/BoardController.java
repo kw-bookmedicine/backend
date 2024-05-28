@@ -11,6 +11,7 @@ import kr.KWGraduate.BookPharmacy.global.security.common.dto.AuthenticationAdapt
 import kr.KWGraduate.BookPharmacy.domain.keyword.domain.Keyword;
 import kr.KWGraduate.BookPharmacy.domain.board.service.BoardService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
@@ -35,7 +36,7 @@ public class BoardController {
 
     @GetMapping("/all")
     @Operation(summary = "모든 게시판 조회", description = "무한 스크롤을 위한 size와 page입력 필수")
-    public ResponseEntity<List<BoardConcernPageDto>> getBoard(
+    public ResponseEntity<Page<BoardConcernPageDto>> getBoard(
             @RequestParam("page") int page,
             @RequestParam("size") int size
     ){
@@ -46,7 +47,7 @@ public class BoardController {
     @GetMapping("/keyword")
     @Operation(summary = "게시판 키워드 별 조회", description = "무한 스크롤을 위한 size와 page입력 필수, 키워드 입력")
 
-    public ResponseEntity<List<BoardConcernPageDto>> getBoard(
+    public ResponseEntity<Page<BoardConcernPageDto>> getBoard(
             @RequestParam(name = "keyword")Keyword keyword
             ,@RequestParam("page") int page
             ,@RequestParam("size") int size)
@@ -57,7 +58,7 @@ public class BoardController {
 
     @GetMapping("/search")
     @Operation(summary = "검색으로 인한 게시판 조회", description = "무한 스크롤을 위한 size와 page입력")
-    public ResponseEntity<List<BoardConcernPageDto>> getBoard(
+    public ResponseEntity<Page<BoardConcernPageDto>> getBoard(
             @RequestParam("searchKeyword") String searchKeyword,
             @RequestParam("page") int page,
             @RequestParam("size") int size
@@ -93,7 +94,7 @@ public class BoardController {
     }
     @GetMapping("/my")
     @Operation(summary = "내 게시판 조회", description = "UserDetails는 쿠키정보로 사용자 정보를 가져옴")
-    public ResponseEntity<List<BoardMyPageDto>> getBoard(
+    public ResponseEntity<Page<BoardMyPageDto>> getBoard(
             @AuthenticationPrincipal UserDetails userDetails,
             @RequestParam("page") int page,
             @RequestParam("size") int size
