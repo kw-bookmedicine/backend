@@ -23,6 +23,7 @@ public class Prescription extends BaseTimeEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "client_id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Client client;
 
     @ManyToOne(fetch = FetchType.LAZY)
