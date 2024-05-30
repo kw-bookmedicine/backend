@@ -11,13 +11,13 @@ import lombok.NoArgsConstructor;
 public class BookRecommend {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "book_recommend_id")
-    Long id;
+    private Long id;
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "recommending_book")
+    @JoinColumn(name = "recommending_book_id")
     private Book recommendingBook;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "recommended_book")
+    @JoinColumn(name = "recommended_book_id")
     private Book recommendedBook;
 }
