@@ -13,7 +13,7 @@ import org.hibernate.annotations.OnDeleteAction;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class ClientRecommend {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "user_recommend_id")
+    @Column(name = "client_recommend_id")
     private Long id;
 
     @OneToOne(fetch = FetchType.LAZY)
