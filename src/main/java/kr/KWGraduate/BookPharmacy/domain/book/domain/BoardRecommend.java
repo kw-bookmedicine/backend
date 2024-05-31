@@ -3,6 +3,7 @@ package kr.KWGraduate.BookPharmacy.domain.book.domain;
 import jakarta.persistence.*;
 import kr.KWGraduate.BookPharmacy.domain.board.domain.Board;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.OnDelete;
@@ -21,8 +22,17 @@ public class BoardRecommend {
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Board board;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "book_id")
     private Book book;
+
+    private String keywords;
+
+    @Builder
+    public BoardRecommend(Board board, Book book, String keywords){
+        this.board = board;
+        this.book = book;
+        this.keywords = keywords;
+    }
 }
 
