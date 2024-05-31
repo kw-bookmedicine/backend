@@ -22,7 +22,6 @@ public enum CookieType {
         return  ResponseCookie.from(key,token)
                 .sameSite("None")
                 .domain(FrontServer.getPresentDomain())
-                .maxAge(60*5)
                 .secure(true)
                 .path("/")
                 .httpOnly(true)
