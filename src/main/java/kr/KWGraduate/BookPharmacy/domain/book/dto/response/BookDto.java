@@ -21,7 +21,6 @@ public class BookDto {
     private String publishingHouse; // 출판사명
     private String publicYear; // 발행년도
     private String content; // 책내용
-    private float rating; // 평균평점
     private String mediaFlagNumber; // 미디어구분명
     private String bigCategoryName; // 대분류명
     private String middleCategoryName; // 중분류명
@@ -35,16 +34,14 @@ public class BookDto {
         this.publishingHouse = book.getPublishingHouse();
         this.publicYear = book.getPublishYear();
         this.content = book.getContent();
-        this.rating = book.getRating();
         this.mediaFlagNumber = book.getMediaFlagNumber();
         this.bigCategoryName = book.getBigCategory().getName();
         this.middleCategoryName = book.getMiddleCategory().getName();
         this.imageUrl = book.getImageUrl();
-
     }
 
     @Builder
-    public BookDto(String isbn, String title, String author, String publishingHouse, String publicYear, String content, float rating, String mediaFlagNumber,
+    public BookDto(String isbn, String title, String author, String publishingHouse, String publicYear, String content, String mediaFlagNumber,
                    String bigCategoryName, String middleCategoryName, String imageUrl) {
         this.isbn = isbn;
         this.title = title;
@@ -52,7 +49,6 @@ public class BookDto {
         this.publishingHouse = publishingHouse;
         this.publicYear = publicYear;
         this.content = content;
-        this.rating = rating;
         this.mediaFlagNumber = mediaFlagNumber;
         this.bigCategoryName = bigCategoryName;
         this.middleCategoryName = middleCategoryName;
