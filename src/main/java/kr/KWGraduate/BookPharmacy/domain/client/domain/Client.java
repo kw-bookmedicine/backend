@@ -34,6 +34,8 @@ public class Client extends BaseTimeEntity {
     private String role;
     private Integer passwordLength;
     private String description;
+    private int boardCount;
+    private int prescriptionCount;
 
     @Enumerated(EnumType.STRING)
     private Gender gender;
@@ -70,8 +72,8 @@ public class Client extends BaseTimeEntity {
      * 유저 생성(id와 닉네임에 대한 중복확인이 끝났다고 가정)
     * */
     @Builder
-    public Client(Long id, String loginId, String password, String name, LocalDate birth, String nickname, String email, Gender gender, Occupation occupation, String role, Integer passwordLength, String description) {
-
+    public Client(Long id, String loginId, String password, String name, LocalDate birth, String nickname,
+                  String email, Gender gender, Occupation occupation, String role, Integer passwordLength, String description) {
         this.id = id;
         this.loginId = loginId;
         this.password = password;
@@ -84,7 +86,6 @@ public class Client extends BaseTimeEntity {
         this.role = role;
         this.passwordLength = passwordLength;
         this.description = description;
-
     }
 
     public void setPassword(String password, Integer passwordLength) {
@@ -100,6 +101,14 @@ public class Client extends BaseTimeEntity {
         this.occupation = occupation;
     }
     public void setDescription(String description) {this.description = description;}
+
+    public void setBoardCount(int boardCount) {
+        this.boardCount = boardCount;
+    }
+
+    public void setPrescriptionCount(int prescriptionCount) {
+        this.prescriptionCount = prescriptionCount;
+    }
 
     public void update(Occupation occupation, String description){
         setOccupation(occupation);

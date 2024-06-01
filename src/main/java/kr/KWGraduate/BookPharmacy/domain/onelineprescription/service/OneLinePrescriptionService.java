@@ -43,6 +43,8 @@ public class OneLinePrescriptionService {
         oneLinePrescription.setClientAndBook(client, book);
         OneLinePrescription savedResult = oneLinePrescriptionRepository.save(oneLinePrescription);
 
+        client.setPrescriptionCount(client.getPrescriptionCount() + 1);
+
         return savedResult;
     }
 
@@ -60,7 +62,6 @@ public class OneLinePrescriptionService {
         oneLinePrescription.setKeyword(oneLineUpdateDto.getKeyword());
         oneLinePrescription.setBook(book);
 
-        oneLinePrescriptionRepository.flush();
     }
 
     @Transactional
@@ -71,8 +72,7 @@ public class OneLinePrescriptionService {
         OneLinePrescription prescription = oneLinePrescriptionRepository.findById(oneLinePrescriptionId).get();
 
         oneLinePrescriptionRepository.delete(prescription);
-
-        oneLinePrescriptionRepository.flush();
+        client.setPrescriptionCount(client.getPrescriptionCount() - 1);
     }
 
     public OneLineResponseDto getOneLinePrescription(Long oneLinePrescriptionId) {

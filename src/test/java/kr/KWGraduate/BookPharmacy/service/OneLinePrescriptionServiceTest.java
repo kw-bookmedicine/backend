@@ -113,7 +113,7 @@ class OneLinePrescriptionServiceTest {
 
         //when
         oneLinePrescriptionService.deleteOneLinePrescription(id, userDetails);
-        em.clear();
+        em.flush();
 
         List<OneLinePrescription> result = oneLinePrescriptionRepository.findByBookIsbn("1234");
 
