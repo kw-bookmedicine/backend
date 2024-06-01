@@ -47,15 +47,6 @@ public class Book {
     @JoinColumn(name = "middle_category_id")
     private Categories middleCategory;
 
-    @OneToMany(mappedBy = "recommendingBook", cascade = CascadeType.ALL)
-    List<BookRecommend> bookRecommends;
-
-    @OneToMany(mappedBy = "book", cascade = CascadeType.ALL)
-    List<BoardRecommend> boardRecommends;
-
-    @OneToMany(mappedBy = "book", cascade = CascadeType.ALL)
-    List<ClientRecommend> clientRecommends;
-
 
     @Builder
     public Book(String isbn, String title, String author, String publishingHouse, String publishYear, String content, float rating,
