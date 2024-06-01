@@ -1,6 +1,5 @@
 package kr.KWGraduate.BookPharmacy.global.security.oauth.filter;
 
-import com.nimbusds.jose.shaded.gson.JsonObject;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -8,7 +7,7 @@ import kr.KWGraduate.BookPharmacy.global.infra.redis.oauth2.Oauth2SignUpService;
 import kr.KWGraduate.BookPharmacy.global.security.oauth.dto.CustomOauth2Client;
 import kr.KWGraduate.BookPharmacy.global.security.common.dto.TokenDto;
 import kr.KWGraduate.BookPharmacy.global.security.common.util.JWTUtil;
-import kr.KWGraduate.BookPharmacy.global.infra.redis.RefreshTokenService;
+import kr.KWGraduate.BookPharmacy.global.infra.redis.refreshtoken.RefreshTokenService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.core.Authentication;
@@ -20,7 +19,6 @@ import java.io.IOException;
 import java.util.Collection;
 import java.util.Iterator;
 
-import static kr.KWGraduate.BookPharmacy.global.config.Domain.*;
 import static kr.KWGraduate.BookPharmacy.global.security.common.util.CookieType.Authorization;
 import static kr.KWGraduate.BookPharmacy.global.security.common.util.CookieType.Refresh;
 

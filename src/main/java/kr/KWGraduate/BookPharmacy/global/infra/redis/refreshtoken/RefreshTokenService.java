@@ -1,4 +1,4 @@
-package kr.KWGraduate.BookPharmacy.global.infra.redis;
+package kr.KWGraduate.BookPharmacy.global.infra.redis.refreshtoken;
 
 import kr.KWGraduate.BookPharmacy.global.security.common.dto.TokenDto;
 import kr.KWGraduate.BookPharmacy.domain.client.exception.NoExistIdException;
