@@ -26,7 +26,6 @@ public class OneLinePrescriptionService {
     private final OneLinePrescriptionRepository oneLinePrescriptionRepository;
     private final BookRepository bookRepository;
     private final ClientRepository clientRepository;
-    private final ReadExperienceService readExperienceService;
 
     @Transactional
     public OneLinePrescription createOneLinePrescription(OneLineCreateDto oneLineCreateDto, AuthenticationAdapter authentication) {
@@ -37,8 +36,6 @@ public class OneLinePrescriptionService {
         Book book = bookRepository.findOptionalByIsbn(isbn).get();
 
         OneLinePrescription oneLinePrescription = oneLineCreateDto.toEntity(book);
-
-        readExperienceService.createReadExperience(client, book);
 
         oneLinePrescription.setClientAndBook(client, book);
         OneLinePrescription savedResult = oneLinePrescriptionRepository.save(oneLinePrescription);
