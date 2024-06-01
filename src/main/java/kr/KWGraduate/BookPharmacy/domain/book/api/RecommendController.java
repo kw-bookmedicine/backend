@@ -23,25 +23,25 @@ public class RecommendController {
     private final RecommendService recommendService;
 
     @GetMapping("/clientbased/aiprescription")
-    @Operation(summary = "메인 페이지에 출력되는 ai처방 3개", description = "로그인 필수")
+    @Operation(summary = "메인 페이지에 출력되는 ai처방 3개", description = "아이디: string, password: string만 가능, 로그인 필수")
     public ResponseEntity<?> getClientBasedAiPrescription(@AuthenticationPrincipal UserDetails userDetails){
         return ResponseEntity.ok(recommendService.getClientBasedAiPrescription((AuthenticationAdapter) userDetails));
     }
 
     @GetMapping("/clientbased")
-    @Operation(summary = "메인 페이지에 출력되는 비슷한 유저 기반 책 추천 10개", description = "로그인 필수")
+    @Operation(summary = "메인 페이지에 출력되는 비슷한 유저 기반 책 추천 10개", description = "아이디: string, password: string만 가능,로그인 필수")
     public ResponseEntity<?> getClientBasedRecommend(@AuthenticationPrincipal UserDetails userDetails){
         return ResponseEntity.ok(recommendService.getClientBasedRecommend((AuthenticationAdapter) userDetails));
     }
 
     @GetMapping("/boardbased")
-    @Operation(summary = "고민 게시판 ai처방", description = "키워드(max=3) 넘겨주면 description은 프론트에서 구현해야함")
+    @Operation(summary = "고민 게시판 ai처방", description = "예시 boardId는 167임. 키워드(max=3) 넘겨주면 description은 프론트에서 구현해야함")
     public ResponseEntity<?> getBoardBasedRecommend(@RequestParam("boardId") Long boardId){
         return ResponseEntity.ok(recommendService.getBoardBasedRecommend(boardId));
     }
 
     @GetMapping("/bookbased")
-    @Operation(summary = "연관 책 리스트", description = "10개 넘겨짐")
+    @Operation(summary = "연관 책 리스트", description = "예시 isbn은 9788901126050임. 10개 넘겨짐")
     public ResponseEntity<?> getBookBasedRecommend(@RequestParam("isbn") String isbn){
         return ResponseEntity.ok(recommendService.getBookBasedRecommend(isbn));
     }
