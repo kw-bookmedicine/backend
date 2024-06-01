@@ -1,6 +1,7 @@
 package kr.KWGraduate.BookPharmacy.domain.book.dto.response;
 
 import kr.KWGraduate.BookPharmacy.domain.book.domain.Book;
+import kr.KWGraduate.BookPharmacy.domain.book.domain.BookRecommend;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -15,7 +16,8 @@ public class BookBasedRecommendDto {
     private String author;
 
     @Builder
-    public BookBasedRecommendDto(Book book){
+    public BookBasedRecommendDto(BookRecommend bookRecommend){
+        Book book = bookRecommend.getRecommendingBook();
         this.id = book.getId();
         this.isbn = book.getIsbn();
         this.imageUrl = book.getImageUrl();

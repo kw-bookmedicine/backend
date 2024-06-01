@@ -1,7 +1,7 @@
 package kr.KWGraduate.BookPharmacy.domain.book.dto.response;
 
+import kr.KWGraduate.BookPharmacy.domain.book.domain.BoardRecommend;
 import kr.KWGraduate.BookPharmacy.domain.book.domain.Book;
-import kr.KWGraduate.BookPharmacy.domain.book.dto.repository.BoardBasedRecommendRepositoryDto;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -17,14 +17,15 @@ public class BoardBasedRecommendDto {
     private String[] keywords;
 
     @Builder
-    public BoardBasedRecommendDto(BoardBasedRecommendRepositoryDto dto){
-        Book book = dto.getBook();
+    public BoardBasedRecommendDto(BoardRecommend boardRecommend){
+        Book book = boardRecommend.getBook();
+
         this.id = book.getId();
         this.isbn = book.getIsbn();
         this.imageUrl = book.getImageUrl();
         this.title = book.getTitle();
         this.author = book.getAuthor();
 
-        this.keywords = dto.getKeywords().split(" ");
+        this.keywords = boardRecommend.getKeywords().split(" ");
     }
 }
