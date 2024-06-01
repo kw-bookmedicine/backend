@@ -104,6 +104,15 @@ public class OneLinePrescriptionService {
         return dtoList;
     }
 
+    public Page<OneLineResponseDto> getOneLinePrescriptionsByBook(String isbn, Pageable pageable) {
+        Page<OneLinePrescription> pageResult = oneLinePrescriptionRepository.findByBookIsbn(isbn, pageable);
+        Page<OneLineResponseDto> dtoList = pageResult.map(oneLine -> new OneLineResponseDto()
+                .setAllAttr(oneLine.getBook(), oneLine.getClient(), oneLine));
+
+        return dtoList;
+
+    }
+
     public Page<OneLineResponseDto> getMyOneLinePrescriptions(AuthenticationAdapter authentication, Pageable pageable) {
         String loginId = authentication.getUsername();
         Page<OneLinePrescription> pageResult = oneLinePrescriptionRepository.findByLoginId(loginId, pageable);
