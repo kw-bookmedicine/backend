@@ -6,7 +6,6 @@ import kr.KWGraduate.BookPharmacy.domain.book.domain.BoardRecommend;
 import kr.KWGraduate.BookPharmacy.domain.book.domain.Book;
 import kr.KWGraduate.BookPharmacy.domain.book.domain.BookRecommend;
 import kr.KWGraduate.BookPharmacy.domain.book.domain.ClientRecommend;
-import kr.KWGraduate.BookPharmacy.domain.book.dto.repository.BoardBasedRecommendRepositoryDto;
 import kr.KWGraduate.BookPharmacy.domain.book.repository.*;
 import kr.KWGraduate.BookPharmacy.domain.client.domain.Client;
 import kr.KWGraduate.BookPharmacy.domain.client.repository.ClientRepository;
@@ -32,8 +31,6 @@ public class RecommendRepositoryTest {
 
 
     @Autowired
-    RecommendRepository recommendRepository;
-    @Autowired
     BookRepository bookRepository;
     @Autowired
     ClientRepository clientRepository;
@@ -58,16 +55,17 @@ public class RecommendRepositoryTest {
                 .map(l -> bookRepository.findById(l).get())
                 .collect(Collectors.toList());
 
+        List<BookRecommend> brList = new ArrayList<>();
         for (Book recommendingBook : books) {
             BookRecommend bookRecommend = BookRecommend.builder()
                     .recommendedBook(recommendedBook)
                     .recommendingBook(recommendingBook)
                     .build();
-            bookRecommendRepository.save(bookRecommend);
+            brList.add(bookRecommendRepository.save(bookRecommend));
         }
 
         assertThat(bookRecommendRepository.count()).isEqualTo(10);
-        assertThat(recommendRepository.findByBookBasedRecommend(recommendedBook.getIsbn())).containsAll(books);
+        assertThat(bookRecommendRepository.findByBookBasedRecommend(recommendedBook.getIsbn())).containsAll(brList);
 
     }
     @Test
@@ -82,8 +80,8 @@ public class RecommendRepositoryTest {
                 .map(l -> bookRepository.findById(l).get())
                 .collect(Collectors.toList());
 
-        List<Book> aiPrescription = new ArrayList<>(books.subList(0, 3));
-        List<Book> clientBasedRecommend = new ArrayList<>(books.subList(3,13));
+        List<ClientRecommend> aiPrescription = new ArrayList<>();
+        List<ClientRecommend> clientBasedRecommend = new ArrayList<>();
 
         int rank=0;
         for(Book bookRecommend : books) {
@@ -94,14 +92,18 @@ public class RecommendRepositoryTest {
                     .rank(rank++)
                     .build();
 
-            clientRecommendRepository.save(clientRecommend);
+            if(rank < 4){
+                aiPrescription.add(clientRecommendRepository.save(clientRecommend));
+            }else{
+                clientBasedRecommend.add(clientRecommendRepository.save(clientRecommend));
+            }
         }
 
 
 
         assertThat(clientRecommendRepository.count()).isEqualTo(13);
-        assertThat(recommendRepository.findByClientBasedRecommend(1L)).containsAll(clientBasedRecommend);
-        assertThat(recommendRepository.findByClientAiPrescription(1L)).containsAll(aiPrescription);
+        assertThat(clientRecommendRepository.findByClientBasedRecommend(1L)).containsAll(clientBasedRecommend);
+        assertThat(clientRecommendRepository.findByClientAiPrescription(1L)).containsAll(aiPrescription);
     }
 
     @Test
@@ -144,9 +146,7 @@ public class RecommendRepositoryTest {
         Board board4 = boardRepository.findById(170L).get();
 
         Book book1 = bookRepository.findById(1L).get();
-        BoardBasedRecommendRepositoryDto recommendDto1 = new BoardBasedRecommendRepositoryDto(book1,"한국 영어 일본어");
         Book book2 = bookRepository.findById(2L).get();
-        BoardBasedRecommendRepositoryDto recommendDto2 = new BoardBasedRecommendRepositoryDto(book2,"자바 연애 컴퓨터");
 
         BoardRecommend boardRecommend1 = BoardRecommend
                 .builder()
@@ -154,7 +154,7 @@ public class RecommendRepositoryTest {
                 .book(book1)
                 .keywords("한국 영어 일본어")
                 .build();
-        boardRecommendRepository.save(boardRecommend1);
+        BoardRecommend save1 = boardRecommendRepository.save(boardRecommend1);
 
 
         BoardRecommend boardRecommend2 = BoardRecommend
@@ -163,7 +163,7 @@ public class RecommendRepositoryTest {
                 .book(book2)
                 .keywords("자바 연애 컴퓨터")
                 .build();
-        boardRecommendRepository.save(boardRecommend2);
+        BoardRecommend save2 = boardRecommendRepository.save(boardRecommend2);
 
         BoardRecommend boardRecommend3 = BoardRecommend
                 .builder()
@@ -171,7 +171,7 @@ public class RecommendRepositoryTest {
                 .book(book1)
                 .keywords("한국 영어 일본어")
                 .build();
-        boardRecommendRepository.save(boardRecommend3);
+        BoardRecommend save3 = boardRecommendRepository.save(boardRecommend3);
 
         BoardRecommend boardRecommend4 = BoardRecommend
                 .builder()
@@ -179,13 +179,13 @@ public class RecommendRepositoryTest {
                 .book(book2)
                 .keywords("자바 연애 컴퓨터")
                 .build();
-        boardRecommendRepository.save(boardRecommend4);
+        BoardRecommend save4 = boardRecommendRepository.save(boardRecommend4);
 
         assertThat(boardRecommendRepository.count()).isEqualTo(4);
-        assertThat(recommendRepository.findByBoardBasedRecommend(167L).get()).isEqualTo(recommendDto1);
-        assertThat(recommendRepository.findByBoardBasedRecommend(168L).get()).isEqualTo(recommendDto2);
-        assertThat(recommendRepository.findByBoardBasedRecommend(169L).get()).isEqualTo(recommendDto1);
-        assertThat(recommendRepository.findByBoardBasedRecommend(170L).get()).isEqualTo(recommendDto2);
+        assertThat(boardRecommendRepository.findByBoardBasedRecommend(167L).get()).isEqualTo(save1);
+        assertThat(boardRecommendRepository.findByBoardBasedRecommend(168L).get()).isEqualTo(save2);
+        assertThat(boardRecommendRepository.findByBoardBasedRecommend(169L).get()).isEqualTo(save3);
+        assertThat(boardRecommendRepository.findByBoardBasedRecommend(170L).get()).isEqualTo(save4);
 
 
     }
