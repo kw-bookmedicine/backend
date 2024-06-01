@@ -6,7 +6,6 @@ import kr.KWGraduate.BookPharmacy.domain.book.domain.BoardRecommend;
 import kr.KWGraduate.BookPharmacy.domain.book.domain.Book;
 import kr.KWGraduate.BookPharmacy.domain.book.domain.BookRecommend;
 import kr.KWGraduate.BookPharmacy.domain.book.domain.ClientRecommend;
-import kr.KWGraduate.BookPharmacy.domain.book.dto.repository.BoardBasedRecommendRepositoryDto;
 import kr.KWGraduate.BookPharmacy.domain.book.dto.response.BoardBasedRecommendDto;
 import kr.KWGraduate.BookPharmacy.domain.book.dto.response.BookBasedRecommendDto;
 import kr.KWGraduate.BookPharmacy.domain.book.dto.response.ClientBasedRecommendDto;
@@ -112,9 +111,7 @@ public class RecommendServiceTest {
         Board board4 = boardRepository.findById(170L).get();
 
         Book book1 = bookRepository.findById(1L).get();
-        BoardBasedRecommendRepositoryDto recommendDto1 = new BoardBasedRecommendRepositoryDto(book1,"한국 영어 일본어");
         Book book2 = bookRepository.findById(2L).get();
-        BoardBasedRecommendRepositoryDto recommendDto2 = new BoardBasedRecommendRepositoryDto(book2,"자바 연애 컴퓨터");
 
         BoardRecommend boardRecommend1 = BoardRecommend
                 .builder()
@@ -122,7 +119,7 @@ public class RecommendServiceTest {
                 .book(book1)
                 .keywords("한국 영어 일본어")
                 .build();
-        boardRecommendRepository.save(boardRecommend1);
+        BoardRecommend save1 = boardRecommendRepository.save(boardRecommend1);
 
 
         BoardRecommend boardRecommend2 = BoardRecommend
@@ -131,7 +128,7 @@ public class RecommendServiceTest {
                 .book(book2)
                 .keywords("자바 연애 컴퓨터")
                 .build();
-        boardRecommendRepository.save(boardRecommend2);
+        BoardRecommend save2 = boardRecommendRepository.save(boardRecommend2);
 
         BoardRecommend boardRecommend3 = BoardRecommend
                 .builder()
@@ -139,7 +136,7 @@ public class RecommendServiceTest {
                 .book(book1)
                 .keywords("한국 영어 일본어")
                 .build();
-        boardRecommendRepository.save(boardRecommend3);
+        BoardRecommend save3 = boardRecommendRepository.save(boardRecommend3);
 
         BoardRecommend boardRecommend4 = BoardRecommend
                 .builder()
@@ -147,15 +144,17 @@ public class RecommendServiceTest {
                 .book(book2)
                 .keywords("자바 연애 컴퓨터")
                 .build();
-        boardRecommendRepository.save(boardRecommend4);
+        BoardRecommend save4 = boardRecommendRepository.save(boardRecommend4);
 
-        BoardBasedRecommendDto dto1 = new BoardBasedRecommendDto(recommendDto1);
-        BoardBasedRecommendDto dto2 = new BoardBasedRecommendDto(recommendDto2);
+        BoardBasedRecommendDto dto1 = new BoardBasedRecommendDto(save1);
+        BoardBasedRecommendDto dto2 = new BoardBasedRecommendDto(save2);
+        BoardBasedRecommendDto dto3 = new BoardBasedRecommendDto(save3);
+        BoardBasedRecommendDto dto4 = new BoardBasedRecommendDto(save4);
 
         Assertions.assertThat(recommendService.getBoardBasedRecommend(167L)).isEqualTo(dto1);
         Assertions.assertThat(recommendService.getBoardBasedRecommend(168L)).isEqualTo(dto2);
-        Assertions.assertThat(recommendService.getBoardBasedRecommend(169L)).isEqualTo(dto1);
-        Assertions.assertThat(recommendService.getBoardBasedRecommend(170L)).isEqualTo(dto2);
+        Assertions.assertThat(recommendService.getBoardBasedRecommend(169L)).isEqualTo(dto3);
+        Assertions.assertThat(recommendService.getBoardBasedRecommend(170L)).isEqualTo(dto4);
 
     }
 }
