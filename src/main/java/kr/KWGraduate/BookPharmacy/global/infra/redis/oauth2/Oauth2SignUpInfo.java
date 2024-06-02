@@ -9,7 +9,7 @@ import org.springframework.data.redis.core.RedisHash;
 import java.util.UUID;
 
 @Getter
-@RedisHash(value = "refreshToken",timeToLive = 3600)
+@RedisHash(value = "oauth2SignUpInfo",timeToLive = 3600)
 @NoArgsConstructor
 @EqualsAndHashCode
 public class Oauth2SignUpInfo {
