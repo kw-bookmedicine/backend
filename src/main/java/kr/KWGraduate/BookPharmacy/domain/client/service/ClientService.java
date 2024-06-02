@@ -1,17 +1,16 @@
 package kr.KWGraduate.BookPharmacy.domain.client.service;
 
-import kr.KWGraduate.BookPharmacy.domain.client.dto.request.ClientNicknameDto;
-import kr.KWGraduate.BookPharmacy.domain.client.dto.request.ClientPasswordUpdateDto;
+import kr.KWGraduate.BookPharmacy.domain.client.dto.request.*;
 import kr.KWGraduate.BookPharmacy.domain.client.dto.response.ClientMainPageDto;
 import kr.KWGraduate.BookPharmacy.domain.client.exception.ExistEmailException;
 import kr.KWGraduate.BookPharmacy.domain.client.exception.ExistIdException;
 import kr.KWGraduate.BookPharmacy.domain.client.exception.ExistNicknameException;
 import kr.KWGraduate.BookPharmacy.domain.interest.repository.InterestRepository;
 import kr.KWGraduate.BookPharmacy.domain.interest.service.InterestService;
+import kr.KWGraduate.BookPharmacy.global.infra.redis.oauth2.Oauth2SignUpInfo;
+import kr.KWGraduate.BookPharmacy.global.infra.redis.oauth2.Oauth2SignUpService;
 import kr.KWGraduate.BookPharmacy.global.security.common.dto.AuthenticationAdapter;
-import kr.KWGraduate.BookPharmacy.domain.client.dto.request.ClientJoinDto;
 import kr.KWGraduate.BookPharmacy.domain.client.dto.response.ClientMypageDto;
-import kr.KWGraduate.BookPharmacy.domain.client.dto.request.ClientUpdateDto;
 import kr.KWGraduate.BookPharmacy.domain.client.domain.Client;
 import kr.KWGraduate.BookPharmacy.domain.client.repository.ClientRepository;
 import kr.KWGraduate.BookPharmacy.global.common.error.BusinessException;
@@ -28,6 +27,7 @@ public class ClientService {
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final ClientOccupationMapService clientOccupationMapService;
     private final InterestService interestService;
+    private final Oauth2SignUpService oauth2SignUpService;
 
     @Transactional
     public void signUp(ClientJoinDto clientJoinDto) throws BusinessException {
@@ -40,6 +40,20 @@ public class ClientService {
 
         Client savedClient = clientRepository.save(client);
         interestService.updateInterest(clientJoinDto.getInterestList(), savedClient);
+    }
+    @Transactional
+    public void signUp(String email, ClientOauthJoinDto clientOauthJoinDto){
+        Oauth2SignUpInfo signUpInfo = oauth2SignUpService.getSignUpInfo(email);
+        String password = bCryptPasswordEncoder.encode(signUpInfo.getPassword());
+        Client.Occupation occupation = clientOccupationMapService.getValue(clientOauthJoinDto.getOccupation());
+
+        Client client = clientOauthJoinDto.toEntity(signUpInfo, occupation, password);
+        validateDuplicateClient(client);
+
+        Client savedClient = clientRepository.save(client);
+        interestService.updateInterest(clientOauthJoinDto.getInterestList(), savedClient);
+
+        oauth2SignUpService.deleteInfo(email);
     }
 
     private void validateDuplicateClient(Client client) {

@@ -37,34 +37,27 @@ public class Oauth2ClientService extends DefaultOAuth2UserService {
 
         String username = oauth2Response.getProvider() + " " + oauth2Response.getProviderId();
         String name = oauth2Response.getName();
+        String email = oauth2Response.getEmail();
 
-        Oauth2ClientDto oauth2ClientDto = getOauth2ClientDto(username, name);
+        Oauth2ClientDto oauth2ClientDto = getOauth2ClientDto(username, name, email);
 
         return new CustomOauth2Client(oauth2ClientDto);
     }
 
-    private Oauth2ClientDto getOauth2ClientDto(String username, String name) {
-        Oauth2ClientDto oauth2ClientDto = clientRepository.findByLoginId(username)
+    private Oauth2ClientDto getOauth2ClientDto(String username, String name, String email){
+        return clientRepository.findByLoginId(username)
                 .map(client -> Oauth2ClientDto.builder()
-                        .username(client.getLoginId())
-                        .name(client.getName())
-                        .role(client.getRole())
-                        .build())
-                .orElseGet(() -> {
-                    Client client = Client.builder()
-                            .loginId(username)
-                            .name(name)
-                            .role("ROLE_USER")
-                            .build();
-
-                    clientRepository.save(client);
-
-                    return Oauth2ClientDto.builder()
-                            .username(username)
-                            .name(name)
-                            .role("ROLE_USER")
-                            .build();
-                });
-        return oauth2ClientDto;
+                            .email(client.getEmail())
+                            .username(client.getLoginId())
+                            .name(client.getName())
+                            .role(client.getRole())
+                            .isExist(true)
+                            .build())
+                .orElseGet(() -> Oauth2ClientDto.builder()
+                        .email(email)
+                        .username(username)
+                        .name(name)
+                        .isExist(false)
+                        .build());
     }
 }
