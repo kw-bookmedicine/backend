@@ -26,7 +26,6 @@ public class OneLinePrescriptionService {
     private final OneLinePrescriptionRepository oneLinePrescriptionRepository;
     private final BookRepository bookRepository;
     private final ClientRepository clientRepository;
-    private final ReadExperienceService readExperienceService;
 
     @Transactional
     public OneLinePrescription createOneLinePrescription(OneLineCreateDto oneLineCreateDto, AuthenticationAdapter authentication) {
@@ -38,10 +37,10 @@ public class OneLinePrescriptionService {
 
         OneLinePrescription oneLinePrescription = oneLineCreateDto.toEntity(book);
 
-        readExperienceService.createReadExperience(client, book);
-
         oneLinePrescription.setClientAndBook(client, book);
         OneLinePrescription savedResult = oneLinePrescriptionRepository.save(oneLinePrescription);
+
+        client.setPrescriptionCount(client.getPrescriptionCount() + 1);
 
         return savedResult;
     }
@@ -60,7 +59,6 @@ public class OneLinePrescriptionService {
         oneLinePrescription.setKeyword(oneLineUpdateDto.getKeyword());
         oneLinePrescription.setBook(book);
 
-        oneLinePrescriptionRepository.flush();
     }
 
     @Transactional
@@ -71,8 +69,7 @@ public class OneLinePrescriptionService {
         OneLinePrescription prescription = oneLinePrescriptionRepository.findById(oneLinePrescriptionId).get();
 
         oneLinePrescriptionRepository.delete(prescription);
-
-        oneLinePrescriptionRepository.flush();
+        client.setPrescriptionCount(client.getPrescriptionCount() - 1);
     }
 
     public OneLineResponseDto getOneLinePrescription(Long oneLinePrescriptionId) {
@@ -105,6 +102,15 @@ public class OneLinePrescriptionService {
                 .setAllAttr(oneLine.getBook(), oneLine.getClient(), oneLine));
 
         return dtoList;
+    }
+
+    public Page<OneLineResponseDto> getOneLinePrescriptionsByBook(String isbn, Pageable pageable) {
+        Page<OneLinePrescription> pageResult = oneLinePrescriptionRepository.findByBookIsbn(isbn, pageable);
+        Page<OneLineResponseDto> dtoList = pageResult.map(oneLine -> new OneLineResponseDto()
+                .setAllAttr(oneLine.getBook(), oneLine.getClient(), oneLine));
+
+        return dtoList;
+
     }
 
     public Page<OneLineResponseDto> getMyOneLinePrescriptions(AuthenticationAdapter authentication, Pageable pageable) {

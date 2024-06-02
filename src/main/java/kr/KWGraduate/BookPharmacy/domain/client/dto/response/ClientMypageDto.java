@@ -18,6 +18,8 @@ public class ClientMypageDto {
     private LocalDate birth;
     private Integer passwordLength;
     private String description;
+    private int boardCount;
+    private int prescriptionCount;
 
     @Builder
     public ClientMypageDto(Client client) {
@@ -30,6 +32,8 @@ public class ClientMypageDto {
         this.birth = client.getBirth();
         this.passwordLength = client.getPasswordLength();
         this.description = client.getDescription();
+        this.boardCount = client.getBoardCount();
+        this.prescriptionCount = client.getPrescriptionCount();
     }
 
 }

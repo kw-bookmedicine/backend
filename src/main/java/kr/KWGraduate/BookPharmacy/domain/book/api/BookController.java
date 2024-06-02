@@ -4,10 +4,12 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import kr.KWGraduate.BookPharmacy.domain.book.dto.response.BookDto;
+import kr.KWGraduate.BookPharmacy.domain.book.dto.response.BookSearchResponseDto;
 import kr.KWGraduate.BookPharmacy.domain.category.dto.response.CategoryDto;
 import kr.KWGraduate.BookPharmacy.domain.book.service.BookService;
 import kr.KWGraduate.BookPharmacy.domain.category.service.CategoryService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -44,10 +46,10 @@ public class BookController {
     @Operation(summary = "중분류에 해당하는 book 리스트 요청", description = "중분류에 해당하는 book들을 페이징해서 " +
             "요청 예) /api/book/list/middle?name=한국소설&page=0&size=5")
     @GetMapping(value = "/list/middle")
-    public ResponseEntity<List<BookDto>> getBookListByMiddleCategory(@RequestParam(name = "name") String middleCategoryName,
+    public ResponseEntity<Page<BookDto>> getBookListByMiddleCategory(@RequestParam(name = "name") String middleCategoryName,
                                                                      @RequestParam(name = "page") int page, @RequestParam(name = "size") int size) {
         PageRequest pageRequest = PageRequest.of(page, size, Sort.by("count").descending());
-        List<BookDto> result = bookService.getBookListByMiddleCategory(middleCategoryName, pageRequest);
+        Page<BookDto> result = bookService.getBookPageByMiddleCategory(middleCategoryName, pageRequest);
 
         return ResponseEntity.ok(result);
     }
@@ -56,24 +58,10 @@ public class BookController {
     @GetMapping(value = "/list/big")
     public ResponseEntity<Object> getListMapByBigCategory(@RequestParam(name = "name") String bigCategoryName){
 
-        List<Map<String, Object>> result = new ArrayList<>();
-
         // 페이징 사이즈를 10으로 할당
         PageRequest pageRequest = PageRequest.of(0,10);
 
-        // 대분류에 속하는 중분류들을 조회하고, 그 중분류들에 해당하는 책들 10권을 Map에 추가함
-        List<CategoryDto> childCategories = categoryService.getChildCategory(bigCategoryName);
-        for (CategoryDto childCategory : childCategories) {
-            Map<String, Object> middleCategoryInfo = new HashMap<>();
-
-            String categoryName = childCategory.getName();
-            middleCategoryInfo.put("categoryName", categoryName);
-
-            List<BookDto> bookDtoList = bookService.getBookListByMiddleCategory(categoryName, pageRequest);
-            middleCategoryInfo.put("bookList", bookDtoList);
-
-            result.add(middleCategoryInfo);
-        }
+        List<Map<String, Object>> result = bookService.getBookListByBigCategoryChildren(bigCategoryName, pageRequest);
 
         return ResponseEntity.ok(result);
     }
