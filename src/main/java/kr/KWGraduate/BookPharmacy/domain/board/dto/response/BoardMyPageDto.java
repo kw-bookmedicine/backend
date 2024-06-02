@@ -13,6 +13,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class BoardMyPageDto {
     private Long boardId;
+    private String nickname;
     private String title;
     private LocalDate createdDate;
     private Keyword keyword;
@@ -21,6 +22,7 @@ public class BoardMyPageDto {
     @Builder
     public BoardMyPageDto(Board board, Long count){
         boardId = board.getId();
+        nickname = board.getClient().getNickname();
         title = board.getTitle();
         createdDate = board.getCreatedDate().toLocalDate();
         keyword = board.getKeyword();
