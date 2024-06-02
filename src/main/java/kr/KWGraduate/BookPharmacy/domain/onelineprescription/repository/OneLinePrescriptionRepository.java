@@ -28,7 +28,7 @@ public interface OneLinePrescriptionRepository extends JpaRepository<OneLinePres
      * */
     @EntityGraph(attributePaths = {"client"})
     @Query("select op from OneLinePrescription op join fetch op.book b where b.isbn = :isbn")
-    List<OneLinePrescription> findByBookIsbn(@Param("isbn") String bookIsbn);
+    Page<OneLinePrescription> findByBookIsbn(@Param("isbn") String isbn, Pageable pageable);
 
     /**
      * 한줄처방의 키워드에 해당하는 한줄처방 목록 조회

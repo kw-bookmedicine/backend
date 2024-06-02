@@ -91,9 +91,10 @@ class OneLinePrescriptionServiceTest {
                 .description("이게 진짜임")
                 .build();
 
+        System.out.println("----------------------------");
         // then
         oneLinePrescriptionService.updateOneLinePrescription(savedId, oneLineUpdateDto, userDetails);
-        em.clear();
+        em.flush();
 
         OneLinePrescription result = oneLinePrescriptionRepository.findByBookIsbn("0001").get(0);
 
@@ -113,7 +114,7 @@ class OneLinePrescriptionServiceTest {
 
         //when
         oneLinePrescriptionService.deleteOneLinePrescription(id, userDetails);
-        em.clear();
+        em.flush();
 
         List<OneLinePrescription> result = oneLinePrescriptionRepository.findByBookIsbn("1234");
 

@@ -74,6 +74,16 @@ public class OneLinePrescriptionController {
         return ResponseEntity.ok(result);
     }
 
+    @Operation(summary = "책에 대한 한줄처방 리스트 조회 ", description = "책에 대한 한줄처방 리스트를 5개 조회 (페이지, 사이즈 안받음)")
+    @GetMapping(value = "/book")
+    public ResponseEntity<Page<OneLineResponseDto>> getOneLinePrescriptionsByBook(@RequestParam(name = "isbn") String isbn) {
+        PageRequest pageRequest = PageRequest.of(0, 5);
+
+        Page<OneLineResponseDto> result = oneLinePrescriptionService.getOneLinePrescriptionsByBook(isbn, pageRequest);
+
+        return ResponseEntity.ok(result);
+    }
+
     @Operation(summary = "한줄처방을 생성하도록 요청")
     @PostMapping("/new")
     public ResponseEntity<Void> createOneLinePrescription(@RequestBody OneLineCreateDto oneLineCreateDto,
