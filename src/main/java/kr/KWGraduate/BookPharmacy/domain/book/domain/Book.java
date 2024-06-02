@@ -46,6 +46,7 @@ public class Book {
     @JoinColumn(name = "middle_category_id")
     private Categories middleCategory;
 
+
     @Builder
     public Book(String isbn, String title, String author, String publishingHouse, String publishYear, String content,
                 int reviewNum, Categories bigCategory, Categories middleCategory, String imageUrl, int count) {
