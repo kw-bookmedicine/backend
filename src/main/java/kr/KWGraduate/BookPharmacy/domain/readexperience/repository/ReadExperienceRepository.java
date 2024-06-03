@@ -1,5 +1,6 @@
 package kr.KWGraduate.BookPharmacy.domain.readexperience.repository;
 
+import kr.KWGraduate.BookPharmacy.domain.book.dto.response.ReadExperienceTop10Dto;
 import kr.KWGraduate.BookPharmacy.domain.readexperience.domain.ReadExperience;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -47,4 +48,11 @@ public interface ReadExperienceRepository extends JpaRepository<ReadExperience, 
     List<ReadExperience> findByBookIsbn(@Param("isbn") String bookIsbn);
 
 
+    /**
+     * 베스트셀러 주기적 업데이트를 위한 배치 프로세스에 의해 실행되는 코드
+     * 유저들에게 가장 많이 읽힌 책 상위 10권에 대하여 (book_id, count)를 조회함
+     * */
+    @Query("SELECT new kr.KWGraduate.BookPharmacy.domain.book.dto.response.ReadExperienceTop10Dto(r.book.id, COUNT(r.book.id)) " +
+            "FROM ReadExperience r GROUP BY r.book.id ORDER BY COUNT(r.book.id) DESC")
+    List<ReadExperienceTop10Dto> findTop10ReadExperiences(Pageable pageable);
 }
