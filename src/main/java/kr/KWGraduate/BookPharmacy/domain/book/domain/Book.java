@@ -30,7 +30,6 @@ public class Book {
     private String publishingHouse; // 출판사명
     private String publishYear; // 발행년도
     private String content; // 책내용
-    private float rating; // 평균 평점
     private int reviewNum; // 리뷰 개수
     private String mediaFlagNumber; // 미디어구분명
     private String imageUrl; // 이미지 url
@@ -47,8 +46,9 @@ public class Book {
     @JoinColumn(name = "middle_category_id")
     private Categories middleCategory;
 
+
     @Builder
-    public Book(String isbn, String title, String author, String publishingHouse, String publishYear, String content, float rating,
+    public Book(String isbn, String title, String author, String publishingHouse, String publishYear, String content,
                 int reviewNum, Categories bigCategory, Categories middleCategory, String imageUrl, int count) {
         this.isbn = isbn;
         this.title = title;
@@ -56,7 +56,6 @@ public class Book {
         this.publishingHouse = publishingHouse;
         this.publishYear = publishYear;
         this.content = content;
-        this.rating = rating;
         this.reviewNum = reviewNum;
         this.bigCategory = bigCategory;
         this.middleCategory = middleCategory;

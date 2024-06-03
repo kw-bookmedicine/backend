@@ -8,7 +8,7 @@ import kr.KWGraduate.BookPharmacy.global.security.auth.filter.LoginFilter;
 import kr.KWGraduate.BookPharmacy.global.security.oauth.filter.Oauth2SuccessHandler;
 import kr.KWGraduate.BookPharmacy.global.security.auth.service.ClientDetailsService;
 import kr.KWGraduate.BookPharmacy.global.security.oauth.service.Oauth2ClientService;
-import kr.KWGraduate.BookPharmacy.global.infra.redis.RefreshTokenService;
+import kr.KWGraduate.BookPharmacy.global.infra.redis.refreshtoken.RefreshTokenService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

@@ -6,11 +6,13 @@ import kr.KWGraduate.BookPharmacy.domain.client.domain.Client;
 import kr.KWGraduate.BookPharmacy.domain.client.repository.ClientRepository;
 import kr.KWGraduate.BookPharmacy.domain.keyword.domain.Keyword;
 import kr.KWGraduate.BookPharmacy.domain.onelineprescription.domain.OneLinePrescription;
+import kr.KWGraduate.BookPharmacy.domain.onelineprescription.repository.OneLineLikeEmotionRepository;
 import kr.KWGraduate.BookPharmacy.domain.onelineprescription.repository.OneLinePrescriptionRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,6 +26,8 @@ import static org.assertj.core.api.Assertions.*;
 class OneLinePrescriptionRepositoryTest {
 
     @Autowired OneLinePrescriptionRepository oneLinePrescriptionRepository;
+    @Autowired
+    OneLineLikeEmotionRepository oneLineLikeEmotionRepository;
     @Autowired ClientRepository clientRepository;
     @Autowired BookRepository bookRepository;
 
@@ -121,7 +125,9 @@ class OneLinePrescriptionRepositoryTest {
 
     @Test
     void 책의_isbn으로_한줄처방_조회() {
-        List<OneLinePrescription> result = oneLinePrescriptionRepository.findByBookIsbn("1234");
+        PageRequest pageRequest = PageRequest.of(0, 8);
+
+        List<OneLinePrescription> result = oneLinePrescriptionRepository.findByBookIsbn("1234", pageRequest).getContent();
         assertThat(3).isEqualTo(result.size());
     }
 
@@ -129,5 +135,12 @@ class OneLinePrescriptionRepositoryTest {
     void 책의_키워드로_한줄처방_조회() {
 //        List<OneLinePrescription> result = oneLinePrescriptionRepository.findByKeyword(Keyword.Economy_Management, Pageable );
 //        assertThat(5).isEqualTo(result.size());
+    }
+
+    @Test
+    void 책의_Id로_한줄처방_조회() {
+        long countByOneLinePreId = oneLineLikeEmotionRepository.findCountByOneLinePreId(148L);
+
+        System.out.println(countByOneLinePreId);
     }
 }

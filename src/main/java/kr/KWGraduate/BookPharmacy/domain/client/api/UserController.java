@@ -38,6 +38,13 @@ public class UserController {
         return ResponseEntity.ok("success");
     }
 
+    @Operation(summary = "oauth 회원가입", description = "id, 비밀번호, 이메일, 이름 제외하고 받음")
+    @PostMapping("/signup/oauth")
+    public ResponseEntity<String> signup(@RequestParam("email") String email, @RequestBody ClientOauthJoinDto clientOauthJoinDto){
+        clientService.signUp(email,clientOauthJoinDto);
+        return ResponseEntity.ok("success");
+    }
+
     @Operation(summary = "아이디 중복확인", description = "false이면 사용가능한 아이디, true이면 중복")
     @GetMapping("/duplicate/username")
     public ResponseEntity<Boolean> isExistUsername(@RequestParam("username") String username){
