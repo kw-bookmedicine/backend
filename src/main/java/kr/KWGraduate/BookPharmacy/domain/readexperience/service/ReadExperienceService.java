@@ -3,6 +3,7 @@ package kr.KWGraduate.BookPharmacy.domain.readexperience.service;
 import kr.KWGraduate.BookPharmacy.domain.readexperience.dto.request.ReadExperienceCreateDto;
 import kr.KWGraduate.BookPharmacy.domain.readexperience.dto.request.ReadExperienceUpdateRequestDto;
 import kr.KWGraduate.BookPharmacy.domain.readexperience.dto.response.ReadExperienceResponseDto;
+import kr.KWGraduate.BookPharmacy.domain.readexperience.event.ReadExperienceUpdatedEvent;
 import kr.KWGraduate.BookPharmacy.global.security.common.dto.AuthenticationAdapter;
 import kr.KWGraduate.BookPharmacy.domain.book.domain.Book;
 import kr.KWGraduate.BookPharmacy.domain.client.domain.Client;
@@ -11,6 +12,7 @@ import kr.KWGraduate.BookPharmacy.domain.book.repository.BookRepository;
 import kr.KWGraduate.BookPharmacy.domain.client.repository.ClientRepository;
 import kr.KWGraduate.BookPharmacy.domain.readexperience.repository.ReadExperienceRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -26,6 +28,7 @@ public class ReadExperienceService {
     private final ReadExperienceRepository readExperienceRepository;
     private final BookRepository bookRepository;
     private final ClientRepository clientRepository;
+    private final ApplicationEventPublisher applicationEventPublisher;
 
     /**
      * '독서 경험 수정하기' 모달창에서 사용되는 서비스 코드
@@ -54,6 +57,8 @@ public class ReadExperienceService {
 
         // 3. 2번에서 생성한 독서경험 리스트를 저장함
         readExperienceRepository.saveAll(updatedList);
+
+        applicationEventPublisher.publishEvent(new ReadExperienceUpdatedEvent(this,client.getId()));
     }
 
     /**
