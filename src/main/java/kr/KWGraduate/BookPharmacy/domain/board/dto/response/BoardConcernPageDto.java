@@ -14,6 +14,7 @@ public class BoardConcernPageDto {
     private String nickname;
     private LocalDate createdDate;
     private String title;
+    private String description;
 
     @Builder
     public BoardConcernPageDto(Board board){
@@ -21,6 +22,7 @@ public class BoardConcernPageDto {
         nickname = board.getClient().getNickname();
         createdDate = board.getCreatedDate().toLocalDate();
         title = board.getTitle();
+        description = board.getDescription();
     }
 
 }
