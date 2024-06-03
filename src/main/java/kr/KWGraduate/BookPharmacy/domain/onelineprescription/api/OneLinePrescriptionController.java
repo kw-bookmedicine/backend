@@ -32,9 +32,12 @@ public class OneLinePrescriptionController {
     @Operation(summary = "모든 한줄처방 리스트를 페이징하여 요청", description = "page와 size를 입력받아 이를 반환")
     @GetMapping("/all")
     public ResponseEntity<Page<OneLineResponseDto>> getAllOneLinePrescriptions(@RequestParam(name = "page") int page,
-                                                                               @RequestParam(name = "size") int size) {
+                                                                               @RequestParam(name = "size") int size,
+                                                                               @AuthenticationPrincipal UserDetails userDetails) {
+
+
         PageRequest pageRequest = PageRequest.of(page, size, Sort.by("createdDate").descending());
-        Page<OneLineResponseDto> result = oneLinePrescriptionService.getAllOneLinePrescriptions(pageRequest);
+        Page<OneLineResponseDto> result = oneLinePrescriptionService.getAllOneLinePrescriptions((AuthenticationAdapter) userDetails, pageRequest);
 
         return ResponseEntity.ok(result);
     }
@@ -54,10 +57,11 @@ public class OneLinePrescriptionController {
     @Operation(summary = "한줄처방 키워드 별 조회", description = "무한 스크롤을 위한 size와 page입력 필수, 키워드 입력")
     public ResponseEntity<Page<OneLineResponseDto>> getOneLinePrescriptionsByKeyword(@RequestParam(name = "keyword") Keyword keyword,
                                                                                      @RequestParam("page") int page,
-                                                                                     @RequestParam("size") int size)
+                                                                                     @RequestParam("size") int size,
+                                                                                     @AuthenticationPrincipal UserDetails userDetails)
     {
         PageRequest pageRequest = PageRequest.of(page,size, Sort.by("createdDate").descending());
-        Page<OneLineResponseDto> result = oneLinePrescriptionService.getOneLinePrescriptionsByKeyword(keyword, pageRequest);
+        Page<OneLineResponseDto> result = oneLinePrescriptionService.getOneLinePrescriptionsByKeyword(keyword, (AuthenticationAdapter) userDetails, pageRequest);
 
         return ResponseEntity.ok(result);
     }
@@ -66,20 +70,22 @@ public class OneLinePrescriptionController {
     @GetMapping(value = "/search")
     public ResponseEntity<Page<OneLineResponseDto>> getOneLinePrescriptionsBySearch(@RequestParam(name = "name") String searchWord,
                                                                                 @RequestParam("page") int page,
-                                                                                @RequestParam("size") int size)
+                                                                                @RequestParam("size") int size,
+                                                                                    @AuthenticationPrincipal UserDetails userDetails)
     {
         PageRequest pageRequest = PageRequest.of(page,size, Sort.by("createdDate").descending());
-        Page<OneLineResponseDto> result = oneLinePrescriptionService.getOneLinePrescriptionsBySearch(searchWord, pageRequest);
+        Page<OneLineResponseDto> result = oneLinePrescriptionService.getOneLinePrescriptionsBySearch(searchWord, (AuthenticationAdapter) userDetails, pageRequest);
 
         return ResponseEntity.ok(result);
     }
 
     @Operation(summary = "책에 대한 한줄처방 리스트 조회 ", description = "책에 대한 한줄처방 리스트를 5개 조회 (페이지, 사이즈 안받음)")
     @GetMapping(value = "/book")
-    public ResponseEntity<Page<OneLineResponseDto>> getOneLinePrescriptionsByBook(@RequestParam(name = "isbn") String isbn) {
+    public ResponseEntity<Page<OneLineResponseDto>> getOneLinePrescriptionsByBook(@RequestParam(name = "isbn") String isbn,
+                                                                                  @AuthenticationPrincipal UserDetails userDetails) {
         PageRequest pageRequest = PageRequest.of(0, 5);
 
-        Page<OneLineResponseDto> result = oneLinePrescriptionService.getOneLinePrescriptionsByBook(isbn, pageRequest);
+        Page<OneLineResponseDto> result = oneLinePrescriptionService.getOneLinePrescriptionsByBook(isbn, (AuthenticationAdapter) userDetails, pageRequest);
 
         return ResponseEntity.ok(result);
     }
@@ -95,8 +101,9 @@ public class OneLinePrescriptionController {
 
     @Operation(summary = "한줄처방을 단건으로 조회할 때 요청")
     @GetMapping("/{prescriptionId}")
-    public ResponseEntity<OneLineResponseDto> getOneLinePrescription(@PathVariable(value = "prescriptionId") Long prescriptionId) {
-        OneLineResponseDto result = oneLinePrescriptionService.getOneLinePrescription(prescriptionId);
+    public ResponseEntity<OneLineResponseDto> getOneLinePrescription(@PathVariable(value = "prescriptionId") Long prescriptionId,
+                                                                     @AuthenticationPrincipal UserDetails userDetails) {
+        OneLineResponseDto result = oneLinePrescriptionService.getOneLinePrescription(prescriptionId, (AuthenticationAdapter) userDetails);
 
         return ResponseEntity.ok(result);
     }
