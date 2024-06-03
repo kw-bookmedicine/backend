@@ -49,7 +49,7 @@ public interface BookRepository extends JpaRepository<Book, Long> {
     Page<Book> findPagingByAuthorContaining(String searchWord, Pageable pageable);
 
     @EntityGraph(attributePaths = {"bigCategory", "middleCategory"})
-    @Query("select b from Book b left join b.bookKeywords bk join bk.keywordItem where b.isbn = :isbn")
+    @Query("select b from Book b left join b.bookKeywords bk left join bk.keywordItem where b.isbn = :isbn")
     Book findBookDetailWithKeywordByIsbn(@Param("isbn") String isbn);
 
     /**
@@ -68,7 +68,7 @@ public interface BookRepository extends JpaRepository<Book, Long> {
      * @return
      */
     @EntityGraph(attributePaths = {"bigCategory", "middleCategory"})
-    @Query("select b from Book b join b.bookKeywords bk inner join bk.keywordItem ki " +
+    @Query("select b from Book b left join b.bookKeywords bk left join bk.keywordItem ki " +
             "where (LOWER(b.title) like %:searchWord% or LOWER(b.author) like %:searchWord%) and ki.name in :names")
     Page<Book> findPagingBySearchWordAndKeyword(@Param("searchWord") String searchWord,
                                                           @Param("names") List<String> keywordNameList, Pageable pageable);
