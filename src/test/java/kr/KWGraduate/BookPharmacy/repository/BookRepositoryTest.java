@@ -59,29 +59,6 @@ class BookRepositoryTest {
         Assertions.assertEquals(savedBook1.getIsbn(), book1.getIsbn());
     }
 
-    @Test
-    @DisplayName("대분류로 조회하기")
-    public void findByBigCategory() {
-
-        //then
-        List<Book> bookListByCategory = bookRepository.findByBigCategory("IT/컴퓨터");
-
-        for (Book book : bookListByCategory) {
-            System.out.println("book = " + book);
-        }
-    }
-
-    @Test
-    @DisplayName("중분류로 조회하기")
-    public void findByMiddleCategory() {
-
-        //then
-        List<Book> bookListByCategory = bookRepository.findByMiddleCategory("Java");
-
-        for (Book book : bookListByCategory) {
-            System.out.println("book = " + book);
-        }
-    }
 
     @Test
     @DisplayName("중분류로 조회하기(페이징)")
@@ -106,15 +83,6 @@ class BookRepositoryTest {
         }
     }
 
-    @Test
-    @DisplayName("제목에 검색어를 포함하는 경우 조회하기")
-    public void findBySearchKeyword() {
-        List<Book> bookList = bookRepository.findByTitleContaining("자바");
-
-        for (Book book : bookList) {
-            System.out.println("book = " + book);
-        }
-    }
 
     @Test
     @DisplayName("제목 AND 키워드에 대해 조회하기")
