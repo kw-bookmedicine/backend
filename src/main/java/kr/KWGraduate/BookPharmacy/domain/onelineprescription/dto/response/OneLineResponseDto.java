@@ -24,11 +24,15 @@ public class OneLineResponseDto {
     private String bookPublishYear;
     private String bookPublishingHouse;
     private String clientNickname;
+    private boolean isLike;
+    private boolean isHelpful;
+    private long likeCount;
+    private long helpfulCount;
     private LocalDate createdDate;
 
     @Builder
     public OneLineResponseDto(Long id, String title, String description, Keyword keyword, String bookTitle, String bookIsbn, String bookAuthor, String bookImageUrl,
-                              String bookPublishYear, String bookPublishingHouse) {
+                              String bookPublishYear, String bookPublishingHouse, boolean isLike, boolean isHelpful, Integer likeCount, Integer helpfulCount) {
         this.id = id;
         this.title = title;
         this.description = description;
@@ -39,6 +43,10 @@ public class OneLineResponseDto {
         this.bookImageUrl = bookImageUrl;
         this.bookPublishYear = bookPublishYear;
         this.bookPublishingHouse = bookPublishingHouse;
+        this.isLike = isLike;
+        this.isHelpful = isHelpful;
+        this.likeCount = likeCount;
+        this.helpfulCount = helpfulCount;
     }
 
     public OneLineResponseDto setAllAttr(Book book, Client client, OneLinePrescription oneLinePrescription) {
@@ -75,4 +83,25 @@ public class OneLineResponseDto {
 
         return this;
     }
+
+    public OneLineResponseDto setIsLike(boolean like) {
+        isLike = like;
+        return this;
+    }
+
+    public OneLineResponseDto setIsHelpful(boolean helpful) {
+        isHelpful = helpful;
+        return this;
+    }
+
+    public OneLineResponseDto setLikeCount(long likeCount) {
+        this.likeCount = likeCount;
+        return this;
+    }
+
+    public OneLineResponseDto setHelpfulCount(long helpfulCount) {
+        this.helpfulCount = helpfulCount;
+        return this;
+    }
+
 }
