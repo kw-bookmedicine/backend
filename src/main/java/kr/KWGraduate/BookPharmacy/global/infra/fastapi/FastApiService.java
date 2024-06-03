@@ -18,11 +18,13 @@ public class FastApiService {
     public enum RecommendType{
         Board("board/"),Client("client/"),Book("book/");
         private final String urlPath;
+        private final String fastApi = "http://ec2-3-35-175-141.ap-northeast-2.compute.amazonaws.com:8000/";
+        private final String localhost = "http://localhost:8000/";
         RecommendType(String urlPath){
             this.urlPath = urlPath;
         }
         public String getUrlPath(Long id){
-            return "http://localhost:8000/"+ this.urlPath +Long.toString(id);
+            return fastApi + this.urlPath +Long.toString(id);
         }
     }
 
