@@ -17,4 +17,8 @@ public interface OneLineLikeEmotionRepository extends JpaRepository<OneLineLikeE
             "where c.loginId = :loginId " +
             "and op.id = :oneLineId")
     Optional<OneLineLikeEmotion> findByLoginIdAndOneLinePreId(@Param("loginId") String loginId, @Param("oneLineId") Long oneLineId);
+
+    @Query("select count(ol) from OneLineLikeEmotion ol inner join ol.oneLinePrescription op where op.id = :oneLineId")
+    long findCountByOneLinePreId(@Param("oneLineId") Long oneLineId);
+
 }

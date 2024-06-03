@@ -43,4 +43,8 @@ public class CustomOauth2Client implements OAuth2User, AuthenticationAdapter {
     public String getUsername(){
         return oauth2ClientDto.getUsername();
     }
+
+    public String getEmail(){ return oauth2ClientDto.getEmail(); }
+
+    public Boolean isExist(){ return oauth2ClientDto.getIsExist(); }
 }

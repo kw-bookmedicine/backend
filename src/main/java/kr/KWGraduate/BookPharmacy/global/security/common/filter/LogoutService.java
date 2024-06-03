@@ -1,19 +1,15 @@
 package kr.KWGraduate.BookPharmacy.global.security.common.filter;
 
-import io.jsonwebtoken.JwtException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import kr.KWGraduate.BookPharmacy.global.infra.redis.RefreshToken;
+import kr.KWGraduate.BookPharmacy.global.infra.redis.refreshtoken.RefreshToken;
 import kr.KWGraduate.BookPharmacy.global.security.common.util.CookieType;
 import kr.KWGraduate.BookPharmacy.global.security.common.util.JWTUtil;
-import kr.KWGraduate.BookPharmacy.global.infra.redis.RefreshTokenService;
+import kr.KWGraduate.BookPharmacy.global.infra.redis.refreshtoken.RefreshTokenService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.logout.LogoutHandler;
 import org.springframework.stereotype.Service;
-import org.springframework.web.servlet.HandlerExceptionResolver;
 
 @Service
 @RequiredArgsConstructor

@@ -1,4 +1,4 @@
-package kr.KWGraduate.BookPharmacy.global.infra.redis;
+package kr.KWGraduate.BookPharmacy.global.infra.redis.refreshtoken;
 
 import lombok.*;
 import org.springframework.data.annotation.Id;

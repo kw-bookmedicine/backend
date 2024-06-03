@@ -11,7 +11,7 @@ import kr.KWGraduate.BookPharmacy.domain.client.dto.request.ClientLoginDto;
 import kr.KWGraduate.BookPharmacy.global.security.common.dto.TokenDto;
 import kr.KWGraduate.BookPharmacy.global.common.error.BusinessException;
 import kr.KWGraduate.BookPharmacy.global.security.common.util.JWTUtil;
-import kr.KWGraduate.BookPharmacy.global.infra.redis.RefreshTokenService;
+import kr.KWGraduate.BookPharmacy.global.infra.redis.refreshtoken.RefreshTokenService;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationServiceException;

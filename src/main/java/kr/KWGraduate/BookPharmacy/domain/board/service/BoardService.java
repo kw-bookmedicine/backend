@@ -6,6 +6,7 @@ import kr.KWGraduate.BookPharmacy.domain.board.dto.request.BoardModifyDto;
 import kr.KWGraduate.BookPharmacy.domain.board.dto.response.BoardConcernPageDto;
 import kr.KWGraduate.BookPharmacy.domain.board.dto.response.BoardDetailDto;
 import kr.KWGraduate.BookPharmacy.domain.board.dto.response.BoardMyPageDto;
+import kr.KWGraduate.BookPharmacy.domain.board.event.BoardUpdatedEvent;
 import kr.KWGraduate.BookPharmacy.domain.keyword.service.KeywordBiMapService;
 import kr.KWGraduate.BookPharmacy.domain.onelineprescription.dto.response.OneLineResponseDto;
 import kr.KWGraduate.BookPharmacy.global.security.common.dto.AuthenticationAdapter;
@@ -16,6 +17,7 @@ import kr.KWGraduate.BookPharmacy.domain.board.repository.BoardRepository;
 import kr.KWGraduate.BookPharmacy.domain.client.repository.ClientRepository;
 import kr.KWGraduate.BookPharmacy.domain.prescription.repository.PrescriptionRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
@@ -34,7 +36,7 @@ public class BoardService {
     private final PrescriptionRepository prescriptionRepository;
     private final AnswerService answerService;
     private final KeywordBiMapService keywordBiMapService;
-
+    private final ApplicationEventPublisher applicationEventPublisher;
     public Page<BoardConcernPageDto> getBoards(Pageable pageable){
         Page<Board> pageResult = boardRepository.findAllBoards(pageable);
         Page<BoardConcernPageDto> dtoList = pageResult.map(board -> new BoardConcernPageDto(board));
@@ -66,8 +68,17 @@ public class BoardService {
     @Transactional
     public Long modifyBoard(Long boardId, BoardModifyDto boardModifyDto) throws Exception {
         Board board = boardRepository.findById(boardId).orElseThrow(Exception::new);
+
+        Keyword originKeyword = board.getKeyword();
+        String originDescription = board.getDescription();
+
         board.modifyBoard(boardModifyDto.getTitle() , boardModifyDto.getDescription(), boardModifyDto.getKeyword());
         answerService.updateAnswers(boardModifyDto.getAnswers());
+
+        if(!(originDescription.equals(board.getDescription()) && originKeyword == board.getKeyword())){
+            applicationEventPublisher.publishEvent(new BoardUpdatedEvent(this,boardId));
+        }
+
         return boardId;
     }
 
@@ -77,6 +88,9 @@ public class BoardService {
         Board board = boardCreateDto.toEntity(client);
         Long id = boardRepository.save(board).getId();
         answerService.createAnswer(id,boardCreateDto.getAnswers());
+
+        applicationEventPublisher.publishEvent(new BoardUpdatedEvent(this,id));
+
         return id;
     }
 

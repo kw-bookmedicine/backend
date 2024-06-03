@@ -3,7 +3,8 @@ package kr.KWGraduate.BookPharmacy.domain.onelineprescription.service;
 import kr.KWGraduate.BookPharmacy.domain.onelineprescription.dto.request.OneLineCreateDto;
 import kr.KWGraduate.BookPharmacy.domain.onelineprescription.dto.request.OneLineUpdateDto;
 import kr.KWGraduate.BookPharmacy.domain.onelineprescription.dto.response.OneLineResponseDto;
-import kr.KWGraduate.BookPharmacy.domain.readexperience.service.ReadExperienceService;
+import kr.KWGraduate.BookPharmacy.domain.onelineprescription.repository.OneLineHelpfulEmotionRepository;
+import kr.KWGraduate.BookPharmacy.domain.onelineprescription.repository.OneLineLikeEmotionRepository;
 import kr.KWGraduate.BookPharmacy.global.security.common.dto.AuthenticationAdapter;
 import kr.KWGraduate.BookPharmacy.domain.book.domain.Book;
 import kr.KWGraduate.BookPharmacy.domain.client.domain.Client;
@@ -24,6 +25,8 @@ import org.springframework.transaction.annotation.Transactional;
 public class OneLinePrescriptionService {
 
     private final OneLinePrescriptionRepository oneLinePrescriptionRepository;
+    private final OneLineLikeEmotionRepository oneLineLikeEmotionRepository;
+    private final OneLineHelpfulEmotionRepository oneLineHelpfulEmotionRepository;
     private final BookRepository bookRepository;
     private final ClientRepository clientRepository;
 
@@ -72,42 +75,72 @@ public class OneLinePrescriptionService {
         client.setPrescriptionCount(client.getPrescriptionCount() - 1);
     }
 
-    public OneLineResponseDto getOneLinePrescription(Long oneLinePrescriptionId) {
+    public OneLineResponseDto getOneLinePrescription(Long oneLinePrescriptionId, AuthenticationAdapter authentication) {
+        String loginId = authentication.getUsername();
+
         OneLinePrescription oneLinePrescription = oneLinePrescriptionRepository.findOneLinePrescriptionById(oneLinePrescriptionId).get();
-        OneLineResponseDto dto = new OneLineResponseDto();
-        dto.setAllAttr(oneLinePrescription.getBook(), oneLinePrescription.getClient(), oneLinePrescription);
+        OneLineResponseDto dto = new OneLineResponseDto()
+                .setAllAttr(oneLinePrescription.getBook(), oneLinePrescription.getClient(), oneLinePrescription)
+                .setLikeCount(oneLineLikeEmotionRepository.findCountByOneLinePreId(oneLinePrescription.getId()))
+                .setHelpfulCount(oneLineHelpfulEmotionRepository.findCountByOneLinePreId(oneLinePrescription.getId()))
+                .setIsLike(oneLineLikeEmotionRepository.findByLoginIdAndOneLinePreId(loginId, oneLinePrescription.getId()).isPresent())
+                .setIsHelpful(oneLineHelpfulEmotionRepository.findByLoginIdAndOneLinePreId(loginId, oneLinePrescription.getId()).isPresent());
 
         return dto;
     }
 
-    public Page<OneLineResponseDto> getAllOneLinePrescriptions(Pageable pageable) {
+    public Page<OneLineResponseDto> getAllOneLinePrescriptions(AuthenticationAdapter authentication, Pageable pageable) {
+        String loginId = authentication.getUsername();
+
         Page<OneLinePrescription> pageResult = oneLinePrescriptionRepository.findPagingAll(pageable);
         Page<OneLineResponseDto> dtoList = pageResult.map(oneLine -> new OneLineResponseDto()
-                .setAllAttr(oneLine.getBook(), oneLine.getClient(), oneLine));
+                .setAllAttr(oneLine.getBook(), oneLine.getClient(), oneLine)
+                .setLikeCount(oneLineLikeEmotionRepository.findCountByOneLinePreId(oneLine.getId()))
+                .setHelpfulCount(oneLineHelpfulEmotionRepository.findCountByOneLinePreId(oneLine.getId()))
+                .setIsLike(oneLineLikeEmotionRepository.findByLoginIdAndOneLinePreId(loginId, oneLine.getId()).isPresent())
+                .setIsHelpful(oneLineHelpfulEmotionRepository.findByLoginIdAndOneLinePreId(loginId, oneLine.getId()).isPresent()));
 
         return dtoList;
     }
 
-    public Page<OneLineResponseDto> getOneLinePrescriptionsByKeyword(Keyword keyword, Pageable pageable) {
+    public Page<OneLineResponseDto> getOneLinePrescriptionsByKeyword(Keyword keyword, AuthenticationAdapter authentication, Pageable pageable) {
+        String loginId = authentication.getUsername();
+
         Page<OneLinePrescription> pageResult = oneLinePrescriptionRepository.findByKeyword(keyword, pageable);
         Page<OneLineResponseDto> dtoList = pageResult.map(oneLine -> new OneLineResponseDto()
-                .setAllAttr(oneLine.getBook(), oneLine.getClient(), oneLine));
+                .setAllAttr(oneLine.getBook(), oneLine.getClient(), oneLine)
+                .setLikeCount(oneLineLikeEmotionRepository.findCountByOneLinePreId(oneLine.getId()))
+                .setHelpfulCount(oneLineHelpfulEmotionRepository.findCountByOneLinePreId(oneLine.getId()))
+                .setIsLike(oneLineLikeEmotionRepository.findByLoginIdAndOneLinePreId(loginId, oneLine.getId()).isPresent())
+                .setIsHelpful(oneLineHelpfulEmotionRepository.findByLoginIdAndOneLinePreId(loginId, oneLine.getId()).isPresent()));
 
         return dtoList;
     }
 
-    public Page<OneLineResponseDto> getOneLinePrescriptionsBySearch(String searchWord, Pageable pageable) {
+    public Page<OneLineResponseDto> getOneLinePrescriptionsBySearch(String searchWord, AuthenticationAdapter authentication, Pageable pageable) {
+        String loginId = authentication.getUsername();
+
         Page<OneLinePrescription> pageResult = oneLinePrescriptionRepository.findByTitleContainingOrDescriptionContaining(searchWord, pageable);
         Page<OneLineResponseDto> dtoList = pageResult.map(oneLine -> new OneLineResponseDto()
-                .setAllAttr(oneLine.getBook(), oneLine.getClient(), oneLine));
+                .setAllAttr(oneLine.getBook(), oneLine.getClient(), oneLine)
+                .setLikeCount(oneLineLikeEmotionRepository.findCountByOneLinePreId(oneLine.getId()))
+                .setHelpfulCount(oneLineHelpfulEmotionRepository.findCountByOneLinePreId(oneLine.getId()))
+                .setIsLike(oneLineLikeEmotionRepository.findByLoginIdAndOneLinePreId(loginId, oneLine.getId()).isPresent())
+                .setIsHelpful(oneLineHelpfulEmotionRepository.findByLoginIdAndOneLinePreId(loginId, oneLine.getId()).isPresent()));
 
         return dtoList;
     }
 
-    public Page<OneLineResponseDto> getOneLinePrescriptionsByBook(String isbn, Pageable pageable) {
+    public Page<OneLineResponseDto> getOneLinePrescriptionsByBook(String isbn, AuthenticationAdapter authentication, Pageable pageable) {
+        String loginId = authentication.getUsername();
+
         Page<OneLinePrescription> pageResult = oneLinePrescriptionRepository.findByBookIsbn(isbn, pageable);
         Page<OneLineResponseDto> dtoList = pageResult.map(oneLine -> new OneLineResponseDto()
-                .setAllAttr(oneLine.getBook(), oneLine.getClient(), oneLine));
+                .setAllAttr(oneLine.getBook(), oneLine.getClient(), oneLine)
+                .setLikeCount(oneLineLikeEmotionRepository.findCountByOneLinePreId(oneLine.getId()))
+                .setHelpfulCount(oneLineHelpfulEmotionRepository.findCountByOneLinePreId(oneLine.getId()))
+                .setIsLike(oneLineLikeEmotionRepository.findByLoginIdAndOneLinePreId(loginId, oneLine.getId()).isPresent())
+                .setIsHelpful(oneLineHelpfulEmotionRepository.findByLoginIdAndOneLinePreId(loginId, oneLine.getId()).isPresent()));
 
         return dtoList;
 
@@ -118,7 +151,11 @@ public class OneLinePrescriptionService {
         Page<OneLinePrescription> pageResult = oneLinePrescriptionRepository.findByLoginId(loginId, pageable);
 
         Page<OneLineResponseDto> dtoList = pageResult.map(oneLine -> new OneLineResponseDto()
-                .setAllAttr(oneLine.getBook(), oneLine.getClient(), oneLine));
+                .setAllAttr(oneLine.getBook(), oneLine.getClient(), oneLine)
+                .setLikeCount(oneLineLikeEmotionRepository.findCountByOneLinePreId(oneLine.getId()))
+                .setHelpfulCount(oneLineHelpfulEmotionRepository.findCountByOneLinePreId(oneLine.getId()))
+                .setIsLike(oneLineLikeEmotionRepository.findByLoginIdAndOneLinePreId(loginId, oneLine.getId()).isPresent())
+                .setIsHelpful(oneLineHelpfulEmotionRepository.findByLoginIdAndOneLinePreId(loginId, oneLine.getId()).isPresent()));
 
         return dtoList;
     }
