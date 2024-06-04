@@ -12,6 +12,7 @@ import kr.KWGraduate.BookPharmacy.global.security.common.dto.TokenDto;
 import kr.KWGraduate.BookPharmacy.global.common.error.BusinessException;
 import kr.KWGraduate.BookPharmacy.global.security.common.util.JWTUtil;
 import kr.KWGraduate.BookPharmacy.global.infra.redis.refreshtoken.RefreshTokenService;
+import lombok.SneakyThrows;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationServiceException;
@@ -19,6 +20,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.util.StreamUtils;
 
@@ -71,6 +73,7 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
         }
     }
 
+    @SneakyThrows
     @Override
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) throws IOException, ServletException {
 
@@ -85,9 +88,13 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
         String role = auth.getAuthority();
 
         TokenDto token = jwtUtil.createJwt(username, role,"false");
+        String accessToken = token.getAccessToken();
+
+        Authentication authToken = jwtUtil.getAuthentication(accessToken);
+        SecurityContextHolder.getContext().setAuthentication(authToken);
 
         refreshTokenService.save(token,username);
-        response.addHeader(HttpHeaders.SET_COOKIE,Authorization.createCookie(token.getAccessToken()));
+        response.addHeader(HttpHeaders.SET_COOKIE, Authorization.createCookie(accessToken));
         response.addHeader(HttpHeaders.SET_COOKIE, Refresh.createCookie(token.getRefreshToken()));
         response.getWriter().write("success");
     }

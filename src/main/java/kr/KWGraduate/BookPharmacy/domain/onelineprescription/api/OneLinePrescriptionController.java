@@ -33,11 +33,11 @@ public class OneLinePrescriptionController {
     @GetMapping("/all")
     public ResponseEntity<Page<OneLineResponseDto>> getAllOneLinePrescriptions(@RequestParam(name = "page") int page,
                                                                                @RequestParam(name = "size") int size,
-                                                                               @AuthenticationPrincipal UserDetails userDetails) {
+                                                                               @AuthenticationPrincipal AuthenticationAdapter userDetails) {
 
 
         PageRequest pageRequest = PageRequest.of(page, size, Sort.by("createdDate").descending());
-        Page<OneLineResponseDto> result = oneLinePrescriptionService.getAllOneLinePrescriptions((AuthenticationAdapter) userDetails, pageRequest);
+        Page<OneLineResponseDto> result = oneLinePrescriptionService.getAllOneLinePrescriptions(userDetails, pageRequest);
 
         return ResponseEntity.ok(result);
     }
@@ -46,9 +46,9 @@ public class OneLinePrescriptionController {
     @GetMapping("/my")
     public ResponseEntity<Page<OneLineResponseDto>> getMyOneLinePrescriptions(@RequestParam(name = "page") int page,
                                                                               @RequestParam(name = "size") int size,
-                                                                              @AuthenticationPrincipal UserDetails userDetails) {
+                                                                              @AuthenticationPrincipal AuthenticationAdapter userDetails) {
         PageRequest pageRequest = PageRequest.of(page, size, Sort.by("createdDate").descending());
-        Page<OneLineResponseDto> result = oneLinePrescriptionService.getMyOneLinePrescriptions((AuthenticationAdapter) userDetails, pageRequest);
+        Page<OneLineResponseDto> result = oneLinePrescriptionService.getMyOneLinePrescriptions( userDetails, pageRequest);
 
         return ResponseEntity.ok(result);
     }
@@ -58,10 +58,10 @@ public class OneLinePrescriptionController {
     public ResponseEntity<Page<OneLineResponseDto>> getOneLinePrescriptionsByKeyword(@RequestParam(name = "keyword") Keyword keyword,
                                                                                      @RequestParam("page") int page,
                                                                                      @RequestParam("size") int size,
-                                                                                     @AuthenticationPrincipal UserDetails userDetails)
+                                                                                     @AuthenticationPrincipal AuthenticationAdapter userDetails)
     {
         PageRequest pageRequest = PageRequest.of(page,size, Sort.by("createdDate").descending());
-        Page<OneLineResponseDto> result = oneLinePrescriptionService.getOneLinePrescriptionsByKeyword(keyword, (AuthenticationAdapter) userDetails, pageRequest);
+        Page<OneLineResponseDto> result = oneLinePrescriptionService.getOneLinePrescriptionsByKeyword(keyword, userDetails, pageRequest);
 
         return ResponseEntity.ok(result);
     }
@@ -71,10 +71,10 @@ public class OneLinePrescriptionController {
     public ResponseEntity<Page<OneLineResponseDto>> getOneLinePrescriptionsBySearch(@RequestParam(name = "name") String searchWord,
                                                                                 @RequestParam("page") int page,
                                                                                 @RequestParam("size") int size,
-                                                                                    @AuthenticationPrincipal UserDetails userDetails)
+                                                                                    @AuthenticationPrincipal AuthenticationAdapter userDetails)
     {
         PageRequest pageRequest = PageRequest.of(page,size, Sort.by("createdDate").descending());
-        Page<OneLineResponseDto> result = oneLinePrescriptionService.getOneLinePrescriptionsBySearch(searchWord, (AuthenticationAdapter) userDetails, pageRequest);
+        Page<OneLineResponseDto> result = oneLinePrescriptionService.getOneLinePrescriptionsBySearch(searchWord, userDetails, pageRequest);
 
         return ResponseEntity.ok(result);
     }
@@ -82,10 +82,10 @@ public class OneLinePrescriptionController {
     @Operation(summary = "책에 대한 한줄처방 리스트 조회 ", description = "책에 대한 한줄처방 리스트를 5개 조회 (페이지, 사이즈 안받음)")
     @GetMapping(value = "/book")
     public ResponseEntity<Page<OneLineResponseDto>> getOneLinePrescriptionsByBook(@RequestParam(name = "isbn") String isbn,
-                                                                                  @AuthenticationPrincipal UserDetails userDetails) {
+                                                                                  @AuthenticationPrincipal AuthenticationAdapter userDetails) {
         PageRequest pageRequest = PageRequest.of(0, 5);
 
-        Page<OneLineResponseDto> result = oneLinePrescriptionService.getOneLinePrescriptionsByBook(isbn, (AuthenticationAdapter) userDetails, pageRequest);
+        Page<OneLineResponseDto> result = oneLinePrescriptionService.getOneLinePrescriptionsByBook(isbn, userDetails, pageRequest);
 
         return ResponseEntity.ok(result);
     }
@@ -93,8 +93,8 @@ public class OneLinePrescriptionController {
     @Operation(summary = "한줄처방을 생성하도록 요청")
     @PostMapping("/new")
     public ResponseEntity<Void> createOneLinePrescription(@RequestBody OneLineCreateDto oneLineCreateDto,
-                                                    @AuthenticationPrincipal UserDetails userDetails) {
-        oneLinePrescriptionService.createOneLinePrescription(oneLineCreateDto, (AuthenticationAdapter) userDetails);
+                                                    @AuthenticationPrincipal AuthenticationAdapter userDetails) {
+        oneLinePrescriptionService.createOneLinePrescription(oneLineCreateDto, userDetails);
 
         return ResponseEntity.ok().build();
     }
@@ -102,8 +102,8 @@ public class OneLinePrescriptionController {
     @Operation(summary = "한줄처방을 단건으로 조회할 때 요청")
     @GetMapping("/{prescriptionId}")
     public ResponseEntity<OneLineResponseDto> getOneLinePrescription(@PathVariable(value = "prescriptionId") Long prescriptionId,
-                                                                     @AuthenticationPrincipal UserDetails userDetails) {
-        OneLineResponseDto result = oneLinePrescriptionService.getOneLinePrescription(prescriptionId, (AuthenticationAdapter) userDetails);
+                                                                     @AuthenticationPrincipal AuthenticationAdapter userDetails) {
+        OneLineResponseDto result = oneLinePrescriptionService.getOneLinePrescription(prescriptionId, userDetails);
 
         return ResponseEntity.ok(result);
     }
@@ -112,8 +112,8 @@ public class OneLinePrescriptionController {
     @PutMapping("/{prescriptionId}")
     public ResponseEntity<String> updateOneLinePrescription(@PathVariable(value = "prescriptionId") Long prescriptionId,
                                                           @RequestBody OneLineUpdateDto oneLineUpdateDto,
-                                                    @AuthenticationPrincipal UserDetails userDetails) {
-        oneLinePrescriptionService.updateOneLinePrescription(prescriptionId, oneLineUpdateDto, (AuthenticationAdapter) userDetails);
+                                                    @AuthenticationPrincipal AuthenticationAdapter userDetails) {
+        oneLinePrescriptionService.updateOneLinePrescription(prescriptionId, oneLineUpdateDto, userDetails);
 
         return ResponseEntity.ok("success");
     }
@@ -121,8 +121,8 @@ public class OneLinePrescriptionController {
     @Operation(summary = "한줄처방을 삭제할 때 요청")
     @DeleteMapping("/{prescriptionId}")
     public ResponseEntity<String> deleteOneLinePrescription(@PathVariable(value = "prescriptionId") Long prescriptionId,
-                                                    @AuthenticationPrincipal UserDetails userDetails) {
-        oneLinePrescriptionService.deleteOneLinePrescription(prescriptionId, (AuthenticationAdapter) userDetails);
+                                                    @AuthenticationPrincipal AuthenticationAdapter userDetails) {
+        oneLinePrescriptionService.deleteOneLinePrescription(prescriptionId, userDetails);
 
         return ResponseEntity.ok("success");
     }

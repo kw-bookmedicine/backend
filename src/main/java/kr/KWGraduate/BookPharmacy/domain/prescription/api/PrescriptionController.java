@@ -41,17 +41,17 @@ public class PrescriptionController {
     public ResponseEntity<List<PrescriptionMyPageDto>> getPrescription(
             @RequestParam("page") int page,
             @RequestParam("size") int size,
-            @AuthenticationPrincipal UserDetails userDetails
+            @AuthenticationPrincipal AuthenticationAdapter userDetails
     ) {
         PageRequest pageRequest = PageRequest.of(page, size, Sort.by("createdDate").descending());
-        return ResponseEntity.ok(prescriptionService.getPrescriptions(pageRequest, (AuthenticationAdapter) userDetails));
+        return ResponseEntity.ok(prescriptionService.getPrescriptions(pageRequest, userDetails));
     }
 
 
     @PostMapping
     @Operation(summary = "처방전 생성")
-    public ResponseEntity<String> createPrescription(@RequestBody PrescriptionCreateDto prescriptionCreateDto, @AuthenticationPrincipal UserDetails userDetails) {
-        prescriptionService.createPrescription(prescriptionCreateDto, (AuthenticationAdapter) userDetails);
+    public ResponseEntity<String> createPrescription(@RequestBody PrescriptionCreateDto prescriptionCreateDto, @AuthenticationPrincipal AuthenticationAdapter userDetails) {
+        prescriptionService.createPrescription(prescriptionCreateDto, userDetails);
         return ResponseEntity.ok("success");
     }
 
