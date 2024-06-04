@@ -59,13 +59,13 @@ public class Oauth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
             response.addHeader(HttpHeaders.SET_COOKIE, Authorization.createCookie(accessToken));
             response.addHeader(HttpHeaders.SET_COOKIE, Refresh.createCookie(token.getRefreshToken()));
 
-//            response.sendRedirect("https://www.bookpharmacy.store/main");
-            response.sendRedirect("https://localhost:3000");
+            response.sendRedirect("https://www.bookpharmacy.store/main");
+//            response.sendRedirect("https://localhost:3000");
         }else{
             oauth2SignUpService.save(username,email,name);
 
-//            response.sendRedirect("https://www.bookpharmacy.store/signup/oauth?email="+email);
-            response.sendRedirect("https://localhost:3000?email="+email);
+            response.sendRedirect("https://www.bookpharmacy.store/signup/oauth?email="+email);
+//            response.sendRedirect("https://localhost:3000?email="+email);
         }
 
 
