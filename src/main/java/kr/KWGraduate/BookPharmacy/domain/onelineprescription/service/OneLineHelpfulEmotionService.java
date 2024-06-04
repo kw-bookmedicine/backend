@@ -11,6 +11,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 public class OneLineHelpfulEmotionService {
@@ -30,19 +32,19 @@ public class OneLineHelpfulEmotionService {
         // '도움이 되었어요'가 이미 존재하면 에러 반환
         if(oneLineHelpfulEmotionRepository.findByLoginIdAndOneLinePreId(loginId, oneLinePrescriptionId).isPresent()){
 
+        }else{
+            // 좋아요 엔티티 생성
+            OneLineHelpfulEmotion oneLineHelpfulEmotion = OneLineHelpfulEmotion.builder()
+                    .client(client)
+                    .oneLinePrescription(oneLinePrescription)
+                    .build();
+
+            // 한줄처방 도움이 되었어요 개수 + 1
+            oneLinePrescription.setHelpfulCount(oneLinePrescription.getHelpfulCount() + 1);
+
+            oneLineHelpfulEmotionRepository.save(oneLineHelpfulEmotion);
+            oneLinePrescriptionRepository.save(oneLinePrescription);
         }
-
-        // 좋아요 엔티티 생성
-        OneLineHelpfulEmotion oneLineHelpfulEmotion = OneLineHelpfulEmotion.builder()
-                .client(client)
-                .oneLinePrescription(oneLinePrescription)
-                .build();
-
-        // 한줄처방 도움이 되었어요 개수 + 1
-        oneLinePrescription.setHelpfulCount(oneLinePrescription.getHelpfulCount() + 1);
-
-        oneLineHelpfulEmotionRepository.save(oneLineHelpfulEmotion);
-        oneLinePrescriptionRepository.save(oneLinePrescription);
     }
 
     @Transactional
@@ -53,13 +55,17 @@ public class OneLineHelpfulEmotionService {
         Client client = clientRepository.findByLoginId(loginId).get();
         OneLinePrescription oneLinePrescription = oneLinePrescriptionRepository.findById(oneLinePrescriptionId).get();
 
-        OneLineHelpfulEmotion oneLineHelpfulEmotion = oneLineHelpfulEmotionRepository.findByLoginIdAndOneLinePreId(loginId, oneLinePrescriptionId).get();
+        Optional<OneLineHelpfulEmotion> optional = oneLineHelpfulEmotionRepository.findByLoginIdAndOneLinePreId(loginId, oneLinePrescriptionId);
 
-        // 한줄처방 도움이 되었어요 개수 - 1
-        // (한줄처방이 존재하지 않는다면 위 find함수에서 에러를 던질 것이고, 그렇게 되면 count가 감소하지 않으므로, 따로 if(count<=0)과 같은 조건처리를 해줄 필요가 없음)
-        oneLinePrescription.setHelpfulCount(oneLinePrescription.getHelpfulCount() - 1);
+        if (optional.isPresent()) {
+            OneLineHelpfulEmotion oneLineHelpfulEmotion = optional.get();
 
-        oneLineHelpfulEmotionRepository.delete(oneLineHelpfulEmotion);
-        oneLinePrescriptionRepository.save(oneLinePrescription);
+            // 한줄처방 도움이 되었어요 개수 - 1
+            // (한줄처방이 존재하지 않는다면 위 find함수에서 에러를 던질 것이고, 그렇게 되면 count가 감소하지 않으므로, 따로 if(count<=0)과 같은 조건처리를 해줄 필요가 없음)
+            oneLinePrescription.setHelpfulCount(oneLinePrescription.getHelpfulCount() - 1);
+
+            oneLineHelpfulEmotionRepository.delete(oneLineHelpfulEmotion);
+            oneLinePrescriptionRepository.save(oneLinePrescription);
+        }
     }
 }
