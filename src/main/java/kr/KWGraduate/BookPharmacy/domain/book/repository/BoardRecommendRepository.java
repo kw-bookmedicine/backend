@@ -10,6 +10,6 @@ import java.util.Optional;
 
 public interface BoardRecommendRepository extends JpaRepository<BoardRecommend, Long> {
 
-    @Query("select br from BoardRecommend br join fetch br.book b where br.board.id = :boardId")
+    @Query("select br from BoardRecommend br left join fetch br.book b where br.board.id = :boardId")
     Optional<BoardRecommend> findByBoardBasedRecommend(@Param("boardId") Long boardId);
 }

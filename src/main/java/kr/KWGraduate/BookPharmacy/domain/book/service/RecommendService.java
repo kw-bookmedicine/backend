@@ -41,8 +41,16 @@ public class RecommendService {
     }
     public BoardBasedRecommendDto getBoardBasedRecommend(Long boardId){
         return boardRecommendRepository.findByBoardBasedRecommend(boardId)
-                .map(BoardBasedRecommendDto::new)
-                .orElse(null);
+                .map((boardRecommend -> {
+                    if(boardRecommend.getBook() == null){
+                        return new BoardBasedRecommendDto(false);
+                    }
+                    else{
+                        return new BoardBasedRecommendDto(boardRecommend);
+                    }
+                })
+                )
+                .orElseGet(() -> new BoardBasedRecommendDto(true));
     }
     public List<BookBasedRecommendDto> getBookBasedRecommend(String isbn){
         return bookRecommendRepository.findByBookBasedRecommend(isbn).stream()

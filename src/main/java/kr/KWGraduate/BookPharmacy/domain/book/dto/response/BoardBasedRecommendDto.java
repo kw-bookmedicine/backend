@@ -15,6 +15,7 @@ public class BoardBasedRecommendDto {
     private String title;
     private String author;
     private String[] keywords;
+    private Boolean recommending;
 
     @Builder
     public BoardBasedRecommendDto(BoardRecommend boardRecommend){
@@ -25,7 +26,11 @@ public class BoardBasedRecommendDto {
         this.imageUrl = book.getImageUrl();
         this.title = book.getTitle();
         this.author = book.getAuthor();
-
         this.keywords = boardRecommend.getKeywords().split(" ");
+        this.recommending = false;
+    }
+
+    public BoardBasedRecommendDto(Boolean recommending){
+        this.recommending = recommending;
     }
 }

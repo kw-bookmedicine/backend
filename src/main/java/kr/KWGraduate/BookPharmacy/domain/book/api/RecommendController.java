@@ -35,7 +35,7 @@ public class RecommendController {
     }
 
     @GetMapping("/boardbased")
-    @Operation(summary = "고민 게시판 ai처방", description = "예시 boardId는 167임. 키워드(max=3) 넘겨주면 description은 프론트에서 구현해야함")
+    @Operation(summary = "고민 게시판 ai처방", description = "예시 boardId는 167임. 키워드(max=3) 넘겨주면 description은 프론트에서 구현해야함,<br> 다른 값들이 null일때, recommending이 true이면 추천 중이라는 의미, recommending이 false이면 추천할 책이 없다는 의미")
     public ResponseEntity<?> getBoardBasedRecommend(@RequestParam("boardId") Long boardId){
         return ResponseEntity.ok(recommendService.getBoardBasedRecommend(boardId));
     }
