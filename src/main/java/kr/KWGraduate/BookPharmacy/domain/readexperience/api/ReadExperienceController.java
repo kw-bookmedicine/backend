@@ -27,9 +27,9 @@ public class ReadExperienceController {
     @Operation(summary = "유저의 독서경험 리스트를 요청", description = "page와 size를 입력받아 이를 반환")
     @GetMapping("/list")
     public ResponseEntity<Page<ReadExperienceResponseDto>> getReadExperiences(@RequestParam(name = "page") int page, @RequestParam(name = "size") int size,
-                                                                              @AuthenticationPrincipal UserDetails userDetails) {
+                                                                              @AuthenticationPrincipal AuthenticationAdapter userDetails) {
         PageRequest pageRequest = PageRequest.of(page, size);
-        Page<ReadExperienceResponseDto> result = readExperienceService.getReadExperiences((AuthenticationAdapter) userDetails, pageRequest);
+        Page<ReadExperienceResponseDto> result = readExperienceService.getReadExperiences( userDetails, pageRequest);
 
         return ResponseEntity.ok(result);
     }
@@ -37,8 +37,8 @@ public class ReadExperienceController {
     @Operation(summary = "유저의 독서경험 리스트를 일괄적으로 업데이트", description = "updateDto를 입력받아, 독서경험 리스트를 업데이트")
     @PostMapping("/list")
     public ResponseEntity<Void> updateReadExperiences(@RequestBody ReadExperienceUpdateRequestDto updateDto,
-                                                @AuthenticationPrincipal UserDetails userDetails) {
-        readExperienceService.updateReadExperience(updateDto, (AuthenticationAdapter) userDetails);
+                                                @AuthenticationPrincipal AuthenticationAdapter userDetails) {
+        readExperienceService.updateReadExperience(updateDto, userDetails);
 
         return ResponseEntity.ok().build();
     }

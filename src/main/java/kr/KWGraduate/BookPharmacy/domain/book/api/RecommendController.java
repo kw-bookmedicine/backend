@@ -24,14 +24,14 @@ public class RecommendController {
 
     @GetMapping("/clientbased/aiprescription")
     @Operation(summary = "메인 페이지에 출력되는 ai처방 3개", description = "아이디: string, password: string만 가능, 로그인 필수")
-    public ResponseEntity<?> getClientBasedAiPrescription(@AuthenticationPrincipal UserDetails userDetails){
-        return ResponseEntity.ok(recommendService.getClientBasedAiPrescription((AuthenticationAdapter) userDetails));
+    public ResponseEntity<?> getClientBasedAiPrescription(@AuthenticationPrincipal AuthenticationAdapter userDetails){
+        return ResponseEntity.ok(recommendService.getClientBasedAiPrescription(userDetails));
     }
 
     @GetMapping("/clientbased")
     @Operation(summary = "메인 페이지에 출력되는 비슷한 유저 기반 책 추천 10개", description = "아이디: string, password: string만 가능,로그인 필수")
-    public ResponseEntity<?> getClientBasedRecommend(@AuthenticationPrincipal UserDetails userDetails){
-        return ResponseEntity.ok(recommendService.getClientBasedRecommend((AuthenticationAdapter) userDetails));
+    public ResponseEntity<?> getClientBasedRecommend(@AuthenticationPrincipal AuthenticationAdapter userDetails){
+        return ResponseEntity.ok(recommendService.getClientBasedRecommend(userDetails));
     }
 
     @GetMapping("/boardbased")
