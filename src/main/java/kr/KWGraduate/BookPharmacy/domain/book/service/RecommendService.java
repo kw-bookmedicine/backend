@@ -1,5 +1,6 @@
 package kr.KWGraduate.BookPharmacy.domain.book.service;
 
+import kr.KWGraduate.BookPharmacy.domain.book.domain.ClientRecommend;
 import kr.KWGraduate.BookPharmacy.domain.book.dto.response.BoardBasedRecommendDto;
 import kr.KWGraduate.BookPharmacy.domain.book.dto.response.BookBasedRecommendDto;
 import kr.KWGraduate.BookPharmacy.domain.book.dto.response.ClientBasedRecommendDto;
@@ -12,6 +13,8 @@ import kr.KWGraduate.BookPharmacy.global.security.common.dto.AuthenticationAdapt
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -27,7 +30,11 @@ public class RecommendService {
         String username = authentication.getUsername();
         Client client = clientRepository.findByLoginId(username).get();
 
-        return clientRecommendRepository.findByClientAiPrescription(client.getId()).stream()
+        List<ClientRecommend> clientRecommend = clientRecommendRepository.findByClientAiPrescription(client.getId());
+        Collections.shuffle(clientRecommend);
+        return clientRecommend.stream()
+                .limit(3)
+                .sorted(Comparator.comparingInt(ClientRecommend::getRank))
                 .map(ClientBasedRecommendDto::new)
                 .collect(Collectors.toList());
     }
@@ -35,7 +42,12 @@ public class RecommendService {
         String username = authentication.getUsername();
         Client client = clientRepository.findByLoginId(username).get();
 
-        return clientRecommendRepository.findByClientBasedRecommend(client.getId()).stream()
+        List<ClientRecommend> clientRecommend = clientRecommendRepository.findByClientBasedRecommend(client.getId());
+        Collections.shuffle(clientRecommend);
+
+        return clientRecommend.stream()
+                .limit(10)
+                .sorted(Comparator.comparingInt(ClientRecommend::getRank))
                 .map(ClientBasedRecommendDto::new)
                 .collect(Collectors.toList());
     }
