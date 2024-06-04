@@ -9,9 +9,11 @@ import kr.KWGraduate.BookPharmacy.global.security.common.dto.TokenDto;
 import kr.KWGraduate.BookPharmacy.global.security.common.util.JWTUtil;
 import kr.KWGraduate.BookPharmacy.global.infra.redis.refreshtoken.RefreshTokenService;
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
 
@@ -29,6 +31,7 @@ public class Oauth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
     private final RefreshTokenService refreshTokenService;
     private final Oauth2SignUpService oauth2SignUpService;
 
+    @SneakyThrows
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
 
@@ -47,8 +50,13 @@ public class Oauth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         if(oauth2Client.isExist()){
             TokenDto token = jwtUtil.createJwt(username, role,"true");
 
+            String accessToken = token.getAccessToken();
+
+            Authentication authToken = jwtUtil.getAuthentication(accessToken);
+            SecurityContextHolder.getContext().setAuthentication(authToken);
+
             refreshTokenService.save(token,username);
-            response.addHeader(HttpHeaders.SET_COOKIE,Authorization.createCookie(token.getAccessToken()));
+            response.addHeader(HttpHeaders.SET_COOKIE, Authorization.createCookie(accessToken));
             response.addHeader(HttpHeaders.SET_COOKIE, Refresh.createCookie(token.getRefreshToken()));
 
             response.sendRedirect("https://www.bookpharmacy.store/main");

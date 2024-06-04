@@ -24,8 +24,8 @@ public class OneLineEmotionController {
     @Operation(summary = "한줄처방 '좋아요' 추가")
     @GetMapping("like/{prescriptionId}")
     public ResponseEntity<String> createLikeEmotion(@PathVariable(value = "prescriptionId") Long prescriptionId,
-                                                    @AuthenticationPrincipal UserDetails userDetails) {
-        oneLineLikeEmotionService.insert(prescriptionId, (AuthenticationAdapter) userDetails);
+                                                    @AuthenticationPrincipal AuthenticationAdapter userDetails) {
+        oneLineLikeEmotionService.insert(prescriptionId, userDetails);
 
         return ResponseEntity.ok("success");
     }
@@ -33,8 +33,8 @@ public class OneLineEmotionController {
     @Operation(summary = "한줄처방 '좋아요' 제거")
     @DeleteMapping("like/{prescriptionId}")
     public ResponseEntity<String> deleteLikeEmotion(@PathVariable(value = "prescriptionId") Long prescriptionId,
-                                                    @AuthenticationPrincipal UserDetails userDetails) {
-        oneLineLikeEmotionService.delete(prescriptionId, (AuthenticationAdapter) userDetails);
+                                                    @AuthenticationPrincipal AuthenticationAdapter userDetails) {
+        oneLineLikeEmotionService.delete(prescriptionId, userDetails);
 
         return ResponseEntity.ok("success");
     }
@@ -42,8 +42,8 @@ public class OneLineEmotionController {
     @Operation(summary = "한줄처방 '도움이 되었어요' 추가")
     @GetMapping("helpful/{prescriptionId}")
     public ResponseEntity<String> createHelpfulEmotion(@PathVariable(value = "prescriptionId") Long prescriptionId,
-                                                    @AuthenticationPrincipal UserDetails userDetails) {
-        oneLineHelpfulEmotionService.insert(prescriptionId, (AuthenticationAdapter) userDetails);
+                                                    @AuthenticationPrincipal AuthenticationAdapter userDetails) {
+        oneLineHelpfulEmotionService.insert(prescriptionId, userDetails);
 
         return ResponseEntity.ok("success");
     }
@@ -51,8 +51,8 @@ public class OneLineEmotionController {
     @Operation(summary = "한줄처방 '도움이 되었어요' 제거")
     @DeleteMapping("helpful/{prescriptionId}")
     public ResponseEntity<String> deleteHelpfulEmotion(@PathVariable(value = "prescriptionId") Long prescriptionId,
-                                                    @AuthenticationPrincipal UserDetails userDetails) {
-        oneLineHelpfulEmotionService.delete(prescriptionId, (AuthenticationAdapter) userDetails);
+                                                    @AuthenticationPrincipal AuthenticationAdapter userDetails) {
+        oneLineHelpfulEmotionService.delete(prescriptionId, userDetails);
 
         return ResponseEntity.ok("success");
     }

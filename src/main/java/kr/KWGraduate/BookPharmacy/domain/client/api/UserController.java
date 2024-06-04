@@ -10,6 +10,7 @@ import kr.KWGraduate.BookPharmacy.global.security.common.dto.AuthenticationAdapt
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
@@ -66,44 +67,44 @@ public class UserController {
     @PutMapping("/client/info")
     public ResponseEntity<String> update(
             @RequestBody ClientUpdateDto clientUpdateDto,
-            @AuthenticationPrincipal UserDetails userDetails){
-        clientService.updateClient(clientUpdateDto,(AuthenticationAdapter) userDetails);
+            @AuthenticationPrincipal AuthenticationAdapter userDetails){
+        clientService.updateClient(clientUpdateDto, userDetails);
         return ResponseEntity.ok("success");
     }
     @Operation(summary = "비밀번호 수정")
     @PutMapping("/client/password")
     public ResponseEntity<String> updatePassword(
             @RequestBody ClientPasswordUpdateDto clientPasswordUpdateDto,
-            @AuthenticationPrincipal UserDetails userDetails
+            @AuthenticationPrincipal AuthenticationAdapter userDetails
     ){
-        clientService.updatePassword(clientPasswordUpdateDto,(AuthenticationAdapter) userDetails);
+        clientService.updatePassword(clientPasswordUpdateDto, userDetails);
         return ResponseEntity.ok("success");
     }
     @Operation(summary = "닉네임 수정")
     @PutMapping("/client/nickname")
     public ResponseEntity<String> updateNickname(
             @RequestBody ClientNicknameDto clientNicknameDto,
-            @AuthenticationPrincipal UserDetails userDetails
+            @AuthenticationPrincipal AuthenticationAdapter userDetails
     ){
-        clientService.updateNickname(clientNicknameDto,(AuthenticationAdapter) userDetails);
+        clientService.updateNickname(clientNicknameDto, userDetails);
         return ResponseEntity.ok("success");
     }
 
     @Operation(summary = "마이페이지의 회원정보 가져오기",description = "회원의 모든 정보 가져옴")
     @GetMapping("/client")
-    public ResponseEntity<ClientMypageDto> getClient(@AuthenticationPrincipal UserDetails userDetails){
-        return ResponseEntity.ok(clientService.getClient((AuthenticationAdapter) userDetails));
+    public ResponseEntity<ClientMypageDto> getClient(@AuthenticationPrincipal AuthenticationAdapter userDetails){
+        return ResponseEntity.ok(clientService.getClient(userDetails));
     }
 
     @Operation(summary = "메인페이지의 회원 정보 가져오기")
     @GetMapping("/client/main")
-    public ResponseEntity<ClientMainPageDto> getMainPageClient(@AuthenticationPrincipal UserDetails userDetails) {
-        return ResponseEntity.ok(clientService.getMainPageClient((AuthenticationAdapter) userDetails));
+    public ResponseEntity<ClientMainPageDto> getMainPageClient(@AuthenticationPrincipal AuthenticationAdapter userDetails) {
+        return ResponseEntity.ok(clientService.getMainPageClient(userDetails));
     }
 
     @Operation(summary = "회원정보 탈퇴", description = "회원 탈퇴")
     @DeleteMapping("/client")
-    public ResponseEntity<String> cancellation(@AuthenticationPrincipal UserDetails userDetails){
+    public ResponseEntity<String> cancellation(@AuthenticationPrincipal AuthenticationAdapter userDetails){
         clientService.cancellation((AuthenticationAdapter) userDetails);
         return ResponseEntity.ok("success");
     }

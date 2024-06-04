@@ -1,5 +1,6 @@
 package kr.KWGraduate.BookPharmacy.domain.prescription.service;
 
+import kr.KWGraduate.BookPharmacy.domain.board.dto.response.BoardConcernPageDto;
 import kr.KWGraduate.BookPharmacy.domain.prescription.dto.request.PrescriptionCreateDto;
 import kr.KWGraduate.BookPharmacy.domain.prescription.dto.request.PrescriptionModifyDto;
 import kr.KWGraduate.BookPharmacy.domain.prescription.dto.response.PrescriptionBoardPageDto;
@@ -14,6 +15,7 @@ import kr.KWGraduate.BookPharmacy.domain.book.repository.BookRepository;
 import kr.KWGraduate.BookPharmacy.domain.client.repository.ClientRepository;
 import kr.KWGraduate.BookPharmacy.domain.prescription.repository.PrescriptionRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,16 +31,14 @@ public class PrescriptionService {
     private final BoardRepository boardRepository;
     private final ClientRepository clientRepository;
     private final BookRepository bookRepository;
-    public List<PrescriptionBoardPageDto> getPrescriptions(Pageable pageable , Long boardId){
-        return prescriptionRepository.findByBoardId(pageable, boardId).stream()
-                .map(PrescriptionBoardPageDto::new)
-                .collect(Collectors.toList());
+    public Page<PrescriptionBoardPageDto> getPrescriptions(Pageable pageable , Long boardId){
+        return prescriptionRepository.findByBoardId(pageable, boardId)
+                .map(PrescriptionBoardPageDto::new);
     }
 
-    public List<PrescriptionMyPageDto> getPrescriptions(Pageable pageable , AuthenticationAdapter authentication){
-        return prescriptionRepository.findByUsername(pageable, authentication.getUsername()).stream()
-                .map(PrescriptionMyPageDto::new)
-                .collect(Collectors.toList());
+    public Page<PrescriptionMyPageDto> getPrescriptions(Pageable pageable , AuthenticationAdapter authentication){
+        return prescriptionRepository.findByUsername(pageable, authentication.getUsername())
+                .map(PrescriptionMyPageDto::new);
     }
 
     public PrescriptionBoardPageDto getPrescription(Long prescriptionId) {

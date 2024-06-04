@@ -23,7 +23,11 @@ public class ClientMypageDto {
 
     @Builder
     public ClientMypageDto(Client client) {
-        this.loginId = client.getLoginId();
+        if(client.getLoginId().startsWith("naver")){
+            this.loginId = client.getLoginId().substring(6,12);
+        }else{
+            this.loginId = client.getLoginId();
+        }
         this.name = client.getName();
         this.nickname = client.getNickname();
         this.email = client.getEmail();

@@ -81,8 +81,8 @@ public class BoardController {
 
     @PostMapping("/new")
     @Operation(summary = "게시판 생성", description = "UserDetails는 쿠키정보로 사용자 정보를 가져옴")
-    public ResponseEntity<String> createBoard(@AuthenticationPrincipal UserDetails userDetails, @RequestBody BoardCreateDto boardCreateDto){
-        boardService.createBoard(boardCreateDto, (AuthenticationAdapter) userDetails);
+    public ResponseEntity<String> createBoard(@AuthenticationPrincipal AuthenticationAdapter userDetails, @RequestBody BoardCreateDto boardCreateDto){
+        boardService.createBoard(boardCreateDto, userDetails);
         return ResponseEntity.ok("success");
     }
 
@@ -95,12 +95,12 @@ public class BoardController {
     @GetMapping("/my")
     @Operation(summary = "내 게시판 조회", description = "UserDetails는 쿠키정보로 사용자 정보를 가져옴")
     public ResponseEntity<Page<BoardMyPageDto>> getBoard(
-            @AuthenticationPrincipal UserDetails userDetails,
+            @AuthenticationPrincipal AuthenticationAdapter userDetails,
             @RequestParam("page") int page,
             @RequestParam("size") int size
     ){
         PageRequest pageRequest = PageRequest.of(page,size, Sort.by("createdDate").descending());
 
-        return ResponseEntity.ok(boardService.getMyBoards(pageRequest, (AuthenticationAdapter) userDetails));
+        return ResponseEntity.ok(boardService.getMyBoards(pageRequest, userDetails));
     }
 }

@@ -24,18 +24,18 @@ public class RecommendController {
 
     @GetMapping("/clientbased/aiprescription")
     @Operation(summary = "메인 페이지에 출력되는 ai처방 3개", description = "아이디: string, password: string만 가능, 로그인 필수")
-    public ResponseEntity<?> getClientBasedAiPrescription(@AuthenticationPrincipal UserDetails userDetails){
-        return ResponseEntity.ok(recommendService.getClientBasedAiPrescription((AuthenticationAdapter) userDetails));
+    public ResponseEntity<?> getClientBasedAiPrescription(@AuthenticationPrincipal AuthenticationAdapter userDetails){
+        return ResponseEntity.ok(recommendService.getClientBasedAiPrescription(userDetails));
     }
 
     @GetMapping("/clientbased")
     @Operation(summary = "메인 페이지에 출력되는 비슷한 유저 기반 책 추천 10개", description = "아이디: string, password: string만 가능,로그인 필수")
-    public ResponseEntity<?> getClientBasedRecommend(@AuthenticationPrincipal UserDetails userDetails){
-        return ResponseEntity.ok(recommendService.getClientBasedRecommend((AuthenticationAdapter) userDetails));
+    public ResponseEntity<?> getClientBasedRecommend(@AuthenticationPrincipal AuthenticationAdapter userDetails){
+        return ResponseEntity.ok(recommendService.getClientBasedRecommend(userDetails));
     }
 
     @GetMapping("/boardbased")
-    @Operation(summary = "고민 게시판 ai처방", description = "예시 boardId는 167임. 키워드(max=3) 넘겨주면 description은 프론트에서 구현해야함")
+    @Operation(summary = "고민 게시판 ai처방", description = "예시 boardId는 167임. 키워드(max=3) 넘겨주면 description은 프론트에서 구현해야함,<br> 다른 값들이 null일때, recommending이 true이면 추천 중이라는 의미, recommending이 false이면 추천할 책이 없다는 의미")
     public ResponseEntity<?> getBoardBasedRecommend(@RequestParam("boardId") Long boardId){
         return ResponseEntity.ok(recommendService.getBoardBasedRecommend(boardId));
     }
