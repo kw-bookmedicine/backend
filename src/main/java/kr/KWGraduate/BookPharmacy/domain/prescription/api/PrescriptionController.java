@@ -9,6 +9,7 @@ import kr.KWGraduate.BookPharmacy.domain.prescription.dto.response.PrescriptionM
 import kr.KWGraduate.BookPharmacy.domain.prescription.service.PrescriptionService;
 import kr.KWGraduate.BookPharmacy.global.security.common.dto.AuthenticationAdapter;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
@@ -27,7 +28,7 @@ public class PrescriptionController {
 
     @GetMapping
     @Operation(summary = "게시물에 대한 처방전 조회", description = "무한 스크롤 사용으로 인해 page와 size입력")
-    public ResponseEntity<List<PrescriptionBoardPageDto>> getPrescription(
+    public ResponseEntity<Page<PrescriptionBoardPageDto>> getPrescription(
             @RequestParam("page") int page,
             @RequestParam("size") int size,
             @RequestParam("boardId") Long boardId
@@ -38,7 +39,7 @@ public class PrescriptionController {
 
     @GetMapping("/my")
     @Operation(summary = "나의 처방전 조회", description = "무한 스크롤 사용으로 인해 page와 size입력")
-    public ResponseEntity<List<PrescriptionMyPageDto>> getPrescription(
+    public ResponseEntity<Page<PrescriptionMyPageDto>> getPrescription(
             @RequestParam("page") int page,
             @RequestParam("size") int size,
             @AuthenticationPrincipal AuthenticationAdapter userDetails
