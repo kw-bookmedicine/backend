@@ -80,6 +80,8 @@ public class OneLineResponseDto {
         this.description = oneLinePrescription.getDescription();
         this.keyword = oneLinePrescription.getKeyword();
         this.createdDate = oneLinePrescription.getCreatedDate().toLocalDate();
+        this.likeCount = oneLinePrescription.getLikeCount();
+        this.helpfulCount = oneLinePrescription.getHelpfulCount();
 
         return this;
     }
@@ -93,15 +95,4 @@ public class OneLineResponseDto {
         isHelpful = helpful;
         return this;
     }
-
-    public OneLineResponseDto setLikeCount(long likeCount) {
-        this.likeCount = likeCount;
-        return this;
-    }
-
-    public OneLineResponseDto setHelpfulCount(long helpfulCount) {
-        this.helpfulCount = helpfulCount;
-        return this;
-    }
-
 }

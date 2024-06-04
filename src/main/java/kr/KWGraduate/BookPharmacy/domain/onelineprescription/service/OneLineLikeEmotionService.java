@@ -11,6 +11,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 public class OneLineLikeEmotionService {
@@ -30,19 +32,19 @@ public class OneLineLikeEmotionService {
         // '좋아요'가 이미 존재하면 에러 반환
         if(oneLineLikeEmotionRepository.findByLoginIdAndOneLinePreId(loginId, oneLinePrescriptionId).isPresent()){
 
+        }else {
+            // 좋아요 엔티티 생성
+            OneLineLikeEmotion oneLineLikeEmotion = OneLineLikeEmotion.builder()
+                    .client(client)
+                    .oneLinePrescription(oneLinePrescription)
+                    .build();
+
+            // 한줄처방 좋아요 개수 + 1
+            oneLinePrescription.setLikeCount(oneLinePrescription.getLikeCount() + 1);
+
+            oneLineLikeEmotionRepository.save(oneLineLikeEmotion);
+            oneLinePrescriptionRepository.save(oneLinePrescription);
         }
-
-        // 좋아요 엔티티 생성
-        OneLineLikeEmotion oneLineLikeEmotion = OneLineLikeEmotion.builder()
-                .client(client)
-                .oneLinePrescription(oneLinePrescription)
-                .build();
-
-        // 한줄처방 좋아요 개수 + 1
-        oneLinePrescription.setLikeCount(oneLinePrescription.getLikeCount() + 1);
-
-        oneLineLikeEmotionRepository.save(oneLineLikeEmotion);
-        oneLinePrescriptionRepository.save(oneLinePrescription);
     }
 
     @Transactional
@@ -51,16 +53,19 @@ public class OneLineLikeEmotionService {
 
         // 예외처리는 추후에 한번에 적용하겠음
         Client client = clientRepository.findByLoginId(loginId).get();
+
         OneLinePrescription oneLinePrescription = oneLinePrescriptionRepository.findById(oneLinePrescriptionId).get();
 
-        OneLineLikeEmotion oneLineLikeEmotion = oneLineLikeEmotionRepository.findByLoginIdAndOneLinePreId(loginId, oneLinePrescriptionId).get();
+        Optional<OneLineLikeEmotion> optional = oneLineLikeEmotionRepository.findByLoginIdAndOneLinePreId(loginId, oneLinePrescriptionId);
+        if (optional.isPresent()) {
+            OneLineLikeEmotion oneLineLikeEmotion = optional.get();
 
-        // 한줄처방 좋아요 개수 - 1
-        // (한줄처방이 존재하지 않는다면 위 find함수에서 에러를 던질 것이고, 그렇게 되면 count가 감소하지 않으므로, 따로 if(count<=0)과 같은 조건처리를 해줄 필요가 없음)
-        oneLinePrescription.setLikeCount(oneLinePrescription.getLikeCount() - 1);
+            // 한줄처방 좋아요 개수 - 1
+            // (한줄처방이 존재하지 않는다면 위 find함수에서 에러를 던질 것이고, 그렇게 되면 count가 감소하지 않으므로, 따로 if(count<=0)과 같은 조건처리를 해줄 필요가 없음)
+            oneLinePrescription.setLikeCount(oneLinePrescription.getLikeCount() - 1);
 
-        oneLineLikeEmotionRepository.delete(oneLineLikeEmotion);
-        oneLinePrescriptionRepository.save(oneLinePrescription);
-
+            oneLineLikeEmotionRepository.delete(oneLineLikeEmotion);
+            oneLinePrescriptionRepository.save(oneLinePrescription);
+        }
     }
 }

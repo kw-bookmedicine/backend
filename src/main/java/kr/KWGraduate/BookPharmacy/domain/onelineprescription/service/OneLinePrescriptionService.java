@@ -81,8 +81,6 @@ public class OneLinePrescriptionService {
         OneLinePrescription oneLinePrescription = oneLinePrescriptionRepository.findOneLinePrescriptionById(oneLinePrescriptionId).get();
         OneLineResponseDto dto = new OneLineResponseDto()
                 .setAllAttr(oneLinePrescription.getBook(), oneLinePrescription.getClient(), oneLinePrescription)
-                .setLikeCount(oneLineLikeEmotionRepository.findCountByOneLinePreId(oneLinePrescription.getId()))
-                .setHelpfulCount(oneLineHelpfulEmotionRepository.findCountByOneLinePreId(oneLinePrescription.getId()))
                 .setIsLike(oneLineLikeEmotionRepository.findByLoginIdAndOneLinePreId(loginId, oneLinePrescription.getId()).isPresent())
                 .setIsHelpful(oneLineHelpfulEmotionRepository.findByLoginIdAndOneLinePreId(loginId, oneLinePrescription.getId()).isPresent());
 
@@ -95,8 +93,6 @@ public class OneLinePrescriptionService {
         Page<OneLinePrescription> pageResult = oneLinePrescriptionRepository.findPagingAll(pageable);
         Page<OneLineResponseDto> dtoList = pageResult.map(oneLine -> new OneLineResponseDto()
                 .setAllAttr(oneLine.getBook(), oneLine.getClient(), oneLine)
-                .setLikeCount(oneLineLikeEmotionRepository.findCountByOneLinePreId(oneLine.getId()))
-                .setHelpfulCount(oneLineHelpfulEmotionRepository.findCountByOneLinePreId(oneLine.getId()))
                 .setIsLike(oneLineLikeEmotionRepository.findByLoginIdAndOneLinePreId(loginId, oneLine.getId()).isPresent())
                 .setIsHelpful(oneLineHelpfulEmotionRepository.findByLoginIdAndOneLinePreId(loginId, oneLine.getId()).isPresent()));
 
@@ -109,8 +105,6 @@ public class OneLinePrescriptionService {
         Page<OneLinePrescription> pageResult = oneLinePrescriptionRepository.findByKeyword(keyword, pageable);
         Page<OneLineResponseDto> dtoList = pageResult.map(oneLine -> new OneLineResponseDto()
                 .setAllAttr(oneLine.getBook(), oneLine.getClient(), oneLine)
-                .setLikeCount(oneLineLikeEmotionRepository.findCountByOneLinePreId(oneLine.getId()))
-                .setHelpfulCount(oneLineHelpfulEmotionRepository.findCountByOneLinePreId(oneLine.getId()))
                 .setIsLike(oneLineLikeEmotionRepository.findByLoginIdAndOneLinePreId(loginId, oneLine.getId()).isPresent())
                 .setIsHelpful(oneLineHelpfulEmotionRepository.findByLoginIdAndOneLinePreId(loginId, oneLine.getId()).isPresent()));
 
@@ -123,8 +117,6 @@ public class OneLinePrescriptionService {
         Page<OneLinePrescription> pageResult = oneLinePrescriptionRepository.findByTitleContainingOrDescriptionContaining(searchWord, pageable);
         Page<OneLineResponseDto> dtoList = pageResult.map(oneLine -> new OneLineResponseDto()
                 .setAllAttr(oneLine.getBook(), oneLine.getClient(), oneLine)
-                .setLikeCount(oneLineLikeEmotionRepository.findCountByOneLinePreId(oneLine.getId()))
-                .setHelpfulCount(oneLineHelpfulEmotionRepository.findCountByOneLinePreId(oneLine.getId()))
                 .setIsLike(oneLineLikeEmotionRepository.findByLoginIdAndOneLinePreId(loginId, oneLine.getId()).isPresent())
                 .setIsHelpful(oneLineHelpfulEmotionRepository.findByLoginIdAndOneLinePreId(loginId, oneLine.getId()).isPresent()));
 
@@ -137,8 +129,6 @@ public class OneLinePrescriptionService {
         Page<OneLinePrescription> pageResult = oneLinePrescriptionRepository.findByBookIsbn(isbn, pageable);
         Page<OneLineResponseDto> dtoList = pageResult.map(oneLine -> new OneLineResponseDto()
                 .setAllAttr(oneLine.getBook(), oneLine.getClient(), oneLine)
-                .setLikeCount(oneLineLikeEmotionRepository.findCountByOneLinePreId(oneLine.getId()))
-                .setHelpfulCount(oneLineHelpfulEmotionRepository.findCountByOneLinePreId(oneLine.getId()))
                 .setIsLike(oneLineLikeEmotionRepository.findByLoginIdAndOneLinePreId(loginId, oneLine.getId()).isPresent())
                 .setIsHelpful(oneLineHelpfulEmotionRepository.findByLoginIdAndOneLinePreId(loginId, oneLine.getId()).isPresent()));
 
@@ -152,8 +142,6 @@ public class OneLinePrescriptionService {
 
         Page<OneLineResponseDto> dtoList = pageResult.map(oneLine -> new OneLineResponseDto()
                 .setAllAttr(oneLine.getBook(), oneLine.getClient(), oneLine)
-                .setLikeCount(oneLineLikeEmotionRepository.findCountByOneLinePreId(oneLine.getId()))
-                .setHelpfulCount(oneLineHelpfulEmotionRepository.findCountByOneLinePreId(oneLine.getId()))
                 .setIsLike(oneLineLikeEmotionRepository.findByLoginIdAndOneLinePreId(loginId, oneLine.getId()).isPresent())
                 .setIsHelpful(oneLineHelpfulEmotionRepository.findByLoginIdAndOneLinePreId(loginId, oneLine.getId()).isPresent()));
 
