@@ -23,7 +23,7 @@ public class BookSearchService {
      */
     public List<BookSearchResponseDto> searchBookOnModalByTitleContainingSearchWord(String searchWord, Pageable pageable) {
 
-        Page<Book> bookPageList = bookRepository.findPagingByTitleContaining(searchWord, pageable);
+        Page<Book> bookPageList = bookRepository.findPagingByTitleOrderByCount(searchWord, pageable);
 
         List<Book> bookList = bookPageList.getContent();
         List<BookSearchResponseDto> bookSearchResponseDtoList = BookSearchResponseDto.toDtoList(bookList);
@@ -36,7 +36,7 @@ public class BookSearchService {
      */
     public Page<BookDto> searchBookOnPageByTitleContainingSearchWord(String searchWord, Pageable pageable) {
 
-        Page<Book> bookPageList = bookRepository.findPagingByTitleContaining(searchWord, pageable);
+        Page<Book> bookPageList = bookRepository.findPagingByTitleOrderByCount(searchWord, pageable);
 
         Page<BookDto> bookDtoPage = BookDto.toDtoPageWithKeywordDto(bookPageList);
 
@@ -48,7 +48,7 @@ public class BookSearchService {
      */
     public List<BookSearchResponseDto> searchBookOnModalByAuthorContainingSearchWord(String searchWord, Pageable pageable) {
 
-        Page<Book> bookPageList = bookRepository.findPagingByAuthorContaining(searchWord, pageable);
+        Page<Book> bookPageList = bookRepository.findPagingByAuthorOrderByCount(searchWord, pageable);
 
         List<Book> bookList = bookPageList.getContent();
         List<BookSearchResponseDto> bookSearchResponseDtoList = BookSearchResponseDto.toDtoList(bookList);
@@ -61,7 +61,7 @@ public class BookSearchService {
      */
     public Page<BookDto> searchBookOnPageByAuthorContainingSearchWord(String searchWord, Pageable pageable) {
 
-        Page<Book> bookPageList = bookRepository.findPagingByAuthorContaining(searchWord, pageable);
+        Page<Book> bookPageList = bookRepository.findPagingByAuthorOrderByCount(searchWord, pageable);
 
         Page<BookDto> bookDtoPage = BookDto.toDtoPageWithKeywordDto(bookPageList);
 

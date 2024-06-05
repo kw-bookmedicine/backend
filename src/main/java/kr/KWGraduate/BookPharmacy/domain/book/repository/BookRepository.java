@@ -33,32 +33,36 @@ public interface BookRepository extends JpaRepository<Book, Long> {
     Page<BookSearchResponseDto> findDtoBook10ListByMiddleCategory(@Param("categoryName") String categoryName, Pageable pageable);
 
     /**
-     * 검색어로 제목에 대하여 책 조회 (페이징)
+     * 검색어로 제목에 대하여 한줄처방 개수 or 조회수로 정렬하여 책 조회 (페이징)
      * @param searchWord
      * @return Page<Book>
      */
-    @EntityGraph(attributePaths = {"bigCategory", "middleCategory"})
-    Page<Book> findPagingByTitleContaining(String searchWord, Pageable pageable);
+    @EntityGraph(attributePaths = {"middleCategory"})
+    @Query("select b from Book b where b.title like %:searchWord%")
+    Page<Book> findPagingByTitleOrderByCount(@Param("searchWord") String searchWord, Pageable pageable);
 
     /**
-     * 검색어로 작가명에 대하여 책 조회 (페이징)
+     * 검색어로 작가명에 대하여 한줄처방 개수 or 조회수로 정렬하여 책 조회 (페이징)
      * @param searchWord
      * @return Page<Book>
      */
-    @EntityGraph(attributePaths = {"bigCategory", "middleCategory"})
-    Page<Book> findPagingByAuthorContaining(String searchWord, Pageable pageable);
+    @EntityGraph(attributePaths = {"middleCategory"})
+    @Query("select b from Book b where b.author like %:searchWord%")
+    Page<Book> findPagingByAuthorOrderByCount(@Param("searchWord") String searchWord, Pageable pageable);
 
-    @EntityGraph(attributePaths = {"bigCategory", "middleCategory"})
+
+    @EntityGraph(attributePaths = {"middleCategory"})
     @Query("select b from Book b left join b.bookKeywords bk left join bk.keywordItem where b.isbn = :isbn")
-    Book findBookDetailWithKeywordByIsbn(@Param("isbn") String isbn);
+    Book findBookWithKeywordByIsbn(@Param("isbn") String isbn);
 
     /**
-     * 해당 키워드를 갖고 있는 책을 검색 (리스트)
+     * 해당 키워드를 갖고 있는 책을 한줄처방 개수로 정렬하여 검색 (리스트)
      * @param keywordName
      * @return
      */
-    @EntityGraph(attributePaths = {"bigCategory", "middleCategory"})
-    @Query("select b from Book b join fetch b.bookKeywords bk join fetch bk.keywordItem ki " +
+    @EntityGraph(attributePaths = {"middleCategory"})
+    @Query("select b from Book b left join b.bookKeywords bk left join bk.keywordItem ki " +
+            "left join OneLinePrescription op on op.book.id = b.id " +
             "where ki.name = :keywordName")
     Page<Book> findPagingByKeyword(@Param("keywordName") String keywordName, Pageable pageable);
 
@@ -67,7 +71,7 @@ public interface BookRepository extends JpaRepository<Book, Long> {
      * @param keywordNameList
      * @return
      */
-    @EntityGraph(attributePaths = {"bigCategory", "middleCategory"})
+    @EntityGraph(attributePaths = {"middleCategory"})
     @Query("select b from Book b left join b.bookKeywords bk left join bk.keywordItem ki " +
             "where (LOWER(b.title) like %:searchWord% or LOWER(b.author) like %:searchWord%) and ki.name in :names")
     Page<Book> findPagingBySearchWordAndKeyword(@Param("searchWord") String searchWord,
