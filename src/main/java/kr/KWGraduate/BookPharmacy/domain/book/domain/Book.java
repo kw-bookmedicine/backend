@@ -11,7 +11,6 @@ import java.util.List;
 
 @Entity
 @Getter
-@Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @ToString(of = {"isbn", "title", "author", "bigCategory", "middleCategory", "imageUrl", "count"})
 @Table(indexes = {
@@ -33,7 +32,8 @@ public class Book {
     private int reviewNum; // 리뷰 개수
     private String mediaFlagNumber; // 미디어구분명
     private String imageUrl; // 이미지 url
-    private int count; // 조회된 횟수
+    private int viewCount; // 조회된 횟수
+    private int oneLineCount; // 한줄처방 개수
 
     @OneToMany(mappedBy = "book", cascade = CascadeType.ALL)
     private List<BookKeyword> bookKeywords = new ArrayList<>();
@@ -49,7 +49,7 @@ public class Book {
 
     @Builder
     public Book(String isbn, String title, String author, String publishingHouse, String publishYear, String content,
-                int reviewNum, Categories bigCategory, Categories middleCategory, String imageUrl, int count) {
+                int reviewNum, Categories bigCategory, Categories middleCategory, String imageUrl, int viewCount, int oneLineCount) {
         this.isbn = isbn;
         this.title = title;
         this.author = author;
@@ -60,6 +60,23 @@ public class Book {
         this.bigCategory = bigCategory;
         this.middleCategory = middleCategory;
         this.imageUrl = imageUrl;
-        this.count = count;
+        this.viewCount = viewCount;
+        this.oneLineCount = oneLineCount;
+    }
+
+    public void plusViewCount() {
+        this.viewCount += 1;
+    }
+
+    public void plusOneLineCount() {
+        this.oneLineCount += 1;
+    }
+
+    public void minusOneLineCount() {
+        if(this.oneLineCount > 0) {
+            this.oneLineCount -= 1;
+        } else{
+            this.oneLineCount = 0;
+        }
     }
 }

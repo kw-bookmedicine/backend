@@ -102,12 +102,28 @@ public class Client extends BaseTimeEntity {
     }
     public void setDescription(String description) {this.description = description;}
 
-    public void setBoardCount(int boardCount) {
-        this.boardCount = boardCount;
+    public void plusBoardCount() {
+        this.boardCount += 1;
     }
 
-    public void setPrescriptionCount(int prescriptionCount) {
-        this.prescriptionCount = prescriptionCount;
+    public void minusBoardCount() {
+        if(this.boardCount > 0) {
+            this.boardCount -= 1;
+        } else{
+            this.boardCount = 0;
+        }
+    }
+
+    public void plusOneLineCount() {
+        this.prescriptionCount += 1;
+    }
+
+    public void minusOneLineCount() {
+        if(this.prescriptionCount > 0) {
+            this.prescriptionCount -= 1;
+        } else{
+            this.prescriptionCount = 0;
+        }
     }
 
     public void update(Occupation occupation, String description){

@@ -43,7 +43,8 @@ public class OneLinePrescriptionService {
         oneLinePrescription.setClientAndBook(client, book);
         OneLinePrescription savedResult = oneLinePrescriptionRepository.save(oneLinePrescription);
 
-        client.setPrescriptionCount(client.getPrescriptionCount() + 1);
+        client.plusOneLineCount();
+        book.plusOneLineCount();
 
         return savedResult;
     }
@@ -53,15 +54,18 @@ public class OneLinePrescriptionService {
         String loginId = authentication.getUsername();
 
         String bookIsbn = oneLineUpdateDto.getBookIsbn();
-        Book book = bookRepository.findOptionalByIsbn(bookIsbn).get();
+        Book afterBook = bookRepository.findOptionalByIsbn(bookIsbn).get();
 
         OneLinePrescription oneLinePrescription = oneLinePrescriptionRepository.findById(oneLinePrescriptionId).get();
+        Book beforeBook = oneLinePrescription.getBook();
+
+        beforeBook.minusOneLineCount();
+        afterBook.plusOneLineCount();
 
         oneLinePrescription.setTitle(oneLineUpdateDto.getTitle());
         oneLinePrescription.setDescription(oneLineUpdateDto.getDescription());
         oneLinePrescription.setKeyword(oneLineUpdateDto.getKeyword());
-        oneLinePrescription.setBook(book);
-
+        oneLinePrescription.setBook(afterBook);
     }
 
     @Transactional
@@ -70,9 +74,12 @@ public class OneLinePrescriptionService {
         Client client = clientRepository.findByLoginId(loginId).get();
 
         OneLinePrescription prescription = oneLinePrescriptionRepository.findById(oneLinePrescriptionId).get();
+        Book book = prescription.getBook();
 
         oneLinePrescriptionRepository.delete(prescription);
-        client.setPrescriptionCount(client.getPrescriptionCount() - 1);
+        client.minusOneLineCount();
+        book.minusOneLineCount();
+
     }
 
     public OneLineResponseDto getOneLinePrescription(Long oneLinePrescriptionId, AuthenticationAdapter authentication) {
