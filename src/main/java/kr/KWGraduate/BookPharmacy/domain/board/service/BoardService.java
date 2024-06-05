@@ -88,6 +88,7 @@ public class BoardService {
         Board board = boardCreateDto.toEntity(client);
         Long id = boardRepository.save(board).getId();
         answerService.createAnswer(id,boardCreateDto.getAnswers());
+        client.plusBoardCount();
 
         applicationEventPublisher.publishEvent(new BoardUpdatedEvent(this,id));
 
@@ -100,8 +101,9 @@ public class BoardService {
     }
 
     @Transactional
-    public void deleteBoard(Long boardId){
-
+    public void deleteBoard(Long boardId, AuthenticationAdapter authenticationAdapter){
+        Client client = getClient(authenticationAdapter);
+        client.minusBoardCount();
         boardRepository.deleteById(boardId);
     }
 

@@ -88,8 +88,8 @@ public class BoardController {
 
     @DeleteMapping("/{boardId}")
     @Operation(summary = "게시판 삭제")
-    public ResponseEntity<String> deleteBoard(@PathVariable("boardId") Long boardId){
-        boardService.deleteBoard(boardId);
+    public ResponseEntity<String> deleteBoard(@PathVariable("boardId") Long boardId, @AuthenticationPrincipal UserDetails userDetails){
+        boardService.deleteBoard(boardId, (AuthenticationAdapter) userDetails);
         return ResponseEntity.ok("success");
     }
     @GetMapping("/my")
