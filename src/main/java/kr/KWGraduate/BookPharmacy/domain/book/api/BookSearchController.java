@@ -47,12 +47,19 @@ public class BookSearchController {
     }
 
     @Operation(summary = "[페이지]책제목에 검색어를 포함하는 book 리스트 ?개 요청 <파라미터에서 target을 page로 지정해야함>" +
-            " 예시) /api/search/book?title=그림&target=page&page=0&size=20")
+            " 예시) /api/search/book?title=그림&target=page&sort=oneLineCount&page=0&size=20")
     @GetMapping(params = {"title", "target=page"})
-    public ResponseEntity<Page<BookDto>> getBookListByTitleOnPage(@RequestParam(name = "title") String searchWord,
+    public ResponseEntity<Page<BookDto>> getBookListByTitleOnPageOrderByCount(@RequestParam(name = "title") String searchWord,
+                                                                  @RequestParam(name = "sort") String sortType,
                                                                   @RequestParam(name = "page") int page, @RequestParam(name = "size") int size){
 
-        PageRequest pageRequest = PageRequest.of(page, size, Sort.by("count").descending());
+        PageRequest pageRequest = PageRequest.of(page, size);
+
+        if(sortType.equals("oneline-count")){
+            pageRequest = PageRequest.of(page, size, Sort.by("oneLineCount").descending());
+        }else if(sortType.equals("view-count")){
+            pageRequest = PageRequest.of(page, size, Sort.by("viewCount").descending());
+        }
 
         Page<BookDto> bookDtoList = bookSearchService.searchBookOnPageByTitleContainingSearchWord(searchWord, pageRequest);
 
@@ -60,12 +67,19 @@ public class BookSearchController {
     }
 
     @Operation(summary = "[페이지]작가명에 검색어를 포함하는 book 리스트 ?개 요청 <파라미터에서 target을 page로 지정해야함>" +
-            " 예시) /api/search/book?author=남해운&target=page&page=0&size=20")
+            " 예시) /api/search/book?author=남해운&target=page&sort=oneLineCount&page=0&size=20")
     @GetMapping(params = {"author", "target=page"})
     public ResponseEntity<Page<BookDto>> getBookListByAuthorOnPage(@RequestParam(name = "author") String searchWord,
+                                                                   @RequestParam(name = "sort") String sortType,
                                                                    @RequestParam(name = "page") int page, @RequestParam(name = "size") int size){
 
-        PageRequest pageRequest = PageRequest.of(page, size, Sort.by("count").descending());
+        PageRequest pageRequest = PageRequest.of(page, size);
+
+        if(sortType.equals("oneline-count")){
+            pageRequest = PageRequest.of(page, size, Sort.by("oneLineCount").descending());
+        }else if(sortType.equals("view-count")){
+            pageRequest = PageRequest.of(page, size, Sort.by("viewCount").descending());
+        }
 
         Page<BookDto> bookDtoList = bookSearchService.searchBookOnPageByAuthorContainingSearchWord(searchWord, pageRequest);
 
@@ -87,9 +101,17 @@ public class BookSearchController {
     @Operation(summary = "검색어와 함께 키워드를 조회할때 사용함")
     @PostMapping()
     public ResponseEntity<Page<BookDto>> getBookListBySearchAndKeyword(@RequestBody BookSearchRequestDto dto,
-                                                                       @RequestParam(name = "page") int page, @RequestParam(name = "size") int size) {
+                                                                       @RequestParam(name = "sort") String sortType,
+                                                                       @RequestParam(name = "page") int page,
+                                                                       @RequestParam(name = "size") int size) {
 
         PageRequest pageRequest = PageRequest.of(page, size);
+
+        if(sortType.equals("oneline-count")){
+            pageRequest = PageRequest.of(page, size, Sort.by("oneLineCount").descending());
+        }else if(sortType.equals("view-count")){
+            pageRequest = PageRequest.of(page, size, Sort.by("viewCount").descending());
+        }
 
         List<String> keywordList = dto.getKeywordList();
         String searchWord = dto.getSearchWord();

@@ -61,7 +61,8 @@ public class BookService {
     }
 
     public BookDto getBookDetails(String isbn){
-        Book book = bookRepository.findBookDetailWithKeywordByIsbn(isbn);
+        Book book = bookRepository.findBookWithKeywordByIsbn(isbn);
+        book.plusViewCount();
 
         BookDto bookDto = BookDto.toDtoWithKeywordDto(book);
 
