@@ -48,7 +48,7 @@ public class BookController {
     @GetMapping(value = "/list/middle")
     public ResponseEntity<Page<BookDto>> getBookListByMiddleCategory(@RequestParam(name = "name") String middleCategoryName,
                                                                      @RequestParam(name = "page") int page, @RequestParam(name = "size") int size) {
-        PageRequest pageRequest = PageRequest.of(page, size, Sort.by("count").descending());
+        PageRequest pageRequest = PageRequest.of(page, size, Sort.by("viewCount").descending());
         Page<BookDto> result = bookService.getBookPageByMiddleCategory(middleCategoryName, pageRequest);
 
         return ResponseEntity.ok(result);
