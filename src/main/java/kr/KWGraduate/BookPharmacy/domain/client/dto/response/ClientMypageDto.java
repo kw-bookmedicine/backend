@@ -20,13 +20,16 @@ public class ClientMypageDto {
     private String description;
     private int boardCount;
     private int prescriptionCount;
+    private Boolean isOauth;
 
     @Builder
     public ClientMypageDto(Client client) {
         if(client.getLoginId().startsWith("naver")){
             this.loginId = client.getLoginId().substring(6,12);
+            this.isOauth = true;
         }else{
             this.loginId = client.getLoginId();
+            this.isOauth = false;
         }
         this.name = client.getName();
         this.nickname = client.getNickname();

@@ -62,31 +62,6 @@ public class ReadExperienceService {
     }
 
     /**
-     * 단일 책에 대한 독서경험을 추가할때 사용되는 서비스 코드
-     * ex) 책 상세정보 페이지에서 '독서경험 추가하기', 한줄처방 페이지에서 '한줄처방 작성하기' 에서 사용된다.
-     *
-     * @return
-     */
-    @Transactional
-    public ReadExperience createReadExperience(ReadExperienceCreateDto readExperienceCreateDto, AuthenticationAdapter authentication){
-
-        String loginId = authentication.getUsername();
-        Client client = clientRepository.findByLoginId(loginId).get();
-
-        String isbn = readExperienceCreateDto.getBookIsbn();
-        Book book = bookRepository.findOptionalByIsbn(isbn).get();
-
-        ReadExperience readExperience = ReadExperience.builder().book(book).client(client).build();
-        return readExperienceRepository.save(readExperience);
-    }
-
-    public ReadExperience createReadExperience(Client client, Book book) {
-        ReadExperience readExperience = ReadExperience.builder().book(book).client(client).build();
-
-        return readExperienceRepository.save(readExperience);
-    }
-
-    /**
      * 독서 경험을 페이징 하여 조회하는 서비스
      * */
     public Page<ReadExperienceResponseDto> getReadExperiences(AuthenticationAdapter authentication, Pageable pageable) {

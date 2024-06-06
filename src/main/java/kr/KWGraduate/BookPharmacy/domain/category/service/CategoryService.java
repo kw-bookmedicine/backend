@@ -6,10 +6,7 @@ import kr.KWGraduate.BookPharmacy.domain.category.repository.CategoryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -36,7 +33,7 @@ public class CategoryService {
     public Map<String, List<String>> getAllCategoryGrouped() {
         List<Categories> allCategories = categoryRepository.findChildCategories();
 
-        Map<String, List<String>> map = new HashMap<>();
+        Map<String, List<String>> map = new LinkedHashMap<>();
 
         for (Categories category : allCategories) {
             String key = category.getParentCategory().getName();

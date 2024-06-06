@@ -27,7 +27,7 @@ public class BookSearchController {
     @GetMapping(params = {"title", "target=modal"})
     public ResponseEntity<List<BookSearchResponseDto>> getBookListByTitleOnModal(@RequestParam(name = "title") String searchWord){
 
-        PageRequest pageRequest = PageRequest.of(0, 6, Sort.by("count").descending());
+        PageRequest pageRequest = PageRequest.of(0, 6, Sort.by("view-count").descending());
 
         List<BookSearchResponseDto> result = bookSearchService.searchBookOnModalByTitleContainingSearchWord(searchWord, pageRequest);
 
@@ -39,7 +39,7 @@ public class BookSearchController {
     @GetMapping(params = {"author", "target=modal"})
     public ResponseEntity<List<BookSearchResponseDto>> getBookListByAuthorOnModal(@RequestParam(name = "author") String searchWord){
 
-        PageRequest pageRequest = PageRequest.of(0, 6, Sort.by("count").descending());
+        PageRequest pageRequest = PageRequest.of(0, 6, Sort.by("view-count").descending());
 
         List<BookSearchResponseDto> result = bookSearchService.searchBookOnModalByAuthorContainingSearchWord(searchWord, pageRequest);
 
@@ -47,7 +47,7 @@ public class BookSearchController {
     }
 
     @Operation(summary = "[페이지]책제목에 검색어를 포함하는 book 리스트 ?개 요청 <파라미터에서 target을 page로 지정해야함>" +
-            " 예시) /api/search/book?title=그림&target=page&sort=oneLineCount&page=0&size=20")
+            " 예시) /api/search/book?title=그림&target=page&sort=oneline-count&page=0&size=20")
     @GetMapping(params = {"title", "target=page"})
     public ResponseEntity<Page<BookDto>> getBookListByTitleOnPageOrderByCount(@RequestParam(name = "title") String searchWord,
                                                                   @RequestParam(name = "sort") String sortType,
@@ -67,7 +67,7 @@ public class BookSearchController {
     }
 
     @Operation(summary = "[페이지]작가명에 검색어를 포함하는 book 리스트 ?개 요청 <파라미터에서 target을 page로 지정해야함>" +
-            " 예시) /api/search/book?author=남해운&target=page&sort=oneLineCount&page=0&size=20")
+            " 예시) /api/search/book?author=남해운&target=page&sort=oneline-count&page=0&size=20")
     @GetMapping(params = {"author", "target=page"})
     public ResponseEntity<Page<BookDto>> getBookListByAuthorOnPage(@RequestParam(name = "author") String searchWord,
                                                                    @RequestParam(name = "sort") String sortType,
