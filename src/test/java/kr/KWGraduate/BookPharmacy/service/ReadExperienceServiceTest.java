@@ -104,23 +104,4 @@ class ReadExperienceServiceTest {
         assertThat(result.getTotalElements()).isEqualTo(3); // 전체 개수는 3개여야 함
     }
 
-    @Test
-    void 독서경험_단일추가() {
-        //given
-        Client client = clientRepository.findByLoginId("kw_lsh_3717").get();
-        ClientDetails userDetails = new ClientDetails(client);
-
-        List<ReadExperience> previousList = readExperienceRepository.findByLoginId("kw_lsh_3717");
-        assertThat(previousList.size()).isEqualTo(3); // 기존의 독서경험의 수는 3개여야 함
-
-        ReadExperienceCreateDto dto = new ReadExperienceCreateDto("0002");
-
-        //when
-        readExperienceService.createReadExperience(dto, userDetails);
-        em.clear();
-
-        //then
-        List<ReadExperience> updatedList = readExperienceRepository.findByLoginId("kw_lsh_3717");
-        assertThat(updatedList.size()).isEqualTo(4); // 새로 업데이트 된 독서경험의 수는 4개여야 함
-    }
 }

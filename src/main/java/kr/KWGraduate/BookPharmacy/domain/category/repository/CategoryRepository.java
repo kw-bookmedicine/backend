@@ -21,7 +21,7 @@ public interface CategoryRepository extends JpaRepository<Categories, Long> {
     @Query("select c from Categories c where c.level = 1")
     List<Categories> findBigCategory();
 
-    @Query("select c from Categories c join fetch c.parentCategory pc where c.level = 2")
+    @Query("select c from Categories c join fetch c.parentCategory pc where c.level = 2 order by pc.id")
     List<Categories> findChildCategories();
 
     @Query("select c from Categories c where c.name in :categoryList")
