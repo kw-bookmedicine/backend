@@ -27,7 +27,7 @@ public class BookSearchController {
     @GetMapping(params = {"title", "target=modal"})
     public ResponseEntity<List<BookSearchResponseDto>> getBookListByTitleOnModal(@RequestParam(name = "title") String searchWord){
 
-        PageRequest pageRequest = PageRequest.of(0, 6, Sort.by("view-count").descending());
+        PageRequest pageRequest = PageRequest.of(0, 6, Sort.by("viewCount").descending());
 
         List<BookSearchResponseDto> result = bookSearchService.searchBookOnModalByTitleContainingSearchWord(searchWord, pageRequest);
 
@@ -39,7 +39,7 @@ public class BookSearchController {
     @GetMapping(params = {"author", "target=modal"})
     public ResponseEntity<List<BookSearchResponseDto>> getBookListByAuthorOnModal(@RequestParam(name = "author") String searchWord){
 
-        PageRequest pageRequest = PageRequest.of(0, 6, Sort.by("view-count").descending());
+        PageRequest pageRequest = PageRequest.of(0, 6, Sort.by("viewCount").descending());
 
         List<BookSearchResponseDto> result = bookSearchService.searchBookOnModalByAuthorContainingSearchWord(searchWord, pageRequest);
 
