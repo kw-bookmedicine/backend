@@ -2,6 +2,7 @@ package kr.KWGraduate.BookPharmacy.domain.book.dto.response;
 
 import kr.KWGraduate.BookPharmacy.domain.book.domain.Book;
 import kr.KWGraduate.BookPharmacy.domain.book.domain.ClientRecommend;
+import kr.KWGraduate.BookPharmacy.domain.book.domain.InterestRecommend;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -18,6 +19,15 @@ public class ClientBasedRecommendDto {
     @Builder
     public ClientBasedRecommendDto(ClientRecommend clientRecommend){
         Book book = clientRecommend.getBook();
+        this.id = book.getId();
+        this.isbn = book.getIsbn();
+        this.imageUrl = book.getImageUrl();
+        this.title = book.getTitle();
+        this. author = book.getAuthor();
+    }
+
+    public ClientBasedRecommendDto(InterestRecommend interestRecommend){
+        Book book = interestRecommend.getBook();
         this.id = book.getId();
         this.isbn = book.getIsbn();
         this.imageUrl = book.getImageUrl();
