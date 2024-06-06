@@ -9,7 +9,7 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface ClientRecommendRepository extends JpaRepository<ClientRecommend ,Long> {
-    @Query("select cr from ClientRecommend cr join fetch cr.book b where cr.client.id = :clientId and cr.rank >= 7")
+    @Query("select cr from ClientRecommend cr join fetch cr.book b where cr.client.id = :clientId")
     List<ClientRecommend> findByClientBasedRecommend(@Param("clientId") Long clientId);
 
     @Query("select cr from ClientRecommend cr join fetch cr.book b where cr.client.id = :clientId and cr.rank < 7")
