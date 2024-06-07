@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 @Table(indexes = {
         @Index(name = "read_experience_index", columnList = "book_id, client_id", unique = true) // 중복된 독서경험이 추가되지 않도록 하기 위함
 })
-public class ReadExperience extends BaseTimeEntity {
+public class ReadExperience {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "read_experience_id")
