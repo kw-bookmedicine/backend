@@ -11,8 +11,16 @@ import java.util.List;
 
 public interface InterestRecommendRepository extends JpaRepository<InterestRecommend, Long> {
 
-    @EntityGraph(attributePaths = {"book"})
-    @Query("select ir from InterestRecommend ir join fetch ir.middleCategory mc where mc.id in :categoryIdList")
+    @Query(value = "select ir.* from book_pharmacy_local.interest_recommend as ir " +
+            "inner join book_pharmacy_local.book as b on ir.book_id = b.book_id " +
+            "order by RAND()", nativeQuery = true)
+    List<InterestRecommend> findRandAll(Pageable pageable);
+
+    @Query(value = "select ir.* from book_pharmacy_local.interest_recommend as ir " +
+            "inner join book_pharmacy_local.book as b on ir.book_id = b.book_id " +
+            "inner join book_pharmacy_local.categories as c on ir.category_id = c.category_id " +
+            "where c.category_id in :categoryIdList order by RAND()"
+    , nativeQuery = true)
     List<InterestRecommend> findByInterestList(@Param("categoryIdList") List<Long> categoryIdList, Pageable pageable);
 }
     

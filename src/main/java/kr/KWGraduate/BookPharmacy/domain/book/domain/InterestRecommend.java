@@ -22,4 +22,9 @@ public class InterestRecommend {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "book_id")
     private Book book;
+
+    public InterestRecommend(Book b) {
+        this.middleCategory = b.getMiddleCategory();
+        this.book = b;
+    }
 }
