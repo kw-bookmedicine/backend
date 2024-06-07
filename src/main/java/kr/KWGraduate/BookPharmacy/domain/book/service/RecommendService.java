@@ -156,7 +156,7 @@ public class RecommendService {
             interestRecommend = interestRecommendRepository.findRandAll(pageable);
 
         }else{
-            List<Long> interestIdList = interestList.stream().map(interest -> interest.getId()).collect(Collectors.toList());
+            List<Long> interestIdList = interestList.stream().map(interest -> interest.getCategory().getId()).collect(Collectors.toList());
             interestRecommend = interestRecommendRepository.findByInterestList(interestIdList, pageable);
         }
 
