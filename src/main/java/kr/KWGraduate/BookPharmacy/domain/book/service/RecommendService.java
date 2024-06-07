@@ -1,14 +1,14 @@
 package kr.KWGraduate.BookPharmacy.domain.book.service;
 
+import kr.KWGraduate.BookPharmacy.domain.book.domain.Book;
 import kr.KWGraduate.BookPharmacy.domain.book.domain.ClientRecommend;
 import kr.KWGraduate.BookPharmacy.domain.book.domain.InterestRecommend;
 import kr.KWGraduate.BookPharmacy.domain.book.dto.response.BoardBasedRecommendDto;
 import kr.KWGraduate.BookPharmacy.domain.book.dto.response.BookBasedRecommendDto;
 import kr.KWGraduate.BookPharmacy.domain.book.dto.response.ClientBasedRecommendDto;
-import kr.KWGraduate.BookPharmacy.domain.book.repository.BoardRecommendRepository;
-import kr.KWGraduate.BookPharmacy.domain.book.repository.BookRecommendRepository;
-import kr.KWGraduate.BookPharmacy.domain.book.repository.ClientRecommendRepository;
-import kr.KWGraduate.BookPharmacy.domain.book.repository.InterestRecommendRepository;
+import kr.KWGraduate.BookPharmacy.domain.book.repository.*;
+import kr.KWGraduate.BookPharmacy.domain.category.domain.Categories;
+import kr.KWGraduate.BookPharmacy.domain.category.repository.CategoryRepository;
 import kr.KWGraduate.BookPharmacy.domain.client.domain.Client;
 import kr.KWGraduate.BookPharmacy.domain.client.repository.ClientRepository;
 import kr.KWGraduate.BookPharmacy.domain.interest.domain.Interest;
@@ -37,6 +37,8 @@ public class RecommendService {
     private final InterestRecommendRepository interestRecommendRepository;
     private final ClientRepository clientRepository;
     private final ReadExperienceRepository readExperienceRepository;
+    private final CategoryRepository categoryRepository;
+    private final BookRepository bookRepository;
 
     public List<ClientBasedRecommendDto> getClientBasedAiPrescription(AuthenticationAdapter authentication){
         String username = authentication.getUsername();
@@ -125,6 +127,25 @@ public class RecommendService {
                 .collect(Collectors.toList());
     }
 
+    // 스케쥴러에 의해 관심사 추천 도서를 등록하는 함수
+    public void setInterestRecommend() {
+
+        interestRecommendRepository.deleteAll();
+        interestRecommendRepository.flush();
+
+        List<Categories> childCategories = categoryRepository.findChildCategories();
+
+        PageRequest pageRequest = PageRequest.of(0, 30);
+
+        for (Categories category: childCategories) {
+            Long categoryId = category.getId();
+            List<Book> popularBookList = bookRepository.findPopularByCategory(categoryId, pageRequest).getContent();
+            List<InterestRecommend> interestRecommendList = popularBookList.stream()
+                    .map(book -> new InterestRecommend(book)).collect(Collectors.toList());
+            interestRecommendRepository.saveAll(interestRecommendList);
+        }
+    }
+
     private List<InterestRecommend> getInterestRecommend(String username, Pageable pageable) {
         List<Interest> interestList = interestRepository.findByLoginId(username);  // 유저의 관심사리스트
 
@@ -132,7 +153,7 @@ public class RecommendService {
 
         if(interestList.isEmpty()) // 유저가 관심사를 하나도 등록하지 않았을 경우
         {
-            interestRecommend = interestRecommendRepository.findAll(pageable).getContent();
+            interestRecommend = interestRecommendRepository.findRandAll(pageable);
 
         }else{
             List<Long> interestIdList = interestList.stream().map(interest -> interest.getId()).collect(Collectors.toList());

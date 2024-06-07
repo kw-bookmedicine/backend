@@ -4,6 +4,7 @@ import kr.KWGraduate.BookPharmacy.domain.book.domain.Book;
 import kr.KWGraduate.BookPharmacy.domain.book.dto.response.BookSearchResponseDto;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -76,4 +77,10 @@ public interface BookRepository extends JpaRepository<Book, Long> {
             "where (LOWER(b.title) like %:searchWord% or LOWER(b.author) like %:searchWord%) and ki.name in :names")
     Page<Book> findPagingBySearchWordAndKeyword(@Param("searchWord") String searchWord,
                                                           @Param("names") List<String> keywordNameList, Pageable pageable);
+
+    @Query("select b from Book b inner join ReadExperience re on b.id = re.book.id " +
+            "join fetch b.middleCategory m " +
+            "where m.id = :categoryId group by b.id " +
+            "order by count(re.id) desc")
+    Slice<Book> findPopularByCategory(@Param("categoryId") Long categoryId, Pageable pageable);
 }
