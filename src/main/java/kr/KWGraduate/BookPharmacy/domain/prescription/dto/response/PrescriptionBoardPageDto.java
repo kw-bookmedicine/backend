@@ -20,6 +20,7 @@ public class PrescriptionBoardPageDto {
     private String publishingHouse; // 출판사명
     private String publishYear; // 발행년도
     private String imageUrl; // 이미지 url
+    private String isbn;
 
     @Builder
     public PrescriptionBoardPageDto(Prescription prescription){
@@ -32,5 +33,6 @@ public class PrescriptionBoardPageDto {
         this.author = prescription.getBook().getAuthor();
         this.publishYear = prescription.getBook().getPublishYear();
         this.imageUrl = prescription.getBook().getImageUrl();
+        this.isbn = prescription.getBook().getIsbn();
     }
 }
