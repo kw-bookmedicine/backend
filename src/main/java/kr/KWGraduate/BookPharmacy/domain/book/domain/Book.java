@@ -14,7 +14,6 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @ToString(of = {"isbn", "title", "author", "bigCategory", "middleCategory", "imageUrl", "count"})
 @Table(indexes = {
-        @Index(name = "book_isbn_index", columnList = "isbn", unique = true),
         @Index(name = "title_index", columnList = "title"),
         @Index(name = "view_count_index", columnList = "view_count"),
         @Index(name = "one_line_count_index", columnList = "one_line_count", unique = false)

@@ -13,16 +13,16 @@ public class BookSearchResponseDto {
     private String author; // 저자명
     private String publishingHouse; // 출판사명
     private String publishYear; // 발행년도
-    private String isbn; // 책 고유번호 (책 조회할 때 pk로 쓰임)
+    private Long bookId; // 책 id (책 조회할 때 pk로 쓰임)
     private String imageUrl; // 이미지 url
 
     @Builder
-    public BookSearchResponseDto(String title, String author, String publishingHouse, String publishYear, String isbn, String imageUrl) {
+    public BookSearchResponseDto(String title, String author, String publishingHouse, String publishYear, Long bookId, String imageUrl) {
         this.title = title;
         this.author = author;
         this.publishingHouse = publishingHouse;
         this.publishYear = publishYear;
-        this.isbn = isbn;
+        this.bookId = bookId;
         this.imageUrl = imageUrl;
     }
 
@@ -31,7 +31,7 @@ public class BookSearchResponseDto {
         this.author = book.getAuthor();
         this.publishingHouse = book.getPublishingHouse();
         this.publishYear = book.getPublishYear();
-        this.isbn = book.getIsbn();
+        this.bookId = book.getId();
         this.imageUrl = book.getImageUrl();
     }
 

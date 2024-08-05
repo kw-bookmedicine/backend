@@ -10,10 +10,10 @@ import java.util.List;
 @NoArgsConstructor
 public class ReadExperienceUpdateRequestDto {
 
-    private List<String> bookIsbnList;
+    private List<Long> bookIdList;
 
     @Builder
-    public ReadExperienceUpdateRequestDto(List<String> bookIsbnList){
-        this.bookIsbnList = bookIsbnList;
+    public ReadExperienceUpdateRequestDto(List<Long> bookIdList){
+        this.bookIdList = bookIdList;
     }
 }

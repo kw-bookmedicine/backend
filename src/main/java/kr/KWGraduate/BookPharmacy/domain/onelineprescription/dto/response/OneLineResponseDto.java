@@ -18,7 +18,7 @@ public class OneLineResponseDto {
     private String description;
     private Keyword keyword;
     private String bookTitle;
-    private String bookIsbn;
+    private Long bookId;
     private String bookAuthor;
     private String bookImageUrl;
     private String bookPublishYear;
@@ -31,14 +31,14 @@ public class OneLineResponseDto {
     private LocalDate createdDate;
 
     @Builder
-    public OneLineResponseDto(Long id, String title, String description, Keyword keyword, String bookTitle, String bookIsbn, String bookAuthor, String bookImageUrl,
+    public OneLineResponseDto(Long id, String title, String description, Keyword keyword, String bookTitle, Long bookId, String bookAuthor, String bookImageUrl,
                               String bookPublishYear, String bookPublishingHouse, boolean isLike, boolean isHelpful, Integer likeCount, Integer helpfulCount) {
         this.id = id;
         this.title = title;
         this.description = description;
         this.keyword = keyword;
         this.bookTitle = bookTitle;
-        this.bookIsbn = bookIsbn;
+        this.bookId = bookId;
         this.bookAuthor = bookAuthor;
         this.bookImageUrl = bookImageUrl;
         this.bookPublishYear = bookPublishYear;
@@ -59,7 +59,7 @@ public class OneLineResponseDto {
 
     private OneLineResponseDto setBookAttr(Book book) {
         this.bookTitle = book.getTitle();
-        this.bookIsbn = book.getIsbn();
+        this.bookId = book.getId();
         this.bookAuthor = book.getAuthor();
         this.bookImageUrl = book.getImageUrl();
         this.bookPublishYear = book.getPublishYear();

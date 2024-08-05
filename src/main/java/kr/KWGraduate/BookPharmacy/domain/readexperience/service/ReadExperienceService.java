@@ -46,11 +46,11 @@ public class ReadExperienceService {
         readExperienceRepository.flush();
 
         // 2. DTO로부터 업데이트 할 독서경험 리스트를 생성함
-        List<String> bookIsbnList = readExperienceDTO.getBookIsbnList();
+        List<Long> bookIdList = readExperienceDTO.getBookIdList();
 
         List<ReadExperience> updatedList = new ArrayList<>();
-        for (String isbn : bookIsbnList) {
-            Book book = bookRepository.findOptionalByIsbn(isbn).get();
+        for (Long bookId : bookIdList) {
+            Book book = bookRepository.findOptionalById(bookId).get();
             ReadExperience readExperience = ReadExperience.builder().book(book).client(client).build();
             updatedList.add(readExperience);
         }

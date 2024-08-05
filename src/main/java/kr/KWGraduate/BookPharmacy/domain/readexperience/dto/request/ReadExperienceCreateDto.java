@@ -8,10 +8,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ReadExperienceCreateDto {
 
-    private String bookIsbn;
+    private Long bookId;
 
     @Builder
-    public ReadExperienceCreateDto(String bookIsbn){
-        this.bookIsbn = bookIsbn;
+    public ReadExperienceCreateDto(Long bookId){
+        this.bookId = bookId;
     }
 }

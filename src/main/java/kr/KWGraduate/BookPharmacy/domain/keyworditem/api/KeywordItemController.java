@@ -22,9 +22,9 @@ public class KeywordItemController {
 
     @GetMapping("/book")
     @Operation(summary = "책의 키워드 요청", description = "해당 책에 대한 키워드들을 요청 <br>" +
-            "요청 예) /api/keyword/book?isbn=1234-5678-5")
-    public ResponseEntity<List<KeywordItemDto>> getBookKeyword(@RequestParam(name = "isbn") String isbn) {
-        return ResponseEntity.ok(keywordItemService.getBookKeywords(isbn));
+            "요청 예) /api/keyword/book?bookId=12345")
+    public ResponseEntity<List<KeywordItemDto>> getBookKeyword(@RequestParam(name = "bookId") Long bookId) {
+        return ResponseEntity.ok(keywordItemService.getBookKeywords(bookId));
     }
 
     @GetMapping("/client")

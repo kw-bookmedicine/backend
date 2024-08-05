@@ -19,7 +19,7 @@ public interface BookRepository extends JpaRepository<Book, Long> {
     List<Book> findByAuthor(String author);
     Optional<Book> findByTitleAndAuthorAndPublishYear(String title, String author, String publishYear);
 
-    Optional<Book> findOptionalByIsbn(String isbn);
+    Optional<Book> findOptionalById(Long id);
 
 
     /**
@@ -29,7 +29,7 @@ public interface BookRepository extends JpaRepository<Book, Long> {
     @Query(value = "select distinct b from Book b join fetch b.middleCategory mc inner join b.bookKeywords where mc.name = :categoryName")
     Page<Book> findBookPagingByMiddleCategory(@Param("categoryName") String categoryName, Pageable pageable);
 
-    @Query(value = "select new kr.KWGraduate.BookPharmacy.domain.book.dto.response.BookSearchResponseDto(b.title, b.author, b.publishingHouse, b.publishYear, b.isbn, b.imageUrl) " +
+    @Query(value = "select new kr.KWGraduate.BookPharmacy.domain.book.dto.response.BookSearchResponseDto(b.title, b.author, b.publishingHouse, b.publishYear, b.id, b.imageUrl) " +
             "from Book b join b.middleCategory mc where mc.name = :categoryName")
     Page<BookSearchResponseDto> findDtoBook10ListByMiddleCategory(@Param("categoryName") String categoryName, Pageable pageable);
 
@@ -53,8 +53,8 @@ public interface BookRepository extends JpaRepository<Book, Long> {
 
 
     @EntityGraph(attributePaths = {"middleCategory"})
-    @Query("select b from Book b left join b.bookKeywords bk left join bk.keywordItem where b.isbn = :isbn")
-    Book findBookWithKeywordByIsbn(@Param("isbn") String isbn);
+    @Query("select b from Book b left join b.bookKeywords bk left join bk.keywordItem where b.id = :id")
+    Book findBookWithKeywordByBookId(@Param("id") Long id);
 
     /**
      * 해당 키워드를 갖고 있는 책을 한줄처방 개수로 정렬하여 검색 (리스트)

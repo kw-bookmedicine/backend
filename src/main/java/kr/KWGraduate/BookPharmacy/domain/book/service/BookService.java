@@ -1,6 +1,5 @@
 package kr.KWGraduate.BookPharmacy.domain.book.service;
 
-import jakarta.annotation.PostConstruct;
 import kr.KWGraduate.BookPharmacy.domain.book.dto.response.BookDto;
 import kr.KWGraduate.BookPharmacy.domain.book.domain.Book;
 import kr.KWGraduate.BookPharmacy.domain.book.dto.response.BookSearchResponseDto;
@@ -11,7 +10,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -62,8 +60,8 @@ public class BookService {
     }
 
     @Transactional
-    public BookDto getBookDetails(String isbn){
-        Book book = bookRepository.findBookWithKeywordByIsbn(isbn);
+    public BookDto getBookDetails(Long id){
+        Book book = bookRepository.findBookWithKeywordByBookId(id);
         book.plusViewCount();
 
         BookDto bookDto = BookDto.toDtoWithKeywordDto(book);

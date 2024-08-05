@@ -121,8 +121,8 @@ public class RecommendService {
                 )
                 .orElseGet(() -> new BoardBasedRecommendDto(true));
     }
-    public List<BookBasedRecommendDto> getBookBasedRecommend(String isbn){
-        return bookRecommendRepository.findByBookBasedRecommend(isbn).stream()
+    public List<BookBasedRecommendDto> getBookBasedRecommend(Long id){
+        return bookRecommendRepository.findByBookBasedRecommend(id).stream()
                 .map(BookBasedRecommendDto::new)
                 .collect(Collectors.toList());
     }

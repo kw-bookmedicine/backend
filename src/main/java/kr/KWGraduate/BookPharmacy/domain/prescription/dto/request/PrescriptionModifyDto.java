@@ -9,13 +9,13 @@ import lombok.NoArgsConstructor;
 public class PrescriptionModifyDto {
     private String title;
     private String description;
-    private String isbn;
+    private Long bookId;
 
     @Builder
-    public PrescriptionModifyDto(String title, String description, String isbn){
+    public PrescriptionModifyDto(String title, String description, Long bookId){
         this.title = title;
         this.description = description;
-        this.isbn = isbn;
+        this.bookId = bookId;
     }
 
 }

@@ -81,11 +81,11 @@ public class OneLinePrescriptionController {
 
     @Operation(summary = "책에 대한 한줄처방 리스트 조회 ", description = "책에 대한 한줄처방 리스트를 5개 조회 (페이지, 사이즈 안받음)")
     @GetMapping(value = "/book")
-    public ResponseEntity<Page<OneLineResponseDto>> getOneLinePrescriptionsByBook(@RequestParam(name = "isbn") String isbn,
+    public ResponseEntity<Page<OneLineResponseDto>> getOneLinePrescriptionsByBook(@RequestParam(name = "bookId") Long bookId,
                                                                                   @AuthenticationPrincipal AuthenticationAdapter userDetails) {
         PageRequest pageRequest = PageRequest.of(0, 5);
 
-        Page<OneLineResponseDto> result = oneLinePrescriptionService.getOneLinePrescriptionsByBook(isbn, userDetails, pageRequest);
+        Page<OneLineResponseDto> result = oneLinePrescriptionService.getOneLinePrescriptionsByBook(bookId, userDetails, pageRequest);
 
 
         return ResponseEntity.ok(result);

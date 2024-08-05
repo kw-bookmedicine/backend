@@ -13,7 +13,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -127,7 +126,7 @@ class OneLinePrescriptionRepositoryTest {
     void 책의_isbn으로_한줄처방_조회() {
         PageRequest pageRequest = PageRequest.of(0, 8);
 
-        List<OneLinePrescription> result = oneLinePrescriptionRepository.findByBookIsbn("1234", pageRequest).getContent();
+        List<OneLinePrescription> result = oneLinePrescriptionRepository.findByBookId("1234", pageRequest).getContent();
         assertThat(3).isEqualTo(result.size());
     }
 

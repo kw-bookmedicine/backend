@@ -35,10 +35,10 @@ public class BookController {
     private final BookService bookService;
     private final CategoryService categoryService;
 
-    @Operation(summary = "책 상세정보 출력", description = "isbn으로 책 상세정보 조회하기(parameter로 isbn 입력")
+    @Operation(summary = "책 상세정보 출력", description = "id로 책 상세정보 조회하기(parameter로 id 입력")
     @GetMapping(value = "/detail")
-    public ResponseEntity<BookDto> getBookDetails(@RequestParam(name ="isbn") String isbn){
-        BookDto result = bookService.getBookDetails(isbn);
+    public ResponseEntity<BookDto> getBookDetails(@RequestParam(name ="id") Long id){
+        BookDto result = bookService.getBookDetails(id);
 
         return ResponseEntity.ok(result);
     }

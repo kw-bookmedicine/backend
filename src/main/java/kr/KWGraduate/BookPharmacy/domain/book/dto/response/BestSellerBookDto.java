@@ -8,7 +8,7 @@ import lombok.Data;
 @Data
 public class BestSellerBookDto {
 
-    private String isbn;
+    private Long bookId;
     private String imageUrl;
     private String title;
     private String author;
@@ -17,7 +17,7 @@ public class BestSellerBookDto {
     public BestSellerBookDto(BestSellerBook bestSellerBook) {
         Book book = bestSellerBook.getBook();
 
-        this.isbn = book.getIsbn();
+        this.bookId = book.getId();
         this.imageUrl = book.getImageUrl();
         this.title = book.getTitle();
         this.author = book.getAuthor();
