@@ -36,7 +36,7 @@ public class OneLinePrescriptionController {
                                                                                @AuthenticationPrincipal AuthenticationAdapter userDetails) {
 
 
-        PageRequest pageRequest = PageRequest.of(page, size, Sort.by("createdDate").descending());
+        PageRequest pageRequest = PageRequest.of(page, size, Sort.by("id").descending());
         Page<OneLineResponseDto> result = oneLinePrescriptionService.getAllOneLinePrescriptions(userDetails, pageRequest);
 
         return ResponseEntity.ok(result);
@@ -47,7 +47,7 @@ public class OneLinePrescriptionController {
     public ResponseEntity<Page<OneLineResponseDto>> getMyOneLinePrescriptions(@RequestParam(name = "page") int page,
                                                                               @RequestParam(name = "size") int size,
                                                                               @AuthenticationPrincipal AuthenticationAdapter userDetails) {
-        PageRequest pageRequest = PageRequest.of(page, size, Sort.by("createdDate").descending());
+        PageRequest pageRequest = PageRequest.of(page, size, Sort.by("id").descending());
         Page<OneLineResponseDto> result = oneLinePrescriptionService.getMyOneLinePrescriptions( userDetails, pageRequest);
 
         return ResponseEntity.ok(result);
@@ -60,7 +60,7 @@ public class OneLinePrescriptionController {
                                                                                      @RequestParam("size") int size,
                                                                                      @AuthenticationPrincipal AuthenticationAdapter userDetails)
     {
-        PageRequest pageRequest = PageRequest.of(page,size, Sort.by("createdDate").descending());
+        PageRequest pageRequest = PageRequest.of(page,size, Sort.by("id").descending());
         Page<OneLineResponseDto> result = oneLinePrescriptionService.getOneLinePrescriptionsByKeyword(keyword, userDetails, pageRequest);
 
         return ResponseEntity.ok(result);
@@ -73,7 +73,7 @@ public class OneLinePrescriptionController {
                                                                                 @RequestParam("size") int size,
                                                                                     @AuthenticationPrincipal AuthenticationAdapter userDetails)
     {
-        PageRequest pageRequest = PageRequest.of(page,size, Sort.by("createdDate").descending());
+        PageRequest pageRequest = PageRequest.of(page,size, Sort.by("id").descending());
         Page<OneLineResponseDto> result = oneLinePrescriptionService.getOneLinePrescriptionsBySearch(searchWord, userDetails, pageRequest);
 
         return ResponseEntity.ok(result);

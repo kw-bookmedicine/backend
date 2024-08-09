@@ -12,9 +12,6 @@ import org.hibernate.annotations.OnDeleteAction;
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-@Table(indexes = {
-        @Index(name = "prescription_created_date_index", columnList = "created_date")
-})
 @ToString(of = {"id" , "title" , "description"})
 public class Prescription extends BaseTimeEntity {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)

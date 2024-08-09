@@ -9,9 +9,9 @@ import java.util.List;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@ToString(of = {"name", "count"})
+@ToString(of = {"id", "name"})
 @Table(indexes = {
-        @Index(name = "keyword_count_index",columnList = "count")
+        @Index(name = "keyword_item_name_index",columnList = "name")
 })
 public class KeywordItem {
 
@@ -20,8 +20,6 @@ public class KeywordItem {
     private Long id;
 
     private String name;
-
-    private Long count;
 
     @OneToMany(mappedBy = "keywordItem", cascade = CascadeType.ALL)
     private List<BookKeyword> bookKeywords = new ArrayList<>();
@@ -32,6 +30,5 @@ public class KeywordItem {
     @Builder
     public KeywordItem(String name) {
         this.name = name;
-        this.count = count;
     }
 }

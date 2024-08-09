@@ -33,7 +33,7 @@ public class PrescriptionController {
             @RequestParam("size") int size,
             @RequestParam("boardId") Long boardId
     ) {
-        PageRequest pageRequest = PageRequest.of(page, size, Sort.by("createdDate").descending());
+        PageRequest pageRequest = PageRequest.of(page, size, Sort.by("id").descending());
         return ResponseEntity.ok(prescriptionService.getPrescriptions(pageRequest, boardId));
     }
 
@@ -44,7 +44,7 @@ public class PrescriptionController {
             @RequestParam("size") int size,
             @AuthenticationPrincipal AuthenticationAdapter userDetails
     ) {
-        PageRequest pageRequest = PageRequest.of(page, size, Sort.by("createdDate").descending());
+        PageRequest pageRequest = PageRequest.of(page, size, Sort.by("id").descending());
         return ResponseEntity.ok(prescriptionService.getPrescriptions(pageRequest, userDetails));
     }
 

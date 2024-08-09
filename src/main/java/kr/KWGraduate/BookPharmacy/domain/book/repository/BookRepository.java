@@ -26,7 +26,7 @@ public interface BookRepository extends JpaRepository<Book, Long> {
      * 중분류로 책 조회 ( 페이징 )
      */
     @EntityGraph(attributePaths = {"bigCategory"})
-    @Query(value = "select distinct b from Book b join fetch b.middleCategory mc inner join b.bookKeywords where mc.name = :categoryName")
+    @Query(value = "select b from Book b join fetch b.middleCategory mc where mc.name = :categoryName")
     Page<Book> findBookPagingByMiddleCategory(@Param("categoryName") String categoryName, Pageable pageable);
 
     @Query(value = "select new kr.KWGraduate.BookPharmacy.domain.book.dto.response.BookSearchResponseDto(b.title, b.author, b.publishingHouse, b.publishYear, b.id, b.imageUrl) " +
@@ -53,7 +53,7 @@ public interface BookRepository extends JpaRepository<Book, Long> {
 
 
     @EntityGraph(attributePaths = {"middleCategory"})
-    @Query("select b from Book b left join b.bookKeywords bk left join bk.keywordItem where b.id = :id")
+    @Query("select b from Book b where b.id = :id")
     Book findBookWithKeywordByBookId(@Param("id") Long id);
 
     /**
@@ -62,9 +62,7 @@ public interface BookRepository extends JpaRepository<Book, Long> {
      * @return
      */
     @EntityGraph(attributePaths = {"middleCategory"})
-    @Query("select b from Book b left join b.bookKeywords bk left join bk.keywordItem ki " +
-            "left join OneLinePrescription op on op.book.id = b.id " +
-            "where ki.name = :keywordName")
+    @Query("select b from Book b left join b.bookKeywords bk left join bk.keywordItem ki where ki.name = :keywordName")
     Page<Book> findPagingByKeyword(@Param("keywordName") String keywordName, Pageable pageable);
 
     /**
