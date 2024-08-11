@@ -13,7 +13,7 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 import java.util.Optional;
 
-public interface BookRepository extends JpaRepository<Book, Long> {
+public interface BookRepository extends JpaRepository<Book, Long>, BookRepositoryCustom {
 
     List<Book> findByTitle(String title);
     List<Book> findByAuthor(String author);
@@ -22,14 +22,8 @@ public interface BookRepository extends JpaRepository<Book, Long> {
     Optional<Book> findOptionalById(Long id);
 
 
-    /**
-     * 중분류로 책 조회 ( 페이징 )
-     */
-    @EntityGraph(attributePaths = {"bigCategory"})
-    @Query(value = "select b from Book b join fetch b.middleCategory mc where mc.name = :categoryName")
-    Page<Book> findBookPagingByMiddleCategory(@Param("categoryName") String categoryName, Pageable pageable);
 
-    @Query(value = "select new kr.KWGraduate.BookPharmacy.domain.book.dto.response.BookSearchResponseDto(b.title, b.author, b.publishingHouse, b.publishYear, b.id, b.imageUrl) " +
+    @Query(value = "select new kr.KWGraduate.BookPharmacy.domain.book.dto.response.BookSearchResponseDto(b.id, b.title, b.author, mc.name, b.publishingHouse, b.publishYear, b.id, b.imageUrl) " +
             "from Book b join b.middleCategory mc where mc.name = :categoryName")
     Page<BookSearchResponseDto> findDtoBook10ListByMiddleCategory(@Param("categoryName") String categoryName, Pageable pageable);
 
@@ -38,8 +32,8 @@ public interface BookRepository extends JpaRepository<Book, Long> {
      * @param searchWord
      * @return Page<Book>
      */
-    @EntityGraph(attributePaths = {"middleCategory"})
-    @Query("select b from Book b where b.title like %:searchWord%")
+    @Query(nativeQuery = true,
+        value = "SELECT * FROM book b WHERE MATCH(b.title) AGAINST(:searchWord IN BOOLEAN MODE)")
     Page<Book> findPagingByTitleOrderByCount(@Param("searchWord") String searchWord, Pageable pageable);
 
     /**
@@ -47,8 +41,8 @@ public interface BookRepository extends JpaRepository<Book, Long> {
      * @param searchWord
      * @return Page<Book>
      */
-    @EntityGraph(attributePaths = {"middleCategory"})
-    @Query("select b from Book b where b.author like %:searchWord%")
+    @Query(nativeQuery = true,
+        value = "SELECT * FROM book b WHERE MATCH(b.author) AGAINST(:searchWord IN BOOLEAN MODE)")
     Page<Book> findPagingByAuthorOrderByCount(@Param("searchWord") String searchWord, Pageable pageable);
 
 
@@ -70,9 +64,13 @@ public interface BookRepository extends JpaRepository<Book, Long> {
      * @param keywordNameList
      * @return
      */
-    @EntityGraph(attributePaths = {"middleCategory"})
-    @Query("select b from Book b left join b.bookKeywords bk left join bk.keywordItem ki " +
-            "where (LOWER(b.title) like %:searchWord% or LOWER(b.author) like %:searchWord%) and ki.name in :names")
+    @Query(nativeQuery = true,
+        value = "select distinct b.* from book b join book_keyword bk on bk.book_id = b.book_id "
+            + "join keyword_item ki on ki.keyword_id = bk.keyword_id "
+            + "WHERE MATCH(b.title) AGAINST(:searchWord IN BOOLEAN MODE) and ki.name in :names",
+    countQuery = "select count(distinct b.book_id) from book b join book_keyword bk on bk.book_id = b.book_id "
+        + "join keyword_item ki on ki.keyword_id = bk.keyword_id "
+        + "WHERE MATCH(b.title) AGAINST(:searchWord IN BOOLEAN MODE) and ki.name in :names")
     Page<Book> findPagingBySearchWordAndKeyword(@Param("searchWord") String searchWord,
                                                           @Param("names") List<String> keywordNameList, Pageable pageable);
 

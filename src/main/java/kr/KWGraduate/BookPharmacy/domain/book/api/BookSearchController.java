@@ -27,7 +27,7 @@ public class BookSearchController {
     @GetMapping(params = {"title", "target=modal"})
     public ResponseEntity<List<BookSearchResponseDto>> getBookListByTitleOnModal(@RequestParam(name = "title") String searchWord){
 
-        PageRequest pageRequest = PageRequest.of(0, 6, Sort.by("viewCount").descending());
+        PageRequest pageRequest = PageRequest.of(0, 6, Sort.by("one_line_count").descending());
 
         List<BookSearchResponseDto> result = bookSearchService.searchBookOnModalByTitleContainingSearchWord(searchWord, pageRequest);
 
@@ -39,7 +39,7 @@ public class BookSearchController {
     @GetMapping(params = {"author", "target=modal"})
     public ResponseEntity<List<BookSearchResponseDto>> getBookListByAuthorOnModal(@RequestParam(name = "author") String searchWord){
 
-        PageRequest pageRequest = PageRequest.of(0, 6, Sort.by("viewCount").descending());
+        PageRequest pageRequest = PageRequest.of(0, 6, Sort.by("one_line_count").descending());
 
         List<BookSearchResponseDto> result = bookSearchService.searchBookOnModalByAuthorContainingSearchWord(searchWord, pageRequest);
 
@@ -56,9 +56,9 @@ public class BookSearchController {
         PageRequest pageRequest = PageRequest.of(page, size);
 
         if(sortType.equals("oneline-count")){
-            pageRequest = PageRequest.of(page, size, Sort.by("oneLineCount").descending());
+            pageRequest = PageRequest.of(page, size, Sort.by("one_line_count").descending());
         }else if(sortType.equals("view-count")){
-            pageRequest = PageRequest.of(page, size, Sort.by("viewCount").descending());
+            pageRequest = PageRequest.of(page, size, Sort.by("view_count").descending());
         }
 
         Page<BookDto> bookDtoList = bookSearchService.searchBookOnPageByTitleContainingSearchWord(searchWord, pageRequest);
@@ -76,9 +76,9 @@ public class BookSearchController {
         PageRequest pageRequest = PageRequest.of(page, size);
 
         if(sortType.equals("oneline-count")){
-            pageRequest = PageRequest.of(page, size, Sort.by("oneLineCount").descending());
+            pageRequest = PageRequest.of(page, size, Sort.by("one_line_count").descending());
         }else if(sortType.equals("view-count")){
-            pageRequest = PageRequest.of(page, size, Sort.by("viewCount").descending());
+            pageRequest = PageRequest.of(page, size, Sort.by("view_count").descending());
         }
 
         Page<BookDto> bookDtoList = bookSearchService.searchBookOnPageByAuthorContainingSearchWord(searchWord, pageRequest);
@@ -108,9 +108,9 @@ public class BookSearchController {
         PageRequest pageRequest = PageRequest.of(page, size);
 
         if(sortType.equals("oneline-count")){
-            pageRequest = PageRequest.of(page, size, Sort.by("oneLineCount").descending());
+            pageRequest = PageRequest.of(page, size, Sort.by("one_line_count").descending());
         }else if(sortType.equals("view-count")){
-            pageRequest = PageRequest.of(page, size, Sort.by("viewCount").descending());
+            pageRequest = PageRequest.of(page, size, Sort.by("view_count").descending());
         }
 
         List<String> keywordList = dto.getKeywordList();
