@@ -21,12 +21,6 @@ public interface BookRepository extends JpaRepository<Book, Long>, BookRepositor
 
     Optional<Book> findOptionalById(Long id);
 
-
-
-    @Query(value = "select new kr.KWGraduate.BookPharmacy.domain.book.dto.response.BookSearchResponseDto(b.id, b.title, b.author, mc.name, b.publishingHouse, b.publishYear, b.id, b.imageUrl) " +
-            "from Book b join b.middleCategory mc where mc.name = :categoryName")
-    Page<BookSearchResponseDto> findDtoBook10ListByMiddleCategory(@Param("categoryName") String categoryName, Pageable pageable);
-
     /**
      * 검색어로 제목에 대하여 한줄처방 개수 or 조회수로 정렬하여 책 조회 (페이징)
      * @param searchWord
@@ -47,8 +41,8 @@ public interface BookRepository extends JpaRepository<Book, Long>, BookRepositor
 
 
     @EntityGraph(attributePaths = {"middleCategory"})
-    @Query("select b from Book b where b.id = :id")
-    Book findBookWithKeywordByBookId(@Param("id") Long id);
+    @Query("select b from Book b join fetch b.bookKeywords bk join fetch bk.keywordItem ki where b.id = :id")
+    Optional<Book> findBookWithKeywordByBookId(@Param("id") Long id);
 
     /**
      * 해당 키워드를 갖고 있는 책을 한줄처방 개수로 정렬하여 검색 (리스트)
@@ -56,7 +50,7 @@ public interface BookRepository extends JpaRepository<Book, Long>, BookRepositor
      * @return
      */
     @EntityGraph(attributePaths = {"middleCategory"})
-    @Query("select b from Book b left join b.bookKeywords bk left join bk.keywordItem ki where ki.name = :keywordName")
+    @Query("select b from Book b join b.bookKeywords bk join bk.keywordItem ki where ki.name = :keywordName")
     Page<Book> findPagingByKeyword(@Param("keywordName") String keywordName, Pageable pageable);
 
     /**
@@ -74,9 +68,6 @@ public interface BookRepository extends JpaRepository<Book, Long>, BookRepositor
     Page<Book> findPagingBySearchWordAndKeyword(@Param("searchWord") String searchWord,
                                                           @Param("names") List<String> keywordNameList, Pageable pageable);
 
-    @Query("select b from Book b inner join ReadExperience re on b.id = re.book.id " +
-            "join fetch b.middleCategory m " +
-            "where m.id = :categoryId group by b.id " +
-            "order by count(re.id) desc")
+    @Query("select b from Book b where b.middleCategory.id = :categoryId group by b.id order by b.oneLineCount desc")
     Slice<Book> findPopularByCategory(@Param("categoryId") Long categoryId, Pageable pageable);
 }

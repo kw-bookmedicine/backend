@@ -32,7 +32,7 @@ public class BookSearchService {
     }
 
     /**
-     * 검색어와 paging size를 입력받으면, 검색어를 책이름에 포함하는 책 dto 페이지를 반환 (페이지)
+     * 검색어와 paging size를 입력받으면, 검색어를 책이름에 포함하는 BookSearchDTO 페이지를 반환 (페이지)
      */
     public Page<BookDto> searchBookOnPageByTitleContainingSearchWord(String searchWord, Pageable pageable) {
 

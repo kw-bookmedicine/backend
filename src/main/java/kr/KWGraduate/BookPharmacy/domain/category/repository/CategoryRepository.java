@@ -12,8 +12,8 @@ public interface CategoryRepository extends JpaRepository<Categories, Long> {
     /**
      * 부모 카테고리 이름으로 자식 카테고리 조회하기
      * */
-    @Query("select c from Categories c join fetch c.parentCategory pc where pc.name = :categoryName")
-    List<Categories> findChildrenByBigCategoryName(@Param("categoryName")String bigCategoryName);
+    @Query("select c from Categories c where c.parentCategory.id = :categoryId")
+    List<Categories> findChildrenByBigCategoryId(@Param("categoryId") Long bigCategoryId);
 
     /**
      * 대분류(level=1)들을 조회하기

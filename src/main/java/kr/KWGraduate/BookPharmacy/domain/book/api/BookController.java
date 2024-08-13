@@ -46,22 +46,19 @@ public class BookController {
     @Operation(summary = "중분류에 해당하는 book 리스트 요청", description = "중분류에 해당하는 book들을 페이징해서 " +
             "요청 예) /api/book/list/middle?name=한국소설&page=0&size=5")
     @GetMapping(value = "/list/middle")
-    public ResponseEntity<Page<BookDto>> getBookListByMiddleCategory(@RequestParam(name = "name") String middleCategoryName,
+    public ResponseEntity<Page<BookSearchResponseDto>> getBookListByMiddleCategory(@RequestParam(name = "categoryId") Long categoryId,
                                                                      @RequestParam(name = "page") int page, @RequestParam(name = "size") int size) {
-        PageRequest pageRequest = PageRequest.of(page, size, Sort.by("viewCount").descending());
-        Page<BookDto> result = bookService.getBookPageByMiddleCategory(middleCategoryName, pageRequest);
+        PageRequest pageRequest = PageRequest.of(page, size, Sort.by("view_count").descending());
+        Page<BookSearchResponseDto> result = bookService.getBookPageByMiddleCategory(categoryId, pageRequest);
 
         return ResponseEntity.ok(result);
     }
 
     @Operation(summary = "대분류에 속하는 중분류들에 대한 각각의 book 리스트 요청", description = "Map<중분류 이름, 책리스트>로 반환")
     @GetMapping(value = "/list/big")
-    public ResponseEntity<Object> getListMapByBigCategory(@RequestParam(name = "name") String bigCategoryName){
+    public ResponseEntity<Object> getListMapByBigCategory(@RequestParam(name = "id") Long bigCategoryId){
 
-        // 페이징 사이즈를 10으로 할당
-        PageRequest pageRequest = PageRequest.of(0,10);
-
-        List<Map<String, Object>> result = bookService.getBookListByBigCategoryChildren(bigCategoryName, pageRequest);
+        List<Map<String, Object>> result = bookService.getBookListByBigCategoryChildren(bigCategoryId);
 
         return ResponseEntity.ok(result);
     }
