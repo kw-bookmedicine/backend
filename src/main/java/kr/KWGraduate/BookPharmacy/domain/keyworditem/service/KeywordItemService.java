@@ -24,11 +24,11 @@ public class KeywordItemService {
     private final BookRepository bookRepository;
     private final ClientRepository clientRepository;
 
-    public List<KeywordItemDto> getBookKeywords(String isbn){
-        bookRepository.findOptionalByIsbn(isbn)
-                .orElseThrow(() -> new BookResourceNotFoundException(isbn));
+    public List<KeywordItemDto> getBookKeywords(Long bookId){
+        bookRepository.findOptionalById(bookId)
+                .orElseThrow(() -> new BookResourceNotFoundException(bookId));
 
-        List<KeywordItem> keywordItemList = keywordItemRepository.findByIsbn(isbn);
+        List<KeywordItem> keywordItemList = keywordItemRepository.findByBookId(bookId);
 
         List<KeywordItemDto> keywordItemDtoList = KeywordItemDto.toDtoList(keywordItemList);
         return keywordItemDtoList;

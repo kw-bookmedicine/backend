@@ -1,11 +1,9 @@
 package kr.KWGraduate.BookPharmacy.domain.onelineprescription.repository;
 
-import kr.KWGraduate.BookPharmacy.domain.board.domain.Board;
 import kr.KWGraduate.BookPharmacy.domain.keyword.domain.Keyword;
 import kr.KWGraduate.BookPharmacy.domain.onelineprescription.domain.OneLinePrescription;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Slice;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -24,11 +22,11 @@ public interface OneLinePrescriptionRepository extends JpaRepository<OneLinePres
     List<OneLinePrescription> findByTitleOrDescriptionContaining(@Param("searchWord") String searchWord);
 
     /**
-     * 책의 isbn에 해당하는 한줄처방 목록 조회
+     * 책의 id에 해당하는 한줄처방 목록 조회
      * */
     @EntityGraph(attributePaths = {"client"})
-    @Query("select op from OneLinePrescription op join fetch op.book b where b.isbn = :isbn")
-    Page<OneLinePrescription> findByBookIsbn(@Param("isbn") String isbn, Pageable pageable);
+    @Query("select op from OneLinePrescription op join fetch op.book b where b.id = :bookId")
+    Page<OneLinePrescription> findByBookId(@Param("bookId") Long bookId, Pageable pageable);
 
     /**
      * 한줄처방의 키워드에 해당하는 한줄처방 목록 조회

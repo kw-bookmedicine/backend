@@ -12,14 +12,14 @@ import lombok.NoArgsConstructor;
 public class OneLineCreateDto {
     private String title;
     private String description;
-    private String bookIsbn;
+    private Long bookId;
     private Keyword keyword;
 
     @Builder
-    public OneLineCreateDto(String title, String description, String bookIsbn, Keyword keyword) {
+    public OneLineCreateDto(String title, String description, Long bookId, Keyword keyword) {
         this.title = title;
         this.description = description;
-        this.bookIsbn = bookIsbn;
+        this.bookId = bookId;
         this.keyword = keyword;
     }
 

@@ -41,8 +41,8 @@ public class RecommendController {
     }
 
     @GetMapping("/bookbased")
-    @Operation(summary = "연관 책 리스트", description = "예시 isbn은 9788901126050임. 10개 넘겨짐")
-    public ResponseEntity<?> getBookBasedRecommend(@RequestParam("isbn") String isbn){
-        return ResponseEntity.ok(recommendService.getBookBasedRecommend(isbn));
+    @Operation(summary = "연관 책 리스트", description = "10개 넘겨짐")
+    public ResponseEntity<?> getBookBasedRecommend(@RequestParam("bookId") Long bookId){
+        return ResponseEntity.ok(recommendService.getBookBasedRecommend(bookId));
     }
 }

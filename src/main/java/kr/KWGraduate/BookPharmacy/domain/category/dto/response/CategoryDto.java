@@ -10,16 +10,19 @@ import java.util.stream.Collectors;
 @Data
 public class CategoryDto {
 
+    private Long id;
     private String name;
     private int level;
 
     public CategoryDto(Categories category){
+        this.id = category.getId();
         this.name = category.getName();
         this.level = category.getLevel();
     }
 
     @Builder
-    public CategoryDto(String name, int level) {
+    public CategoryDto(Long id, String name, int level) {
+        this.id = id;
         this.name = name;
         this.level = level;
     }

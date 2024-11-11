@@ -10,20 +10,20 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ReadExperienceResponseDto {
     private String bookTitle;
-    private String bookIsbn;
+    private Long bookId;
     private String bookAuthor;
 
     @Builder
-    public ReadExperienceResponseDto(String bookTitle, String bookIsbn, String bookAuthor){
+    public ReadExperienceResponseDto(String bookTitle, Long bookId, String bookAuthor){
         this.bookTitle = bookTitle;
-        this.bookIsbn = bookIsbn;
+        this.bookId = bookId;
         this.bookAuthor = bookAuthor;
     }
 
     public ReadExperienceResponseDto(ReadExperience readExperience) {
         Book book = readExperience.getBook();
         this.bookTitle = book.getTitle();
-        this.bookIsbn = book.getIsbn();
+        this.bookId = book.getId();
         this.bookAuthor = book.getAuthor();
     }
 }

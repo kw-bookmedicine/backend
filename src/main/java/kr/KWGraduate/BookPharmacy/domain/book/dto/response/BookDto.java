@@ -15,7 +15,7 @@ import static org.springframework.util.ClassUtils.CGLIB_CLASS_SEPARATOR;
 @Data
 public class BookDto {
 
-    private String isbn;
+    private Long bookId;
     private String title;
     private String author; // 저자명
     private String publishingHouse; // 출판사명
@@ -27,7 +27,7 @@ public class BookDto {
     private List<KeywordItemDto> keywordItemList; // 키워드 리스트
 
     public BookDto(Book book) {
-        this.isbn = book.getIsbn();
+        this.bookId = book.getId();
         this.title = book.getTitle();
         this.author = book.getAuthor();
         this.publishingHouse = book.getPublishingHouse();
@@ -39,9 +39,9 @@ public class BookDto {
     }
 
     @Builder
-    public BookDto(String isbn, String title, String author, String publishingHouse, String publicYear, String content, String mediaFlagNumber,
+    public BookDto(Long bookId, String title, String author, String publishingHouse, String publicYear, String content, String mediaFlagNumber,
                    String middleCategoryName, String imageUrl) {
-        this.isbn = isbn;
+        this.bookId = bookId;
         this.title = title;
         this.author = author;
         this.publishingHouse = publishingHouse;
@@ -111,7 +111,6 @@ public class BookDto {
                 .author(bookDto.getAuthor())
                 .publishingHouse(bookDto.getPublishingHouse())
                 .publishYear(bookDto.getPublicYear())
-                .isbn(bookDto.getIsbn())
                 .content(bookDto.getContent())
                 .imageUrl(bookDto.getImageUrl())
                 .build();

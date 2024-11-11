@@ -17,7 +17,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -83,7 +82,7 @@ class OneLinePrescriptionServiceTest {
 
         PageRequest pageRequest = PageRequest.of(0, 8);
 
-        OneLinePrescription oneLinePrescription = oneLinePrescriptionRepository.findByBookIsbn("1234", pageRequest).getContent().get(0);
+        OneLinePrescription oneLinePrescription = oneLinePrescriptionRepository.findByBookId("1234", pageRequest).getContent().get(0);
         Long savedId = oneLinePrescription.getId();
 
         em.clear();
@@ -100,7 +99,7 @@ class OneLinePrescriptionServiceTest {
         oneLinePrescriptionService.updateOneLinePrescription(savedId, oneLineUpdateDto, userDetails);
         em.flush();
 
-        OneLinePrescription result = oneLinePrescriptionRepository.findByBookIsbn("0001", pageRequest).getContent().get(0);
+        OneLinePrescription result = oneLinePrescriptionRepository.findByBookId("0001", pageRequest).getContent().get(0);
 
         assertThat(result.getTitle()).isEqualTo("컴공 4학년에게 추천");
         assertThat(result.getDescription()).isEqualTo("이게 진짜임");
@@ -115,14 +114,14 @@ class OneLinePrescriptionServiceTest {
 
         PageRequest pageRequest = PageRequest.of(0, 8);
 
-        OneLinePrescription oneLinePrescription = oneLinePrescriptionRepository.findByBookIsbn("1234", pageRequest).getContent().get(0);
+        OneLinePrescription oneLinePrescription = oneLinePrescriptionRepository.findByBookId("1234", pageRequest).getContent().get(0);
         Long id = oneLinePrescription.getId();
 
         //when
         oneLinePrescriptionService.deleteOneLinePrescription(id, userDetails);
         em.flush();
 
-        List<OneLinePrescription> result = oneLinePrescriptionRepository.findByBookIsbn("1234", pageRequest).getContent();
+        List<OneLinePrescription> result = oneLinePrescriptionRepository.findByBookId("1234", pageRequest).getContent();
 
         // then
         assertThat(result.size()).isEqualTo(0);

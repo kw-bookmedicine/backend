@@ -13,8 +13,6 @@ import org.hibernate.annotations.ColumnDefault;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @ToString(of = {"title", "description", "keyword"})
 @Table(indexes = {
-        @Index(name = "one_line_prescription_title_index", columnList = "title"),
-        @Index(name = "one_line_prescription_description_index", columnList = "description"),
         @Index(name = "one_line_prescription_keyword_index", columnList = "keyword")
 })
 public class OneLinePrescription extends BaseTimeEntity {
