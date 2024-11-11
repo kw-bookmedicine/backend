@@ -14,8 +14,8 @@ public interface KeywordItemRepository extends JpaRepository<KeywordItem, Long> 
 
     //book 관련 쿼리
 
-    @Query(value = "select k from KeywordItem k join fetch k.bookKeywords bk join fetch bk.book b where b.isbn = :isbn")
-    List<KeywordItem> findByIsbn(@Param("isbn") String isbn);
+    @Query(value = "select k from KeywordItem k join fetch k.bookKeywords bk join fetch bk.book b where b.id = :bookId")
+    List<KeywordItem> findByBookId(@Param("bookId") Long bookId);
 
 
     //client 관련 쿼리

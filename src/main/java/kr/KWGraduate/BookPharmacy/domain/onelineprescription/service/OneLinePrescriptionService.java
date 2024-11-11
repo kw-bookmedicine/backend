@@ -35,8 +35,8 @@ public class OneLinePrescriptionService {
         String loginId = authentication.getUsername();
         Client client = clientRepository.findByLoginId(loginId).get();
 
-        String isbn = oneLineCreateDto.getBookIsbn();
-        Book book = bookRepository.findOptionalByIsbn(isbn).get();
+        Long bookId = oneLineCreateDto.getBookId();
+        Book book = bookRepository.findOptionalById(bookId).get();
 
         OneLinePrescription oneLinePrescription = oneLineCreateDto.toEntity(book);
 
@@ -53,8 +53,8 @@ public class OneLinePrescriptionService {
     public void updateOneLinePrescription(Long oneLinePrescriptionId, OneLineUpdateDto oneLineUpdateDto, AuthenticationAdapter authentication) {
         String loginId = authentication.getUsername();
 
-        String bookIsbn = oneLineUpdateDto.getBookIsbn();
-        Book afterBook = bookRepository.findOptionalByIsbn(bookIsbn).get();
+        Long bookId = oneLineUpdateDto.getBookId();
+        Book afterBook = bookRepository.findOptionalById(bookId).get();
 
         OneLinePrescription oneLinePrescription = oneLinePrescriptionRepository.findById(oneLinePrescriptionId).get();
         Book beforeBook = oneLinePrescription.getBook();
@@ -130,10 +130,10 @@ public class OneLinePrescriptionService {
         return dtoList;
     }
 
-    public Page<OneLineResponseDto> getOneLinePrescriptionsByBook(String isbn, AuthenticationAdapter authentication, Pageable pageable) {
+    public Page<OneLineResponseDto> getOneLinePrescriptionsByBook(Long bookId, AuthenticationAdapter authentication, Pageable pageable) {
         String loginId = authentication.getUsername();
 
-        Page<OneLinePrescription> pageResult = oneLinePrescriptionRepository.findByBookIsbn(isbn, pageable);
+        Page<OneLinePrescription> pageResult = oneLinePrescriptionRepository.findByBookId(bookId, pageable);
         Page<OneLineResponseDto> dtoList = pageResult.map(oneLine -> new OneLineResponseDto()
                 .setAllAttr(oneLine.getBook(), oneLine.getClient(), oneLine)
                 .setIsLike(oneLineLikeEmotionRepository.findByLoginIdAndOneLinePreId(loginId, oneLine.getId()).isPresent())

@@ -11,8 +11,7 @@ import lombok.*;
 @Getter
 @ToString(of = {"id" , "title","description","keyword"})
 @Table(indexes = {
-        @Index(name = "board_keyword_index", columnList = "keyword"),
-        @Index(name = "board_created_date_index", columnList = "created_date")
+        @Index(name = "board_keyword_index", columnList = "keyword")
 })
 public class Board extends BaseTimeEntity {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -23,8 +23,8 @@ public class CategoryService {
         return categoryDtoList;
     }
 
-    public List<CategoryDto> getChildCategory(String categoryName) {
-        List<Categories> childCategoryList = categoryRepository.findChildrenByBigCategoryName(categoryName);
+    public List<CategoryDto> getChildCategory(Long bigCategoryId) {
+        List<Categories> childCategoryList = categoryRepository.findChildrenByBigCategoryId(bigCategoryId);
         List<CategoryDto> categoryDtoList = CategoryDto.toDtoList(childCategoryList);
 
         return categoryDtoList;

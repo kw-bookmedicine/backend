@@ -10,6 +10,6 @@ import java.util.List;
 
 public interface BookRecommendRepository extends JpaRepository<BookRecommend, Long> {
 
-    @Query("select br from BookRecommend br join fetch br.recommendingBook b join fetch br.recommendedBook rb where rb.isbn = :isbn")
-    List<BookRecommend> findByBookBasedRecommend(@Param("isbn") String isbn);
+    @Query("select br from BookRecommend br join fetch br.recommendingBook b join fetch br.recommendedBook rb where rb.id = :id")
+    List<BookRecommend> findByBookBasedRecommend(@Param("id") Long id);
 }

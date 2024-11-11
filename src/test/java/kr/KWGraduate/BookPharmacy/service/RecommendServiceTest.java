@@ -84,7 +84,7 @@ public class RecommendServiceTest {
     public void bookBasedRecommend(){
 
         Book recommendedBook = bookRepository.findById(1L).get();
-        String isbn = recommendedBook.getIsbn();
+        Long bookId = recommendedBook.getId();
 
         List<Book> books = LongStream.rangeClosed(2, 11)
                 .boxed()
@@ -99,7 +99,7 @@ public class RecommendServiceTest {
             bookRecommendRepository.save(bookRecommend);
         }
 
-        Assertions.assertThat(recommendService.getBookBasedRecommend(isbn).size()).isEqualTo(10);
+        Assertions.assertThat(recommendService.getBookBasedRecommend(bookId).size()).isEqualTo(10);
 
     }
     @Test

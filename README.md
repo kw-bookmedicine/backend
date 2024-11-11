@@ -1,30 +1,30 @@
 # 누구나 할 수 있는 책 추천 웹서비스 '책국' 
+![image](https://github.com/user-attachments/assets/2a56b77c-d3c9-49b4-ab50-6da87f094b9b)
 
-## Issue Convention
+URL : https://www.bookpharmacy.store/
 
-##### 1. 제목에 다음의 내용을 포함하기
-- [ 이슈의 종류 ]
-  -> Feat, Docs, Refactor, Bug
-- 이슈가 무엇인지
+### 프로젝트 소개
+책을 선택하는 데 어려움이 있던 당신, 혹은 책으로 힐링했던 그 순간을 공유하고 싶다면 책국이 처방해줍니다!  
+- 나의 고민을 글로 작성하여 다른 사람들과 AI로부터 추천받을 수 있습니다.  
+- 내가 책을 처방하는 의사가 되어 다른 사람들의 마음을 치유해줄 수 있습니다.
+- 혹은 모두에게 간단하게 한줄처방을 작성할 수 있습니다.
+- 나의 독서이력, 관심사를 등록해 AI로부터 책을 추천받을 수 있습니다.
+- 책에 대해 검색하고, 연관된 책 목록을 추천받을 수 있습니다.
 
-##### 2. 제목에 다음의 형식을 지키기
-_ex) [Feat] 한줄처방/고민상담 서비스 로직 작성_
+> 개발기간 : 2023.12.21 ~ 2024.06.15
 
-##### 3. 태그는 종류별로 1개씩 선택하기
-- Priority : Critical, High, Medium, Low
-- Status : Available, Complete, In Progress, On Hold
-- Type : Bug, Document, Feature, Refactor
+> Frontend : 배영현, 강대원  
+> Backend : 이성훈, 심재윤  
+> Machine Learning : 이소정
 
-##### 4. 브랜치를 분기할때 브랜치명에는 이슈의 번호를 적기
-_ex) feat/#64_board_prescription_service_
+----- 
 
-## PR Convention
+### 기술 스택 (백앤드)
+#### Environment
+<img src="https://img.shields.io/badge/Intellij-000000?style=for-the-badge&logo=intellijidea&logoColor=white"> <img src="https://img.shields.io/badge/git-F05032?style=for-the-badge&logo=git&logoColor=white"> <img src="https://img.shields.io/badge/github-181717?style=for-the-badge&logo=github&logoColor=white">  
 
-##### 1. 제목에 다음의 형식을 지키기
-_ex) [Feat] 한줄처방/고민상담 서비스 로직 작성_
-##### 2. PR Template에 맞게 작성하기
-##### 3. Overview에 관련된 이슈를 적고 연결하기
-_ex) ```closed [Feat] 한줄처방/고민상담 서비스 로직 작성#67```
-##### 4. Merge 전에 PR을 알리고 코드리뷰를 받기
-##### 5. Conflict 발생시 같이 Merge하기
-##### 6. Conflict 없이 코드리뷰가 완료되면 PR을 올린 사람이 Merge하기
+#### Development
+<img src="https://img.shields.io/badge/java-007396?style=for-the-badge&logo=java&logoColor=white"> <img src="https://img.shields.io/badge/spring-6DB33F?style=for-the-badge&logo=spring&logoColor=white"> <img src="https://img.shields.io/badge/springboot-6DB33F?style=for-the-badge&logo=springboot&logoColor=white"> <img src="https://img.shields.io/badge/python-3776AB?style=for-the-badge&logo=python&logoColor=white"> <img src="https://img.shields.io/badge/fastapi-009688?style=for-the-badge&logo=fastapi&logoColor=white"> <img src="https://img.shields.io/badge/mysql-4479A1?style=for-the-badge&logo=mysql&logoColor=white">
+
+#### Communication
+<img src="https://img.shields.io/badge/slack-4A154B?style=for-the-badge&logo=slack&logoColor=white"> <img src="https://img.shields.io/badge/notion-000000?style=for-the-badge&logo=notion&logoColor=white"> <img src="https://img.shields.io/badge/figma-F24E1E?style=for-the-badge&logo=figma&logoColor=white">

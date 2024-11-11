@@ -4,7 +4,7 @@ import kr.KWGraduate.BookPharmacy.global.common.error.ResourceNotFoundException;
 
 public class BookResourceNotFoundException extends ResourceNotFoundException {
 
-    public BookResourceNotFoundException(String target){
-        super("there is not such isbn : " + target);
+    public BookResourceNotFoundException(Long id){
+        super("there is not such id : " + id);
     }
 }

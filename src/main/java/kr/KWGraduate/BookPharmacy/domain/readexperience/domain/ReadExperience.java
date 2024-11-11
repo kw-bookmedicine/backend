@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(indexes = {
-        @Index(name = "read_experience_index", columnList = "book_id, client_id", unique = true) // 중복된 독서경험이 추가되지 않도록 하기 위함
+        @Index(name = "read_experience_index", columnList = "client_id, book_id", unique = true)
 })
 public class ReadExperience {
 

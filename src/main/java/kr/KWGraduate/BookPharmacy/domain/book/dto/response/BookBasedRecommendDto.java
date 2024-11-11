@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class BookBasedRecommendDto {
     private Long id;
-    private String isbn;
+    private Long bookId;
     private String imageUrl;
     private String title;
     private String author;
@@ -19,7 +19,7 @@ public class BookBasedRecommendDto {
     public BookBasedRecommendDto(BookRecommend bookRecommend){
         Book book = bookRecommend.getRecommendingBook();
         this.id = book.getId();
-        this.isbn = book.getIsbn();
+        this.bookId = book.getId();
         this.imageUrl = book.getImageUrl();
         this.title = book.getTitle();
         this.author = book.getAuthor();

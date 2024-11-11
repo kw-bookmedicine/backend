@@ -19,7 +19,7 @@ public interface PrescriptionRepository extends JpaRepository<Prescription, Long
     Page<Prescription> findByUsername(Pageable pageable, @Param("loginId") String username);
 
 
-    @Query("select b.id, count(p) from Prescription p join p.board b where b.id in :boardIds group by b.id")
+    @Query("select p.board.id, count(p) from Prescription p where p.board.id in :boardIds group by p.board.id")
     List<Object[]> countByBoard(@Param("boardIds") List<Long> boardIds);
 
     void deleteById(Long id);

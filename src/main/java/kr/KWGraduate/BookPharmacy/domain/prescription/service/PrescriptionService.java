@@ -51,7 +51,7 @@ public class PrescriptionService {
     @Transactional
     public Long createPrescription(PrescriptionCreateDto prescriptionCreateDto, AuthenticationAdapter authentication){
         Client client = clientRepository.findByLoginId(authentication.getUsername()).get();
-        Book book = bookRepository.findOptionalByIsbn(prescriptionCreateDto.getIsbn()).get();
+        Book book = bookRepository.findOptionalById(prescriptionCreateDto.getBookId()).get();
         Board board = boardRepository.findById(prescriptionCreateDto.getBoardId()).get();
 
         Prescription prescription = prescriptionCreateDto.toEntity(client, book, board);
@@ -61,7 +61,7 @@ public class PrescriptionService {
     @Transactional
     public Long modifyPrescription(Long prescriptionId, PrescriptionModifyDto prescriptionModifyDto){
         Prescription prescription = prescriptionRepository.findById(prescriptionId).get();
-        Book book = bookRepository.findOptionalByIsbn(prescriptionModifyDto.getIsbn()).get();
+        Book book = bookRepository.findOptionalById(prescriptionModifyDto.getBookId()).get();
         prescription.modifyPrescription(book , prescriptionModifyDto.getTitle(), prescriptionModifyDto.getDescription());
         return prescription.getId();
     }

@@ -10,6 +10,9 @@ import org.hibernate.annotations.OnDeleteAction;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @ToString(of = {"id" , "question","answer"})
+@Table(indexes = {
+    @Index(name = "answer_question_index", columnList = "question")
+})
 public class Answer {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
