@@ -41,7 +41,7 @@ public interface BookRepository extends JpaRepository<Book, Long>, BookRepositor
 
 
     @EntityGraph(attributePaths = {"middleCategory"})
-    @Query("select b from Book b join fetch b.bookKeywords bk join fetch bk.keywordItem ki where b.id = :id")
+    @Query("select b from Book b left join b.bookKeywords bk left join bk.keywordItem ki where b.id = :id")
     Optional<Book> findBookWithKeywordByBookId(@Param("id") Long id);
 
     /**
