@@ -30,26 +30,39 @@ public class CategoryService {
         return categoryDtoList;
     }
 
-    public Map<String, List<String>> getAllCategoryGrouped() {
-        List<Categories> allCategories = categoryRepository.findChildCategories();
+    public List<Map<String, Object>> getAllCategoryGrouped() {
 
-        Map<String, List<String>> map = new LinkedHashMap<>();
+        List<Map<String, Object>> result = new ArrayList<>(10);
 
-        for (Categories category : allCategories) {
-            String key = category.getParentCategory().getName();
-            String value = category.getName();
-            // 키가 이미 존재하는지 확인
-            if (map.containsKey(key)) {
-                // 키가 이미 존재하면 기존 리스트에 추가
-                map.get(key).add(value);
-            } else {
-                // 키가 존재하지 않으면 새로운 리스트를 생성하고 추가
-                List<String> newList = new ArrayList<>();
-                newList.add(value);
-                map.put(key, newList);
-            }
+        List<Categories> bigCategoryList = categoryRepository.findBigCategory();
+        List<Categories> childCategoryList = categoryRepository.findChildCategories();
+
+        List<List<Map<String, Object>>> items = new ArrayList<>(10);
+        for (int i = 0; i < 10; i++) {
+            items.add(new ArrayList<>());  // 각 인덱스에 빈 리스트 추가
         }
 
-        return map;
+        for (Categories category : childCategoryList) {
+            Long parentId = category.getParentCategory().getId();
+            Long id = category.getId();
+            String name = category.getName();
+
+            Map<String, Object> item = new LinkedHashMap<>();
+            item.put("id", id);
+            item.put("name", name);
+
+            int index = parentId.intValue() - 1;
+            items.get(index).add(item);
+        }
+
+        for (Categories categories : bigCategoryList) {
+            Map<String, Object> big = new LinkedHashMap<>();
+            big.put("id", categories.getId());
+            big.put("name", categories.getName());
+            big.put("items", items.get(categories.getId().intValue() - 1));
+            result.add(big);
+        }
+
+        return result;
     }
 }

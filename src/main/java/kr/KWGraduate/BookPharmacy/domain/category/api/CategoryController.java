@@ -20,8 +20,8 @@ public class CategoryController {
 
     @Operation(summary = "대분류 출력", description = "대분류에 해당하는 카테고리 불러오기, Map<대분류, List<중분류>> 형식으로 반환함")
     @GetMapping(value = "/big")
-    public ResponseEntity<Map<String, List<String>>> getCategoryGroupByBig(){
-        Map<String, List<String>> result = categoryService.getAllCategoryGrouped();
+    public ResponseEntity<List<Map<String, Object>>> getCategoryGroupByBig(){
+        List<Map<String, Object>> result = categoryService.getAllCategoryGrouped();
         return ResponseEntity.ok(result);
     }
 
