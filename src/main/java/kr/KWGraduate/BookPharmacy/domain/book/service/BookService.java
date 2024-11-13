@@ -64,10 +64,7 @@ public class BookService {
     // 중분류 페이지에서 중분류 이름 별 조회에 사용
     public Page<BookSearchResponseDto> getBookPageByMiddleCategory(Long categoryId, Pageable pageable){
 
-        int pageNumber = 0;
-        int pageSize = 10;
-
-        PageRequest pageRequest = PageRequest.of(pageNumber, pageSize);
+        PageRequest pageRequest = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize());
         Page<BookSearchResponseDto> bookPageList = bookRepository.findSearchBookDtoByCategory(categoryId, pageRequest);
 
         return bookPageList;
