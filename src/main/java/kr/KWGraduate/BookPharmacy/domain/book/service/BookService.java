@@ -48,6 +48,7 @@ public class BookService {
 
             String categoryName = childCategory.getName();
             Long categoryId = childCategory.getId();
+            middleCategoryInfo.put("id", categoryId);
             middleCategoryInfo.put("categoryName", categoryName);
 
             List<BookSearchResponseDto> bookDtoList = bookRepository.findDtoBook10ListByMiddleCategory(categoryId);
